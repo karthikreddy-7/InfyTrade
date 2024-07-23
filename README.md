@@ -3,6 +3,8 @@ InfyTrade is a web based trading platform with advanced UI and Data analytics ca
 
 JIRA: https://basupallykarthikreddy.atlassian.net/jira/software/projects/KAN/boards/1
 
+FE Dev: https://infytrade.vercel.app/
+
 ## Advantages of InfyTrade:
 
 - enhanced UI customization with drag and drop options.
