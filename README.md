@@ -1,6 +1,7 @@
 # InfyTrade
 InfyTrade is a web based trading platform with advanced UI and Data analytics capable of creating custom made ML models and visualizations.
 
+JIRA: https://basupallykarthikreddy.atlassian.net/jira/software/projects/KAN/boards/1
 
 ## Advantages of InfyTrade:
 
