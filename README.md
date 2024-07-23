@@ -23,4 +23,5 @@ InfyTrade is a web based trading platform with advanced UI and Data analytics ca
 ### Intial Workload:
 
 - creating a cron job for storing the APIs response in the DB for future ML models ( can't go empty handed, should provide some for the users in the Demo mvp )
-- 
+- designing the UI of the website using figma ( taking references from existing wireframes for faster productivity )
+- Assigning the JIRA ticket and deciding the roles of the work.
