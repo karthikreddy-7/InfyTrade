@@ -11,3 +11,16 @@ InfyTrade is a web based trading platform with advanced UI and Data analytics ca
 - custom made ML models where InfyTrade gives access to real time code editor and collabrator option.
 - Rankings of the Traders [ traders who want to be public and did consent to show their portfolio ]
 - connections, community and marketplace for the traders
+
+
+### Probable Tech Stack:
+
+- Design: Figma 
+- Frontend : ReactJS (frontend Application) , ChartJS (for visualizations), TailwindCSS/DaisyUI for faster styling.
+- Backend: PostgresSQL ( DB ), python [ flask/django for backend ], APIs default from the echios.
+- Integration: docker for containeriaztion and deploying to the aws instance.
+
+### Intial Workload:
+
+- creating a cron job for storing the APIs response in the DB for future ML models ( can't go empty handed, should provide some for the users in the Demo mvp )
+- 
