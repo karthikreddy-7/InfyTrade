@@ -21,7 +21,7 @@ const Header = () => {
     <>
       <h1 className="text-3xl font-bold underline">Header Section !</h1>
       <div>
-        <button onClick={handleLoginStatusChange}>
+        <button class="btn" onClick={handleLoginStatusChange}>
           Click Me to change the login status
         </button>
       </div>

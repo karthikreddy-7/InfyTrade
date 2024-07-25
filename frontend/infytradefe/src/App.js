@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -13,6 +11,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Marketplace from "./components/marketplace/Marketplace";
 import LandingPage from "./components/landingPage";
+import Navbar from "./components/navbar";
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -31,11 +30,30 @@ const AppRoutes = () => {
     <Routes>
       <Route
         path="/"
-        element={!isLoggedIn ? <LandingPage /> : <Navigate to="/marketplace" />}
+        element={
+          !isLoggedIn ? (
+            <>
+              <Header />
+              <LandingPage />
+              <Footer />
+            </>
+          ) : (
+            <Navigate to="/marketplace" />
+          )
+        }
       />
       <Route
         path="/marketplace"
-        element={isLoggedIn ? <Marketplace /> : <Navigate to="/" />}
+        element={
+          isLoggedIn ? (
+            <>
+              <Navbar />
+              <Marketplace />
+            </>
+          ) : (
+            <Navigate to="/" />
+          )
+        }
       />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
@@ -45,9 +63,7 @@ const AppRoutes = () => {
 const App = () => {
   return (
     <Router>
-      <Header />
       <AppRoutes />
-      <Footer />
     </Router>
   );
 };
