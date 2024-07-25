@@ -12,6 +12,8 @@ import Footer from "./components/footer";
 import Marketplace from "./components/marketplace/Marketplace";
 import LandingPage from "./components/landingPage";
 import Navbar from "./components/navbar";
+import Signin from "./components/signin";
+import Signup from "./components/signup";
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -19,29 +21,46 @@ const AppRoutes = () => {
 
   useEffect(() => {
     // Redirect to Marketplace if logged in
-    if (isLoggedIn) {
+    if (isLoggedIn && window.location.pathname === "/") {
       navigate("/marketplace");
-    } else {
-      navigate("/");
     }
   }, [isLoggedIn, navigate]);
 
   return (
     <Routes>
+      {/* Landing Page, Sign In, and Sign Up */}
       <Route
         path="/"
         element={
-          !isLoggedIn ? (
-            <>
-              <Header />
-              <LandingPage />
-              <Footer />
-            </>
-          ) : (
-            <Navigate to="/marketplace" />
-          )
+          <>
+            <Header />
+            <LandingPage />
+            <Footer />
+          </>
         }
       />
+      <Route
+        path="/signin"
+        element={
+          <>
+            <Header />
+            <Signin />
+            <Footer />
+          </>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <>
+            <Header />
+            <Signup />
+            <Footer />
+          </>
+        }
+      />
+
+      {/* Marketplace and other routes */}
       <Route
         path="/marketplace"
         element={
