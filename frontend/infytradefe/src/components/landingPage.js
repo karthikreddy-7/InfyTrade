@@ -3,7 +3,7 @@ import React from "react";
 const LandingPage = () => {
   return (
     <>
-      <div>landingPage</div>
+      <h1 className="text-3xl font-bold underline">Hero and LandingPage !</h1>
     </>
   );
 };

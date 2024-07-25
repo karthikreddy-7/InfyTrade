@@ -14,6 +14,7 @@ const initialWidgetState = {
 const authReducer = (state = initialAuthState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
+      console.log("inside authReducer");
       return {
         ...state,
         isLoggedIn: true,

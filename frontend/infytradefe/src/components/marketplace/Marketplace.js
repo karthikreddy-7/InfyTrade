@@ -3,7 +3,7 @@ import React from "react";
 const Marketplace = () => {
   return (
     <>
-      <div>Marketplace</div>
+      <h1 className="text-3xl font-bold underline"> Market Place Section !</h1>
     </>
   );
 };
