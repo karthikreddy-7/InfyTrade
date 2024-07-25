@@ -25,25 +25,24 @@ const Header = () => {
   return (
     <>
       <div className="w-screen bg-white">
-        <nav className="container relative flex flex-wrap items-center justify-between p-4 mx-auto lg:justify-between xl:px-0">
+        <nav className="container relative flex flex-wrap items-center justify-between p-0 m-2 mx-auto lg:justify-between xl:px-0">
           {/* Logo  */}
           <Disclosure>
             {({ open }) => (
               <>
                 <div className="flex flex-wrap items-center justify-between w-full lg:w-auto m-4">
-                  <Link href="/">
-                    <span className="flex items-center space-x-2 text-2xl font-medium text-blue-800">
-                      <span>
-                        <img
-                          src={logo}
-                          alt="Logo"
-                          width="32"
-                          height="32"
-                          className="w-8"
-                        />
-                      </span>
-                      <span> InfyTrade </span>
-                    </span>
+                  <Link
+                    to="/"
+                    className="flex items-center space-x-2 text-2xl font-medium text-blue-800"
+                  >
+                    <img
+                      src={logo}
+                      alt="Logo"
+                      width="32"
+                      height="32"
+                      className="w-8"
+                    />
+                    <span> InfyTrade </span>
                   </Link>
 
                   <Disclosure.Button
@@ -120,11 +119,6 @@ const Header = () => {
             </Link>
           </div>
         </nav>
-      </div>
-      <div>
-        <button class="btn" onClick={handleLoginStatusChange}>
-          Click Me to change the login status
-        </button>
       </div>
     </>
   );
