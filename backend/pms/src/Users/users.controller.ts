@@ -33,7 +33,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'Returns the users by ID.', type: ResponseUsersDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(id);
   }
 
   @Patch(':id')
@@ -43,7 +43,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'The users has been successfully updated.', type: ResponseUsersDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   update(@Param('id') id: string, @Body() updateUsersDto: UpdateUsersDto) {
-    return this.usersService.update(+id, updateUsersDto);
+    return this.usersService.update(id, updateUsersDto);
   }
 
   @Delete(':id')
@@ -52,6 +52,6 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'The users has been successfully deleted.' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }
