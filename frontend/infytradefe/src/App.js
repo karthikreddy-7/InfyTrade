@@ -11,7 +11,7 @@ import {
 import { useSelector } from "react-redux";
 import Header from "./components/header";
 import Footer from "./components/footer";
-import Marketplace from "./components/marketplace/marketplace";
+import Marketplace from "./components/marketplace/Marketplace";
 import LandingPage from "./components/landingPage";
 
 const AppRoutes = () => {
