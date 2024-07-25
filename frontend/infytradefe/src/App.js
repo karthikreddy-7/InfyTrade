@@ -1,23 +1,29 @@
-import logo from "./logo.svg";
-import "./App.css";
+// src/App.js
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Dashboard from "./components/dashboard/Dashboard";
+//import Community from "./components/community/Community";
+import Rankings from "./components/rankings/Rankings";
+import Marketplace from "./components/marketplace/Marketplace";
+import LandingPage from "./components/LandingPage";
 
-function App() {
+const App = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>InfyTrade Application Front end.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Under Development
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header />
+      <Footer />
+    </Router>
   );
-}
+};
 
 export default App;
