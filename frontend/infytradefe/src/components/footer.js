@@ -7,17 +7,18 @@ const Footer = () => {
   return (
     <footer style={styles.footer}>
       <div style={styles.container}>
-        <div style={styles.brand}>
-          <img src={logo} alt="InfyTrade Logo" style={styles.logo} />
-          <p style={styles.tagline}>
+       <div style={styles.brand}>
+         <div style={{display : "inline-block"}}> <img src={logo} alt="InfyTrade Logo" style={styles.logo} />
+        <p style={styles.team}>Team Infy</p></div>
+         <div style={{display : "inline-block"}}><p style={styles.tagline}>
             Maximize your investment in the capital market world with the
             convenience and various features provided by InfyTrade.
-          </p>
-          <p style={styles.team}>Team Infy</p>
+          </p></div>
+         
           <div style={styles.badges}>
             <img src={store_logos} alt="Stores" style={styles.store_logos} />
-            
-          </div>
+            </div> 
+         
         </div>
         <div style={styles.linksContainer}>
           <div style={styles.linksColumn}>
@@ -60,37 +61,41 @@ const Footer = () => {
 const styles = {
   footer: {
     backgroundColor: "#F0F4F8",
-    padding: "20px 0",
+    paddingbottom : '0px',
     borderTop: "1px solid #e7e7e7",
-    position: "absolute",
+    position: "relative",
     bottom: "0",
     width: "100%",
   },
   container: {
-    display: "flex",
-    justifyContent: "space-around",
-    flexWrap: "wrap",
-    padding: "0 20px",
+    
+    width : '100%',
+    paddingbottom: "0",
   },
   brand: {
-    flex: "1",
-    minWidth: "200px",
+    display: "flex",
+    minWidth: "100%",
     marginBottom: "20px",
+    justifyContent : "space-between"
   },
   logo: {
     height: "50px",
+    display : "inline-block"
   },
   tagline: {
     margin: "10px 0",
     color: "#666",
+    display : "inline-block"
   },
   team: {
     margin: "10px 0",
     fontWeight: "bold",
+    display : "inline-block"
   },
   badges: {
     display: "flex",
     gap: "10px",
+    display : "inline-block"
   },
   badge: {
     height: "40px",

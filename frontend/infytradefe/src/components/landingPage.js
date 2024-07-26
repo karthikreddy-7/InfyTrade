@@ -4,7 +4,7 @@ import { loginSuccess, logout } from "../redux/action";
 import ui_customization from "../assests/ui_customization.jpeg";
 import rtdata_analysis from "../assests/rtdata_analysis.jpeg";
 import mlmodels from "../assests/mlmodels.jpeg";
-
+import Footer from "./footer";
 const LandingPage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -32,7 +32,7 @@ const LandingPage = () => {
         </p>
         <div style={styles.buttons}>
           <button style={styles.getStartedButton} onClick={handleLoginStatusChange}>
-            {isLoggedIn ? "Logout" : "Get Started"}
+            {isLoggedIn ? "Logout" : "Go to MarketPlace"}
           </button>
           <button style={styles.howItWorksButton}>
             See How it Works
@@ -77,15 +77,17 @@ const styles = {
     textAlign: "left",
     padding: "10px 20px",
     backgroundColor: "#f9f9f9",
-    maxWidth: "1200px",
+    maxWidth: "100%",
     margin: "0 auto",
   },
   heroText: {
-    maxWidth: "600px",
+    maxWidth: "100%",
+    textAlign:"center",
     margin: "0 auto",
     marginBottom: "40px",
   },
   subtitle: {
+    textAlign:"center",
     color: "#3498db",
     fontSize: "18px",
     marginBottom: "10px",
