@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { RankingsService } from './rankings.service';
 import { RankingsController } from './rankings.controller';
-import { Rankings } from './entity/rankings.entity';
+import { Ranking } from './entity/rankings.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Rankings])],
+  imports: [TypeOrmModule.forFeature([Ranking])],
   controllers: [RankingsController],
   providers: [RankingsService]
 })

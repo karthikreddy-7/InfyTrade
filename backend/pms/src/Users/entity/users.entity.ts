@@ -1,14 +1,30 @@
-import { Entity, Column } from 'typeorm';
-import { BaseCustomEntity } from 'src/utilities/baseEntity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { BaseCustomEntity } from '../../utilities/baseEntity';
+import { Dashboard } from 'src/Dashboards/entity/dashboards.entity';
+import { CommunityPost } from 'src/Community/entity/community.entity';
+import { Portfolio } from 'src/Portfolios/entity/portfolios.entity';
+import { Ranking } from 'src/Rankings/entity/rankings.entity';
 
-@Entity()
+@Entity('users')
 export class Users extends BaseCustomEntity {
-  @Column()
-  name: string;
+  @Column({ type: 'varchar', length: 255, unique: true, nullable:true })
+  username: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column()
+  @Column({ type: 'text'})
   password: string;
+
+  @OneToMany(() => Dashboard, (dashboard) => dashboard.user)
+  dashboards: Dashboard[];
+
+  @OneToMany(() => CommunityPost, (communityPost) => communityPost.user)
+  posts: CommunityPost[];
+
+  @OneToMany(() => Portfolio, (portfolio) => portfolio.user)
+  portfolios: Portfolio[];
+
+  @OneToMany(() => Ranking, (ranking) => ranking.user)
+  rankings: Ranking[];
 }
