@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { BaseCustomEntity } from '../../utilities/baseEntity';
-import { Users } from 'src/Users/entity/users.entity';
+import { Users } from '../../Users/entity/users.entity';
 
 
 @Entity('portfolios')
