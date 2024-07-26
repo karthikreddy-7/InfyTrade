@@ -1,26 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCommunityDto } from './dto/community.create.dto';
 import { UpdateCommunityDto } from './dto/community.update.dto';
+import { CommunityPost } from './entity/community.entity';
 
 @Injectable()
 export class CommunityService {
-  create(createCommunityDto: CreateCommunityDto) {
-    return 'This action adds a new community';
+  constructor(
+    @InjectRepository(CommunityPost)
+    private readonly communityRepository: Repository<CommunityPost>,
+  ) {}
+
+  async create(createCommunityDto: CreateCommunityDto): Promise<CommunityPost> {
+    const community = this.communityRepository.create(createCommunityDto);
+    return await this.communityRepository.save(community);
   }
 
-  findAll() {
-    return `This action returns all communitys`;
+  async findAll(): Promise<CommunityPost[]> {
+    return await this.communityRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} community`;
+  async findOne(id: string): Promise<CommunityPost> {
+    const community = await this.communityRepository.findOne({ where: { id } });
+    if (!community) {
+      throw new NotFoundException(`Community with ID ${id} not found`);
+    }
+    return community;
   }
 
-  update(id: number, updateCommunityDto: UpdateCommunityDto) {
-    return `This action updates a #${id} community`;
+  async update(id: string, updateCommunityDto: UpdateCommunityDto): Promise<CommunityPost> {
+    const community = await this.communityRepository.preload({
+      id: id,
+      ...updateCommunityDto,
+    });
+    if (!community) {
+      throw new NotFoundException(`Community with ID ${id} not found`);
+    }
+    return await this.communityRepository.save(community);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} community`;
+  async remove(id: string): Promise<void> {
+    const community = await this.findOne(id);
+    await this.communityRepository.remove(community);
   }
 }
