@@ -5,9 +5,6 @@ import { Users } from 'src/Users/entity/users.entity';
 
 @Entity('portfolios')
 export class Portfolio extends BaseCustomEntity {
-  @PrimaryGeneratedColumn()
-  portfolio_id: number;
-
   @ManyToOne(() => Users, (user) => user.portfolios)
   user: Users;
 

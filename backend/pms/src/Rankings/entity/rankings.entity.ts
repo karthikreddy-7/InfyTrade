@@ -5,9 +5,6 @@ import { Users } from 'src/Users/entity/users.entity';
 
 @Entity('rankings')
 export class Ranking extends BaseCustomEntity {
-  @PrimaryGeneratedColumn()
-  ranking_id: number;
-
   @OneToOne(() => Users)
   @JoinColumn()
   user: Users;

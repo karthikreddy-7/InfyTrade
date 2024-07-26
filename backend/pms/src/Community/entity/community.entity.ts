@@ -5,8 +5,6 @@ import { Users } from 'src/Users/entity/users.entity';
 
 @Entity('community_posts')
 export class CommunityPost extends BaseCustomEntity {
-  @PrimaryGeneratedColumn()
-  post_id: number;
 
   @ManyToOne(() => Users, (user) => user.posts)
   user: Users;

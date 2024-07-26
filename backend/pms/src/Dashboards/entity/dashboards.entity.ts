@@ -5,9 +5,6 @@ import { Widget } from 'src/Widgets/entity/widgets.entity';
 
 @Entity('dashboards')
 export class Dashboard extends BaseCustomEntity {
-  @PrimaryGeneratedColumn()
-  dashboard_id: number;
-
   @ManyToOne(() => Users, (user) => user.dashboards)
   user: Users;
 
