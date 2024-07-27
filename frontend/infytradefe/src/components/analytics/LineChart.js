@@ -8,4 +8,4 @@ function LineChart() {
   );
 }
 
-export default LineChartineChart;
+export default LineChart;
