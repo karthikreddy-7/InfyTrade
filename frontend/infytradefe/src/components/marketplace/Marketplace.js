@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
-
+import BuyModal from '../orderModel/BuyModal';
+import SellModal from '../orderModel/SellModal';
 const Marketplace = () => {
+
+  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
+  const [isSellModalOpen, setIsSellModalOpen] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState("");
+
+  const handleBuyClick = (company) => {
+    setSelectedCompany(company);
+    setIsBuyModalOpen(true);
+  };
+
+  const handleSellClick = (company) => {
+    setSelectedCompany(company);
+    setIsSellModalOpen(true);
+  };
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Main Content */}
@@ -24,8 +39,9 @@ const Marketplace = () => {
             {["Adobe", "Apple", "Amazon", "Microsoft", "Google"].map((stock) => (
               <div key={stock} className="bg-white p-5 rounded-lg shadow min-w-max">
                 <span>{stock}</span>
-                <div>current price: +201.01</div>
-                <div>change price: +$1.01</div>
+                <div>Market Price: +201.01</div>
+                <div>Bid Price: +$195.01</div>
+                <div>Ask Price: +$210.01</div>
               </div>
             ))}
           </div>
@@ -70,17 +86,40 @@ const Marketplace = () => {
         </div>
 
         <div className="bg-white p-5 rounded-lg shadow">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold mb-2">Market Trend</h2>
-            <button className="text-blue-500">See All</button>
-          </div>
-          {["Apple Inc", "Amazon"].map((company) => (
-            <div key={company} className="mb-2 flex justify-between">
-              <span>{company}</span>
-              <span>$201.01</span>
-            </div>
-          ))}
+        <div className="grid grid-cols-6 gap-4 mb-2">
+        <h2 className="text-lg font-semibold">Market Trend</h2>
+        <h2 className="text-lg font-semibold">Bid Price</h2>
+        <h2 className="text-lg font-semibold">Ask Price</h2>
+        <h2 className="text-lg font-semibold">Place Order</h2>
+        <h2 className="text-lg font-semibold">Current Price</h2>
+        <button className="text-blue-500 col-span-6 text-right">See All</button>
+      </div>
+      {["Apple Inc", "Amazon"].map((company) => (
+        <div key={company} className="grid grid-cols-6 gap-4 mb-2 items-center">
+          <span>{company}</span>
+          <span>$196</span>
+          <span>$210</span>
+          <span className="flex gap-2">
+            <button
+              className="bg-blue-500 text-white px-3 py-1 rounded"
+              onClick={() => handleBuyClick(company)}
+            >
+              Buy
+            </button>
+            <button
+              className="bg-red-500 text-white px-3 py-1 rounded"
+              onClick={() => handleSellClick(company)}
+            >
+              Sell
+            </button>
+          </span>
+          <span>$201.01</span>
         </div>
+      ))}
+      {isBuyModalOpen && <BuyModal company={selectedCompany} onClose={() => setIsBuyModalOpen(false)} />}
+      {isSellModalOpen && <SellModal company={selectedCompany} onClose={() => setIsSellModalOpen(false)} />}
+    </div>
+
       </main>
 
       {/* Right Sidebar */}

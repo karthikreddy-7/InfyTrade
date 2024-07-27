@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { signIn } from "../api/auth";
 import {
   Box,
   Button,
@@ -28,26 +29,15 @@ const Signin = () => {
     setPassword(event.target.value);
   };
 
+  // handlesubmit should be like this
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const requestBody = { email, password };
-
     try {
-      const response = await fetch("api place here", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
+      const data = await signIn(email, password); // signin is a function in api which takes email, password and returns the response.
       console.log("Success:", data);
     } catch (error) {
+     // should add error when backend gives 400, saying that invalid credentials
       console.error("Error:", error);
     }
   };
@@ -59,6 +49,7 @@ const Signin = () => {
   const handleGoogleLoginFailure = (error) => {
     console.error("Login Failed:", error);
   };
+
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
