@@ -19,7 +19,7 @@ import Portfolio from "./components/portfolio/portfolio";
 import Analysis from "./components/analytics/analysis";
 import AutomatedTradingSystem from "./components/ATS/automatedTradingSystem";
 import Rankings from "./components/rankings/Rankings";
-import Community from "./components/community/community";
+import Community from "./components/community/Community";
 import AccountSettings from "./components/accountSettings";
 
 const Layout = ({ children }) => (
