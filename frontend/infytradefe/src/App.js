@@ -33,9 +33,9 @@ const AppRoutes = () => {
         path="/"
         element={
           <>
-            <Header />
-            <LandingPage />
-            <Footer />
+           <div style={{display:"block"}}> <Header /></div>
+           <div style={{display:"block"}}><LandingPage /></div> 
+           <div style={{display:"block"}}><Footer /></div> 
           </>
         }
       />
@@ -66,7 +66,6 @@ const AppRoutes = () => {
         element={
           isLoggedIn ? (
             <>
-              <Navbar />
               <Marketplace />
             </>
           ) : (
