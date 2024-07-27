@@ -28,6 +28,20 @@ const Signin = () => {
     setPassword(event.target.value);
   };
 
+  // handlesubmit should be like this
+  /*
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const data = await signIn(email, password); // signin is a function in api which takes email, password and returns the response.
+      console.log("Success:", data);
+    } catch (error) {
+     // should add error when backend gives 400, saying that invalid credentials
+      console.error("Error:", error);
+    }
+  };
+  */
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const requestBody = { email, password };
@@ -77,7 +91,12 @@ const Signin = () => {
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               Please login to continue to your account
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required
