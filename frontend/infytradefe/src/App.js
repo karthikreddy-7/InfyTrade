@@ -66,7 +66,6 @@ const AppRoutes = () => {
         element={
           isLoggedIn ? (
             <>
-              <Navbar />
               <Marketplace />
             </>
           ) : (

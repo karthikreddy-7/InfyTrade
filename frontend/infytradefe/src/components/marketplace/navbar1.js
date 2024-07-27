@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBars, FaChevronLeft, FaStore, FaChartLine, FaUserFriends, FaChartPie, FaRobot, FaWallet, FaTrophy } from 'react-icons/fa';
+import { FaBars, FaChevronLeft, FaStore, FaChartLine, FaUserFriends, FaChartPie, FaRobot, FaWallet, FaTrophy, FaSignOutAlt } from 'react-icons/fa';
 import { FiPackage, FiSettings } from 'react-icons/fi';
 import 'tailwindcss/tailwind.css';
 
@@ -17,7 +17,7 @@ const App = () => {
     { name: 'Portfolio', icon: FiPackage },
     { name: 'Analysis', icon: FaChartPie },
     { name: 'Automated Trading System', icon: FaRobot },
-    { name: 'Ranking', icon: FaTrophy },  // Updated icon for Rankings
+    { name: 'Ranking', icon: FaTrophy },
     { name: 'Community', icon: FaUserFriends },
     { name: 'Account & Settings', icon: FiSettings },
   ];
@@ -50,6 +50,7 @@ const App = () => {
               })}
             </div>
           </div>
+
           <div className="px-4 py-2">
             <a
               href="#"
@@ -61,10 +62,18 @@ const App = () => {
             </a>
             {isOpen && (
               <div className="mt-2 text-sm text-gray-500">
-                <p>Balance: 0.000244 ETH</p>
-                <p>Address: 0xGD63...6DS9</p>
+                <p>Balance: 0.0</p>
               </div>
             )}
+          
+            <a
+              href="#"
+              className="flex items-center space-x-2 py-2 text-red-500"
+              onClick={() => setActivePage('Logout')}
+            >
+              <FaSignOutAlt size={20} />
+              <span className={isOpen ? 'block' : 'hidden'}>Logout</span>
+            </a>
           </div>
         </div>
       </div>
