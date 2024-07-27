@@ -3,7 +3,7 @@ import React from "react";
 function LineChart() {
   return (
     <>
-      <div>lineChart</div>
+      <div>Line Chart</div>
     </>
   );
 }

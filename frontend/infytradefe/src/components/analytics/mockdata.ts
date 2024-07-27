@@ -1,91 +1,37 @@
 // mockdata.ts
-
 export const mockData = {
-    IBM: {
-      labels: [
-        '2024-07-01', 
-        '2024-07-02', 
-        '2024-07-03', 
-        '2024-07-04', 
-        '2024-07-05',
-        '2024-07-07',
-        '2024-07-08',
-        '2024-07-09',
-        '2024-07-10'
-      ],
-      datasets: [
-        {
-          label: 'IBM',
-          data: [120, 115, 125, 130, 128, 133, 170, 181, 175, 176],
-          borderWidth: 1,
-        },
-      ],
+  daily: {
+    labels: [
+      '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', 
+      '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
+    ],
+    datasets: {
+      IBM: { data: generateData(150, 5) },
+      MSFT: { data: generateData(250, 10) },
+      TSLA: { data: generateData(600, 20) },
+      RACE: { data: generateData(400, 15) },
     },
-    MSFT: {
-      labels: [
-        '2024-07-01', 
-        '2024-07-02', 
-        '2024-07-03', 
-        '2024-07-04', 
-        '2024-07-05',
-        '2024-07-07',
-        '2024-07-08',
-        '2024-07-09',
-        '2024-07-10'
-      ],
-      datasets: [
-        {
-          label: 'Microsoft',
-          data: [1400, 1420, 1415, 1430, 1440, 1450, 1500, 1550, 1530, 1540],
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        },
-      ],
+  },
+  weekly: {
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    datasets: {
+      IBM: { data: generateData(150, 5) },
+      MSFT: { data: generateData(250, 10) },
+      TSLA: { data: generateData(600, 20) },
+      RACE: { data: generateData(400, 15) },
     },
-    TSLA: {
-      labels: [
-        '2024-07-01', 
-        '2024-07-02', 
-        '2024-07-03', 
-        '2024-07-04', 
-        '2024-07-05',
-        '2024-07-07',
-        '2024-07-08',
-        '2024-07-09',
-        '2024-07-10'
-      ],
-      datasets: [
-        {
-          label: 'Tesla',
-          data: [3200, 3210, 3190, 3220, 3230, 3240, 3300, 3350, 3320, 3330],
-          backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)',
-          borderWidth: 1,
-        },
-      ],
+  },
+  monthly: {
+    labels: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`),
+    datasets: {
+      IBM: { data: generateData(150, 5) },
+      MSFT: { data: generateData(250, 10) },
+      TSLA: { data: generateData(600, 20) },
+      RACE: { data: generateData(400, 15) },
     },
-    RACE: {
-        labels: [
-          '2024-07-01', 
-          '2024-07-02', 
-          '2024-07-03', 
-          '2024-07-04', 
-          '2024-07-05',
-          '2024-07-07',
-          '2024-07-08',
-          '2024-07-09',
-          '2024-07-10'
-        ],
-        datasets: [
-          {
-            label: 'Ferrari N.V.',
-            data: [215, 220, 230, 240, 235, 250, 255, 260, 245, 250],
-            backgroundColor: 'rgba(37,99,235,255,0.5)',
-            borderColor: 'rgba(37,99,235,255,1)',
-            borderWidth: 1,
-          },
-        ],
-      },
-  };
-  
+  },
+};
+
+function generateData(base: number, variance: number): number[] {
+  return Array.from({ length: 30 }, () => base + Math.floor(Math.random() * variance * 2) - variance);
+}
