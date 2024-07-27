@@ -33,7 +33,7 @@ export class CommunityController {
   @ApiResponse({ status: 200, description: 'Returns the community by ID.', type: ResponseCommunityDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
-    return this.communityService.findOne(+id);
+    return this.communityService.findOne(id);
   }
 
   @Patch(':id')
@@ -43,7 +43,7 @@ export class CommunityController {
   @ApiResponse({ status: 200, description: 'The community has been successfully updated.', type: ResponseCommunityDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   update(@Param('id') id: string, @Body() updateCommunityDto: UpdateCommunityDto) {
-    return this.communityService.update(+id, updateCommunityDto);
+    return this.communityService.update(id, updateCommunityDto);
   }
 
   @Delete(':id')
@@ -52,6 +52,6 @@ export class CommunityController {
   @ApiResponse({ status: 200, description: 'The community has been successfully deleted.' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
-    return this.communityService.remove(+id);
+    return this.communityService.remove(id);
   }
 }

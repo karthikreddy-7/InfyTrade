@@ -1,59 +1,115 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  FaBars,
+  FaChevronLeft,
+  FaStore,
+  FaChartLine,
+  FaUserFriends,
+  FaChartPie,
+  FaRobot,
+  FaWallet,
+  FaTrophy,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import { FiPackage, FiSettings } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import "tailwindcss/tailwind.css";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(true);
+  const [activePage, setActivePage] = useState("Market Place");
+  const navigate = useNavigate();
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const menuItems = [
+    { name: "Market Place", icon: FaStore, path: "/marketplace" },
+    { name: "Dashboard", icon: FaChartLine, path: "/dashboard" },
+    { name: "Portfolio", icon: FiPackage, path: "/portfolio" },
+    { name: "Analysis", icon: FaChartPie, path: "/analysis" },
+    {
+      name: "Automated Trading System",
+      icon: FaRobot,
+      path: "/automated-trading",
+    },
+    { name: "Ranking", icon: FaTrophy, path: "/ranking" },
+    { name: "Community", icon: FaUserFriends, path: "/community" },
+    { name: "Account & Settings", icon: FiSettings, path: "/account-settings" },
+  ];
+
+  const handleMenuItemClick = (path, name) => {
+    setActivePage(name);
+    navigate(path);
+  };
+
   return (
-    <>
-      <div className="btm-nav">
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-            />
-          </svg>
-        </button>
-        <button className="active">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
-        <button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-            />
-          </svg>
-        </button>
+    <div className="flex h-screen bg-gray-100">
+      <div
+        className={`flex flex-col h-full ${
+          isOpen ? "w-64" : "w-20"
+        } transition-width duration-300 bg-white shadow-lg`}
+      >
+        <div className="flex flex-col justify-between h-full">
+          <div>
+            <button
+              onClick={toggleSidebar}
+              className="flex items-center justify-center p-4 focus:outline-none"
+            >
+              {isOpen ? <FaChevronLeft size={24} /> : <FaBars size={24} />}
+            </button>
+            <div className="flex flex-col space-y-4 px-4">
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.name}
+                    className={`flex items-center space-x-2 py-2 cursor-pointer ${
+                      activePage === item.name
+                        ? "text-blue-500"
+                        : "text-gray-500"
+                    }`}
+                    onClick={() => handleMenuItemClick(item.path, item.name)}
+                  >
+                    <Icon size={20} />
+                    <span className={isOpen ? "block" : "hidden"}>
+                      {item.name}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="px-4 py-2">
+            <div
+              className={`flex items-center space-x-2 py-2 cursor-pointer ${
+                activePage === "Wallet and Money"
+                  ? "text-blue-500"
+                  : "text-gray-500"
+              }`}
+            >
+              <FaWallet size={20} />
+              <span className={isOpen ? "block" : "hidden"}>Wallet Money</span>
+            </div>
+            {isOpen && (
+              <div className="mt-2 text-sm text-gray-500">
+                <p>Balance: 0.0</p>
+              </div>
+            )}
+
+            <div
+              className="flex items-center space-x-2 py-2 cursor-pointer text-red-500"
+              onClick={() => handleMenuItemClick("/", "Logout")}
+            >
+              <FaSignOutAlt size={20} />
+              <span className={isOpen ? "block" : "hidden"}>Logout</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

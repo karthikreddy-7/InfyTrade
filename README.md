@@ -5,6 +5,8 @@ JIRA: https://basupallykarthikreddy.atlassian.net/jira/software/projects/KAN/boa
 
 FE Dev: https://infytrade.vercel.app/
 
+BE Dev Docs: https://infytrade-pms.onrender.com/docs 
+
 ## Advantages of InfyTrade:
 
 - enhanced UI customization with drag and drop options.
