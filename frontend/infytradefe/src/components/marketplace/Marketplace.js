@@ -1,5 +1,6 @@
 import React from "react";
-import Navbar from "./navbar1"; // Adjust the path according to your project structure
+import Navbar from "../navbar";
+
 
 const Marketplace = () => {
   return (
