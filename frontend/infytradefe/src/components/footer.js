@@ -2,23 +2,26 @@ import React from "react";
 import logo from "../assests/logo.png";
 import store_logos from "../assests/store_logos.png";
 
-
 const Footer = () => {
   return (
     <footer style={styles.footer}>
       <div style={styles.container}>
-       <div style={styles.brand}>
-         <div style={{display : "inline-block"}}> <img src={logo} alt="InfyTrade Logo" style={styles.logo} />
-        <p style={styles.team}>Team Infy</p></div>
-         <div style={{display : "inline-block"}}><p style={styles.tagline}>
-            Maximize your investment in the capital market world with the
-            convenience and various features provided by InfyTrade.
-          </p></div>
-         
+        <div style={styles.brand}>
+          <div style={{ display: "inline-block" }}>
+            <img src={logo} alt="InfyTrade Logo" style={styles.logo} />
+            <p style={styles.team}>Team Infy</p>
+          </div>
+          <div style={{ display: "inline-block" }}>
+            <p style={styles.tagline}>
+              Maximize your investment in the capital market world with the
+              convenience and various features provided by InfyTrade.
+            </p>
+          </div>
           <div style={styles.badges}>
-            <img src={store_logos} alt="Stores" style={styles.store_logos} />
-            </div> 
-         
+            <button style={styles.storeButton}>
+              <img src={store_logos} alt="Stores" style={styles.store_logos} />
+            </button>
+          </div>
         </div>
         <div style={styles.linksContainer}>
           <div style={styles.linksColumn}>
@@ -61,45 +64,55 @@ const Footer = () => {
 const styles = {
   footer: {
     backgroundColor: "#F0F4F8",
-    paddingbottom : '0px',
+    paddingBottom: '0px',
     borderTop: "1px solid #e7e7e7",
     position: "relative",
     bottom: "0",
     width: "100%",
   },
   container: {
-    
-    width : '100%',
-    paddingbottom: "0",
+    width: '100%',
+    paddingBottom: "0",
   },
   brand: {
     display: "flex",
     minWidth: "100%",
     marginBottom: "20px",
-    justifyContent : "space-between"
+    justifyContent: "space-between",
   },
   logo: {
-    height: "50px",
-    display : "inline-block"
+    height: "65px", 
+    display: "inline-block",
   },
   tagline: {
     margin: "10px 0",
     color: "#666",
-    display : "inline-block"
+    display: "inline-block",
+    fontSize: "20px", 
+    lineHeight: "1.5",
   },
   team: {
     margin: "10px 0",
     fontWeight: "bold",
-    display : "inline-block"
+    display: "inline-block",
+    fontSize: "18px",
   },
   badges: {
     display: "flex",
     gap: "10px",
-    display : "inline-block"
+    display: "inline-block",
   },
-  badge: {
-    height: "40px",
-    width: "120px",
+  storeButton: {
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    padding: "0",
+    margin: "0",
+    display: "flex",
+  },
+  store_logos: {
+    height: "100px",
+    width: "150px",
   },
   linksContainer: {
     display: "flex",
@@ -135,12 +148,6 @@ const styles = {
     borderTop: "1px solid #e7e7e7",
     backgroundColor: "#F0F4F8",
     marginTop: "20px",
-  },
-
-  store_logos:{
-   height:"100px",
-   width:"100px",
-   
   },
 };
 
