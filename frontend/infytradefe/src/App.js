@@ -18,7 +18,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import Portfolio from "./components/portfolio/portfolio";
 import Analysis from "./components/analytics/analysis";
 import AutomatedTradingSystem from "./components/ATS/automatedTradingSystem";
-import Rankings from "./components/rankings/rankings";
+import Rankings from "./components/rankings/Rankings";
 import Community from "./components/community/community";
 import AccountSettings from "./components/accountSettings";
 
