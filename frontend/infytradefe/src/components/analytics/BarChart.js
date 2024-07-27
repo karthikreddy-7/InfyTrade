@@ -14,7 +14,7 @@ const BarChart = ({ data }) => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            return `${context.dataset.label}: $${context.raw}`;
+            return `${context.dataset.label}: INR${context.raw}`;
           },
         },
       },
@@ -40,12 +40,14 @@ const BarChart = ({ data }) => {
     labels: data.labels,
     datasets: data.datasets.map(dataset => ({
       ...dataset,
-      backgroundColor: 'rgba(54, 162, 235, 0.6)',  // Set background color to blue
-      borderColor: 'rgba(54, 162, 235, 1)',        // Set border color to blue
+      backgroundColor: 'rgba(54, 162, 235, 0.6)', 
+      borderColor: 'rgba(54, 162, 235, 1)',        
     })),
   };
 
-  return <div className="p-4 bg-white rounded shadow-lg"><Bar data={chartData} options={options} /></div>;
+  return <div className="p-4 bg-white rounded shadow-lg">
+            <Bar data={chartData} options={options} />
+         </div>;
 };
 
 export default BarChart;

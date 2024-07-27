@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "chartjs-chart-financial": "^0.2.1"
+  }
+}
