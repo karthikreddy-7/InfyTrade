@@ -1,44 +1,8 @@
 import React, { useState } from 'react';
 
 const Marketplace = () => {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
-  };
-
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      {/* Sidebar */}
-      <aside className={`bg-white p-5 shadow-lg transition-all duration-300 flex flex-col ${isSidebarCollapsed ? 'hidden' : 'w-64'}`}>
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">InfyTrade</h1>
-        </div>
-        <nav className="flex flex-col space-y-4 flex-1">
-          <a href="#" className="py-2 px-4 bg-blue-500 text-white rounded">Market Place</a>
-          <a href="#" className="py-2 px-4 bg-gray-200 text-black rounded">Portfolio</a>
-          <a href="#" className="py-2 px-4 bg-gray-200 text-black rounded">Analysis</a>
-          <a href="#" className="py-2 px-4 bg-gray-200 text-black rounded">Account & Settings</a>
-          <a href="#" className="py-2 px-4 bg-gray-200 text-black rounded">Dashboard</a>
-        </nav>
-        <button
-          onClick={toggleSidebar}
-          className="py-2 px-4 bg-blue-500 text-white rounded mt-auto"
-        >
-          Collapse
-        </button>
-      </aside>
-
-      {/* Expand Button */}
-      {isSidebarCollapsed && (
-        <button
-          onClick={toggleSidebar}
-          className="p-2 bg-blue-500 text-white rounded fixed left-0 bottom-4"
-        >
-          Expand
-        </button>
-      )}
-
       {/* Main Content */}
       <main className="flex-1 p-5 overflow-y-auto">
         <header className="flex items-center justify-between mb-4">
