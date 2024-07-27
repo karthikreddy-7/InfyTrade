@@ -1,10 +1,15 @@
 import React from "react";
+import Navbar from "../marketplace/navbar"; // Adjust the path according to your project structure
 
 const Marketplace = () => {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline"> Market Place Section !</h1>
-    </>
+    <div className="flex h-screen">
+      <Navbar />
+      <div className="flex-1 p-4">
+        <h1 className="text-3xl font-bold underline">Market Place Section!</h1>
+        {/* Additional marketplace content goes here */}
+      </div>
+    </div>
   );
 };
 
