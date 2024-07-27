@@ -12,26 +12,37 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { FiPackage, FiSettings } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [activePage, setActivePage] = useState("Market Place");
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
   const menuItems = [
-    { name: "Market Place", icon: FaStore },
-    { name: "Dashboard", icon: FaChartLine },
-    { name: "Portfolio", icon: FiPackage },
-    { name: "Analysis", icon: FaChartPie },
-    { name: "Automated Trading System", icon: FaRobot },
-    { name: "Ranking", icon: FaTrophy },
-    { name: "Community", icon: FaUserFriends },
-    { name: "Account & Settings", icon: FiSettings },
+    { name: "Market Place", icon: FaStore, path: "/marketplace" },
+    { name: "Dashboard", icon: FaChartLine, path: "/dashboard" },
+    { name: "Portfolio", icon: FiPackage, path: "/portfolio" },
+    { name: "Analysis", icon: FaChartPie, path: "/analysis" },
+    {
+      name: "Automated Trading System",
+      icon: FaRobot,
+      path: "/automated-trading",
+    },
+    { name: "Ranking", icon: FaTrophy, path: "/ranking" },
+    { name: "Community", icon: FaUserFriends, path: "/community" },
+    { name: "Account & Settings", icon: FiSettings, path: "/account-settings" },
   ];
+
+  const handleMenuItemClick = (path, name) => {
+    setActivePage(name);
+    navigate(path);
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -52,57 +63,52 @@ const Navbar = () => {
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <a
+                  <div
                     key={item.name}
-                    href="#"
-                    className={`flex items-center space-x-2 py-2 ${
+                    className={`flex items-center space-x-2 py-2 cursor-pointer ${
                       activePage === item.name
                         ? "text-blue-500"
                         : "text-gray-500"
                     }`}
-                    onClick={() => setActivePage(item.name)}
+                    onClick={() => handleMenuItemClick(item.path, item.name)}
                   >
                     <Icon size={20} />
                     <span className={isOpen ? "block" : "hidden"}>
                       {item.name}
                     </span>
-                  </a>
+                  </div>
                 );
               })}
             </div>
           </div>
 
           <div className="px-4 py-2">
-            <a
-              href="#"
-              className={`flex items-center space-x-2 py-2 ${
+            <div
+              className={`flex items-center space-x-2 py-2 cursor-pointer ${
                 activePage === "Wallet and Money"
                   ? "text-blue-500"
                   : "text-gray-500"
               }`}
-              onClick={() => setActivePage("Wallet and Money")}
             >
               <FaWallet size={20} />
               <span className={isOpen ? "block" : "hidden"}>Wallet Money</span>
-            </a>
+            </div>
             {isOpen && (
               <div className="mt-2 text-sm text-gray-500">
                 <p>Balance: 0.0</p>
               </div>
             )}
 
-            <a
-              href="#"
-              className="flex items-center space-x-2 py-2 text-red-500"
-              onClick={() => setActivePage("Logout")}
+            <div
+              className="flex items-center space-x-2 py-2 cursor-pointer text-red-500"
+              onClick={() => handleMenuItemClick("/", "Logout")}
             >
               <FaSignOutAlt size={20} />
               <span className={isOpen ? "block" : "hidden"}>Logout</span>
-            </a>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex-1 p-4">{/* Your main content here */}</div>
     </div>
   );
 };

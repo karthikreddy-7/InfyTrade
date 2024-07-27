@@ -1,6 +1,6 @@
 import React from "react";
 
-function analysis() {
+function Analysis() {
   // multiple drop down
   // 1. selectn only one chart
   // 2. select the type of chart.
@@ -13,4 +13,4 @@ function analysis() {
   );
 }
 
-export default analysis;
+export default Analysis;
