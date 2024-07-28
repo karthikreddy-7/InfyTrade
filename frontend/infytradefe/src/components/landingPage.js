@@ -23,7 +23,7 @@ const LandingPage = () => {
       navigate("/marketplace");
     } else {
       alert("Please log in first!");
-      navigate("/signin");
+      //navigate("/signin");
     }
   };
 
@@ -37,25 +37,38 @@ const LandingPage = () => {
       <div className="text-left p-4 m-2 max-w-screen mx-auto bg-gray-100 rounded-lg">
         <div className="flex flex-row h-screen max-w-screen">
           <div className="w-3/5 p-2 text-2xl m-4 mt-16">
-            <p className="text-blue-500 text-2xl font-bold mb-5">Trade Smarter with InfyTrade</p>
+            <p className="text-blue-500 text-2xl font-bold mb-5">
+              Trade Smarter with InfyTrade
+            </p>
             <h1 className="text-5xl font-bold mb-10 leading-tight">
-              Trade, Analyze, Succeed and <span className="text-blue-500">Get Amazing Profit</span>
+              Trade, Analyze, Succeed and{" "}
+              <span className="text-blue-500">Get Amazing Profit</span>
             </h1>
             <p className="text-base font-semibold text-gray-600 mb-10">
-              Revolutionize your trading experience with our cutting-edge tools, real-time insights, and community-driven features.
+              Revolutionize your trading experience with our cutting-edge tools,
+              real-time insights, and community-driven features.
             </p>
             <div className="flex justify-start gap-5">
-              <button className="btn btn-primary text-white" onClick={handleMarketplaceRedirect}>
+              <button
+                className="btn btn-primary text-white"
+                onClick={handleMarketplaceRedirect}
+              >
                 Go to MarketPlace
               </button>
-              <button className="btn btn-ghost bg-gray-100">See How it Works</button>
+              <button className="btn btn-ghost bg-gray-100">
+                See How it Works
+              </button>
             </div>
           </div>
           <div className="w-3/5 overflow-hidden bg-transparent">
-            <img src={flexImage} alt="FlexImage" className="w-full object-cover object-center" />
+            <img
+              src={flexImage}
+              alt="FlexImage"
+              className="w-full object-cover object-center"
+            />
           </div>
         </div>
-
+        
         <h2 className="text-2xl font-bold text-blue-700 text-center mb-10">
           Why choose InfyTrade?
         </h2>

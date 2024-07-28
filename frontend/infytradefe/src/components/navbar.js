@@ -30,7 +30,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     localStorage.removeItem("token");
-    navigate("/signin"); // Redirect to sign-in page after logout
+    navigate("/signin");
   };
 
   const menuItems = [
@@ -38,7 +38,11 @@ const Navbar = () => {
     { name: "Dashboard", icon: FaChartLine, path: "/dashboard" },
     { name: "Portfolio", icon: FiPackage, path: "/portfolio" },
     { name: "Analysis", icon: FaChartPie, path: "/analysis" },
-    { name: "Automated Trading System", icon: FaRobot, path: "/automated-trading" },
+    {
+      name: "Automated Trading System",
+      icon: FaRobot,
+      path: "/automated-trading",
+    },
     { name: "Ranking", icon: FaTrophy, path: "/ranking" },
     { name: "Community", icon: FaUserFriends, path: "/community" },
     { name: "Account & Settings", icon: FiSettings, path: "/account-settings" },
@@ -51,19 +55,36 @@ const Navbar = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className={`flex flex-col h-full ${isOpen ? "w-64" : "w-20"} transition-width duration-300 bg-white shadow-lg`}>
+      <div
+        className={`flex flex-col h-full ${
+          isOpen ? "w-64" : "w-20"
+        } transition-width duration-300 bg-white shadow-lg`}
+      >
         <div className="flex flex-col justify-between h-full">
           <div>
-            <button onClick={toggleSidebar} className="flex items-center justify-center p-4 focus:outline-none">
+            <button
+              onClick={toggleSidebar}
+              className="flex items-center justify-center p-4 focus:outline-none"
+            >
               {isOpen ? <FaChevronLeft size={24} /> : <FaBars size={24} />}
             </button>
             <div className="flex flex-col space-y-4 px-4">
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.name} className={`flex items-center space-x-2 py-2 cursor-pointer ${activePage === item.name ? "text-blue-500" : "text-gray-500"}`} onClick={() => handleMenuItemClick(item.path, item.name)}>
+                  <div
+                    key={item.name}
+                    className={`flex items-center space-x-2 py-2 cursor-pointer ${
+                      activePage === item.name
+                        ? "text-blue-500"
+                        : "text-gray-500"
+                    }`}
+                    onClick={() => handleMenuItemClick(item.path, item.name)}
+                  >
                     <Icon size={20} />
-                    <span className={isOpen ? "block" : "hidden"}>{item.name}</span>
+                    <span className={isOpen ? "block" : "hidden"}>
+                      {item.name}
+                    </span>
                   </div>
                 );
               })}
@@ -71,7 +92,13 @@ const Navbar = () => {
           </div>
 
           <div className="px-4 py-2">
-            <div className={`flex items-center space-x-2 py-2 cursor-pointer ${activePage === "Wallet and Money" ? "text-blue-500" : "text-gray-500"}`}>
+            <div
+              className={`flex items-center space-x-2 py-2 cursor-pointer ${
+                activePage === "Wallet and Money"
+                  ? "text-blue-500"
+                  : "text-gray-500"
+              }`}
+            >
               <FaWallet size={20} />
               <span className={isOpen ? "block" : "hidden"}>Wallet Money</span>
             </div>
@@ -81,7 +108,10 @@ const Navbar = () => {
               </div>
             )}
 
-            <div className="flex items-center space-x-2 py-2 cursor-pointer text-red-500" onClick={handleLogout}>
+            <div
+              className="flex items-center space-x-2 py-2 cursor-pointer text-red-500"
+              onClick={handleLogout}
+            >
               <FaSignOutAlt size={20} />
               <span className={isOpen ? "block" : "hidden"}>Logout</span>
             </div>

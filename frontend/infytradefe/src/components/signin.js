@@ -57,12 +57,17 @@ const Signin = () => {
     console.error("Login Failed:", error);
   };
 
-
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} sx={{ padding: 4, borderRadius: 3, mt: 8 }}>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Typography component="h1" variant="h5">
               Sign In
             </Typography>
@@ -74,7 +79,12 @@ const Signin = () => {
                 {errorMessage}
               </Typography>
             )}
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required

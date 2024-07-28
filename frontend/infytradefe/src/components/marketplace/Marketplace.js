@@ -1,11 +1,51 @@
-import React, { useState } from 'react';
-import BuyModal from '../orderModel/BuyModal';
-import SellModal from '../orderModel/SellModal';
+import React, { useState } from "react";
+import BuyModal from "../orderModel/BuyModal";
+import SellModal from "../orderModel/SellModal";
+import ModalComponent from "../modal";
 const Marketplace = () => {
-
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState(null);
+
+  const handleSeeAllClick = (title, content) => {
+    setModalTitle(title);
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const topGainersContent = (
+    <>
+      {["Apple", "Microsoft"].map((stock) => (
+        <div key={stock} className="mb-2 flex justify-between">
+          <span>{stock}</span>
+          <span>$201.01</span>
+        </div>
+      ))}
+    </>
+  );
+
+  const topLosersContent = (
+    <>
+      {["Apple", "Microsoft"].map((stock) => (
+        <div key={stock} className="mb-2 flex justify-between">
+          <span>{stock}</span>
+          <span>$201.01</span>
+        </div>
+      ))}
+    </>
+  );
+
+  const buttons = [
+    {
+      label: "Close",
+      color: "danger",
+      variant: "light",
+      onPress: () => setIsModalOpen(false),
+    },
+  ];
 
   const handleBuyClick = (company) => {
     setSelectedCompany(company);
@@ -36,14 +76,19 @@ const Marketplace = () => {
         <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2">Stocks</h2>
           <div className="flex space-x-4 overflow-x-auto">
-            {["Adobe", "Apple", "Amazon", "Microsoft", "Google"].map((stock) => (
-              <div key={stock} className="bg-white p-5 rounded-lg shadow min-w-max">
-                <span>{stock}</span>
-                <div>Market Price: +201.01</div>
-                <div>Bid Price: +$195.01</div>
-                <div>Ask Price: +$210.01</div>
-              </div>
-            ))}
+            {["Adobe", "Apple", "Amazon", "Microsoft", "Google"].map(
+              (stock) => (
+                <div
+                  key={stock}
+                  className="bg-white p-5 rounded-lg shadow min-w-max"
+                >
+                  <span>{stock}</span>
+                  <div>Market Price: +201.01</div>
+                  <div>Bid Price: +$195.01</div>
+                  <div>Ask Price: +$210.01</div>
+                </div>
+              )
+            )}
           </div>
         </div>
 
@@ -60,7 +105,14 @@ const Marketplace = () => {
             <div className="bg-white p-5 rounded-lg shadow mb-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold mb-2">Top Gainers</h2>
-                <button className="text-blue-500">See All</button>
+                <button
+                  className="text-blue-500"
+                  onClick={() =>
+                    handleSeeAllClick("Top Gainers", topGainersContent)
+                  }
+                >
+                  See All
+                </button>
               </div>
               {["Apple", "Microsoft"].map((stock) => (
                 <div key={stock} className="mb-2 flex justify-between">
@@ -73,7 +125,14 @@ const Marketplace = () => {
             <div className="bg-white p-5 rounded-lg shadow">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold mb-2">Top Losers</h2>
-                <button className="text-blue-500">See All</button>
+                <button
+                  className="text-blue-500"
+                  onClick={() =>
+                    handleSeeAllClick("Top Gainers", topLosersContent)
+                  }
+                >
+                  See All
+                </button>
               </div>
               {["Amazon", "Google"].map((stock) => (
                 <div key={stock} className="mb-2 flex justify-between">
@@ -86,40 +145,54 @@ const Marketplace = () => {
         </div>
 
         <div className="bg-white p-5 rounded-lg shadow">
-        <div className="grid grid-cols-6 gap-4 mb-2">
-        <h2 className="text-lg font-semibold">Market Trend</h2>
-        <h2 className="text-lg font-semibold">Bid Price</h2>
-        <h2 className="text-lg font-semibold">Ask Price</h2>
-        <h2 className="text-lg font-semibold">Place Order</h2>
-        <h2 className="text-lg font-semibold">Current Price</h2>
-        <button className="text-blue-500 col-span-6 text-right">See All</button>
-      </div>
-      {["Apple Inc", "Amazon"].map((company) => (
-        <div key={company} className="grid grid-cols-6 gap-4 mb-2 items-center">
-          <span>{company}</span>
-          <span>$196</span>
-          <span>$210</span>
-          <span className="flex gap-2">
-            <button
-              className="bg-blue-500 text-white px-3 py-1 rounded"
-              onClick={() => handleBuyClick(company)}
-            >
-              Buy
+          <div className="grid grid-cols-6 gap-4 mb-2">
+            <h2 className="text-lg font-semibold">Market Trend</h2>
+            <h2 className="text-lg font-semibold">Bid Price</h2>
+            <h2 className="text-lg font-semibold">Ask Price</h2>
+            <h2 className="text-lg font-semibold">Place Order</h2>
+            <h2 className="text-lg font-semibold">Current Price</h2>
+            <button className="text-blue-500 col-span-6 text-right">
+              See All
             </button>
-            <button
-              className="bg-red-500 text-white px-3 py-1 rounded"
-              onClick={() => handleSellClick(company)}
+          </div>
+          {["Apple Inc", "Amazon"].map((company) => (
+            <div
+              key={company}
+              className="grid grid-cols-6 gap-4 mb-2 items-center"
             >
-              Sell
-            </button>
-          </span>
-          <span>$201.01</span>
+              <span>{company}</span>
+              <span>$196</span>
+              <span>$210</span>
+              <span className="flex gap-2">
+                <button
+                  className="bg-blue-500 text-white px-3 py-1 rounded"
+                  onClick={() => handleBuyClick(company)}
+                >
+                  Buy
+                </button>
+                <button
+                  className="bg-red-500 text-white px-3 py-1 rounded"
+                  onClick={() => handleSellClick(company)}
+                >
+                  Sell
+                </button>
+              </span>
+              <span>$201.01</span>
+            </div>
+          ))}
+          {isBuyModalOpen && (
+            <BuyModal
+              company={selectedCompany}
+              onClose={() => setIsBuyModalOpen(false)}
+            />
+          )}
+          {isSellModalOpen && (
+            <SellModal
+              company={selectedCompany}
+              onClose={() => setIsSellModalOpen(false)}
+            />
+          )}
         </div>
-      ))}
-      {isBuyModalOpen && <BuyModal company={selectedCompany} onClose={() => setIsBuyModalOpen(false)} />}
-      {isSellModalOpen && <SellModal company={selectedCompany} onClose={() => setIsSellModalOpen(false)} />}
-    </div>
-
       </main>
 
       {/* Right Sidebar */}
@@ -131,9 +204,21 @@ const Marketplace = () => {
           </div>
           <div className="space-y-4">
             {[
-              { title: "Market Hits New High", description: "The stock market reached a new high today driven by tech stocks." },
-              { title: "Federal Reserve Interest Rate Decision", description: "The Federal Reserve announces its decision on interest rates." },
-              { title: "Tech Stocks Surge", description: "Tech stocks are surging following positive earnings reports from major companies." },
+              {
+                title: "Market Hits New High",
+                description:
+                  "The stock market reached a new high today driven by tech stocks.",
+              },
+              {
+                title: "Federal Reserve Interest Rate Decision",
+                description:
+                  "The Federal Reserve announces its decision on interest rates.",
+              },
+              {
+                title: "Tech Stocks Surge",
+                description:
+                  "Tech stocks are surging following positive earnings reports from major companies.",
+              },
             ].map((news, index) => (
               <div key={index} className="bg-gray-100 p-3 rounded-lg shadow">
                 <h3 className="font-semibold text-md mb-1">{news.title}</h3>
@@ -143,9 +228,20 @@ const Marketplace = () => {
           </div>
         </div>
       </aside>
+
+      {/* please use this for modal popups */}
+      {isModalOpen && (
+        <ModalComponent
+          title={modalTitle}
+          buttons={buttons}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+        >
+          {modalContent}
+        </ModalComponent>
+      )}
     </div>
   );
 };
-
 
 export default Marketplace;

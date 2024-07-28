@@ -22,13 +22,12 @@ import Rankings from "./components/rankings/Rankings";
 import Community from "./components/community/Community";
 import { loginSuccess } from "./redux/action";
 import AccountSettings from "./components/AccountSettings/accountSettings";
+import { NextUIProvider, ScrollShadow } from "@nextui-org/react";
 
 const Layout = ({ children }) => (
   <div className="flex h-screen bg-gray-100">
     <Navbar />
-    <main className="flex-1 p-4 bg-white overflow-auto">
-      {children}
-    </main>
+    <main className="flex-1 p-4 bg-white overflow-auto">{children}</main>
   </div>
 );
 
@@ -188,14 +187,22 @@ const App = () => {
     const token = localStorage.getItem("sessionToken");
     if (token) {
       // Optionally validate the token with the backend and fetch user details
-      dispatch(loginSuccess({ /* user details */ }));
+      dispatch(
+        loginSuccess({
+          /* user details */
+        })
+      );
     }
   }, [dispatch]);
 
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <NextUIProvider>
+      <Router>
+        <ScrollShadow hideScrollBar>
+          <AppRoutes />
+        </ScrollShadow>
+      </Router>
+    </NextUIProvider>
   );
 };
 
