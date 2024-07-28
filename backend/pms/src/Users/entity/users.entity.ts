@@ -5,6 +5,11 @@ import { CommunityPost } from 'src/Community/entity/community.entity';
 import { Portfolio } from 'src/Portfolios/entity/portfolios.entity';
 import { Ranking } from 'src/Rankings/entity/rankings.entity';
 
+export enum Visibility {
+  PUBLIC = 'public',
+  PRIVATE = 'private',
+}
+
 @Entity('users')
 export class Users extends BaseCustomEntity {
   @Column({ type: 'varchar', length: 255, unique: true, nullable:true })
@@ -15,6 +20,9 @@ export class Users extends BaseCustomEntity {
 
   @Column({ type: 'text'})
   password: string;
+
+  @Column({ type: 'enum', enum: Visibility, default: Visibility.PRIVATE })
+  visibility: Visibility;
 
   @OneToMany(() => Dashboard, (dashboard) => dashboard.user)
   dashboards: Dashboard[];
