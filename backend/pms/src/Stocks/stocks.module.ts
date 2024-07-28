@@ -3,10 +3,9 @@ import { StocksService } from './stocks.service';
 import { StocksController } from './stocks.controller';
 import { Stock } from './entity/stocks.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Stock]), HttpModule],
+  imports: [TypeOrmModule.forFeature([Stock])],
   controllers: [StocksController],
   providers: [StocksService],
 })

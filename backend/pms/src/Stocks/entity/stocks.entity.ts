@@ -11,13 +11,4 @@ export class Stock extends BaseCustomEntity {
 
   @Column('decimal')
   price: number;
-
-  @Column('bigint')
-  volume: number;
-
-  @Column('decimal')
-  change: number;
-
-  @Column('decimal')
-  percentage_change: number;
 }

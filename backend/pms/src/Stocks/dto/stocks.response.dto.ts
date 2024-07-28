@@ -25,23 +25,4 @@ export class ResponseStocksDto {
     example: 143.22,
   })
   price: number;
-
-  @ApiProperty({
-    description: 'The number of shares traded',
-    example: 1000000,
-  })
-  volume: number;
-
-  @ApiProperty({
-    description: 'The price change',
-    example: -1.45,
-  })
-  change: number;
-
-  @ApiProperty({
-    description: 'The percentage price change',
-    example: -0.01,
-  })
-  percentage_change: number;
-
 }

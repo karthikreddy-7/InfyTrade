@@ -24,25 +24,5 @@ export class CreateStocksDto {
   @IsNumber()
   readonly price: number;
 
-  @ApiProperty({
-    description: 'The number of shares traded',
-    example: 1000000,
-  })
-  @IsNumber()
-  readonly volume: number;
-
-  @ApiProperty({
-    description: 'The price change',
-    example: -1.45,
-  })
-  @IsNumber()
-  readonly change: number;
-
-  @ApiProperty({
-    description: 'The percentage price change',
-    example: -0.01,
-  })
-  @IsNumber()
-  readonly percentage_change: number;
   }
   
