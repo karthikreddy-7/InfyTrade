@@ -44,4 +44,9 @@ export class UsersService {
     const Users = await this.findOne(id);
     await this.userRepository.remove(Users);
   }
+
+  async checkUser(email: string, password: string): Promise<Users> {
+    const user = await this.userRepository.findOne({ where: { email, password } });
+    return user;
+  }
 }

@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsersDto } from './dto/users.create.dto';
 import { UpdateUsersDto } from './dto/users.update.dto';
 import { ApiResponse, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ResponseUsersDto } from './dto/users.response.dto';
+import { CheckUserDto } from './dto/users.check.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -53,5 +54,18 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
+  }
+
+  @Post('check')
+  @ApiOperation({ summary: 'Check if a user exists by email and password' })
+  @ApiBody({ type: CheckUserDto })
+  @ApiResponse({ status: 200, description: 'The user has been found.', type: ResponseUsersDto })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  async check(@Body() checkUserDto: CheckUserDto) {
+    const user = await this.usersService.checkUser(checkUserDto.email, checkUserDto.password);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 }
