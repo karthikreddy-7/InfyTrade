@@ -68,7 +68,12 @@ const Signin = () => {
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               Please login to continue to your account
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
                 margin="normal"
                 required

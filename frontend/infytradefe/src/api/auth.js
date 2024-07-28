@@ -1,3 +1,4 @@
+
 const API_URL = "https://infytrade-pms.onrender.com/users";
 
 export const signIn = async (email, password) => {
@@ -21,7 +22,7 @@ export const signUp = async (name, email, password) => {
   const requestBody = { name, email, userName, password };
 
   try {
-    const response = await fetch(`${API_URL}`, {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,4 +49,3 @@ const generateRandomUserName = (name) => {
   const randomDigits = Math.floor(Math.random() * 1000);
   return `${name}${randomDigits}`;
 };
-
