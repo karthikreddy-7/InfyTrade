@@ -33,7 +33,7 @@ export class StocksController {
   @ApiResponse({ status: 200, description: 'Returns the stocks by ID.', type: ResponseStocksDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
-    return this.stocksService.findOne(+id);
+    return this.stocksService.findOne(id);
   }
 
   @Patch(':id')
@@ -43,7 +43,7 @@ export class StocksController {
   @ApiResponse({ status: 200, description: 'The stocks has been successfully updated.', type: ResponseStocksDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   update(@Param('id') id: string, @Body() updateStocksDto: UpdateStocksDto) {
-    return this.stocksService.update(+id, updateStocksDto);
+    return this.stocksService.update(id, updateStocksDto);
   }
 
   @Delete(':id')
@@ -52,6 +52,6 @@ export class StocksController {
   @ApiResponse({ status: 200, description: 'The stocks has been successfully deleted.' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
-    return this.stocksService.remove(+id);
+    return this.stocksService.remove(id);
   }
 }

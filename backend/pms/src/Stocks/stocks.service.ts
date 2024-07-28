@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStocksDto } from './dto/stocks.create.dto';
 import { UpdateStocksDto } from './dto/stocks.update.dto';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Stock } from './entity/stocks.entity';
+import { Repository } from 'typeorm';
 @Injectable()
 export class StocksService {
-  create(createStocksDto: CreateStocksDto) {
-    return 'This action adds a new stocks';
+  constructor(
+    @InjectRepository(Stock)
+    private readonly stockRepository: Repository<Stock>,
+  ) {}
+
+  create(createStockDto: CreateStocksDto): Promise<Stock> {
+    const stock = this.stockRepository.create(createStockDto);
+    return this.stockRepository.save(stock);
   }
 
-  findAll() {
-    return `This action returns all stockss`;
+  findAll(): Promise<Stock[]> {
+    return this.stockRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stocks`;
+  findOne(id: string): Promise<Stock> {
+    return this.stockRepository.findOneBy({ id });
   }
 
-  update(id: number, updateStocksDto: UpdateStocksDto) {
-    return `This action updates a #${id} stocks`;
+  async update(id: string, updateStockDto: UpdateStocksDto): Promise<Stock> {
+    await this.stockRepository.update(id, updateStockDto);
+    return this.stockRepository.findOneBy({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} stocks`;
+  async remove(id: string): Promise<void> {
+    await this.stockRepository.delete(id);
   }
 }

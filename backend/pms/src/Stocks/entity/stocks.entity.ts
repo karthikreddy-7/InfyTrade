@@ -3,12 +3,12 @@ import { BaseCustomEntity } from '../../utilities/baseEntity';
 
 @Entity('stocks')
 export class Stock extends BaseCustomEntity {
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column()
   symbol: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column()
   name: string;
 
-  @Column({ type: 'jsonb' })
-  data: object;
+  @Column('decimal')
+  price: number;
 }
