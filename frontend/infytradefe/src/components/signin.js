@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { signIn } from "../api/auth";
+import { loginSuccess } from "../redux/action";
 import {
   Box,
   Button,
@@ -20,6 +23,10 @@ const clientId = " ";
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -29,21 +36,21 @@ const Signin = () => {
     setPassword(event.target.value);
   };
 
-  // handlesubmit should be like this
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = await signIn(email, password); // signin is a function in api which takes email, password and returns the response.
-      console.log("Success:", data);
+      const data = await signIn(email, password);
+      localStorage.setItem("sessionToken", data.token); // Store session token
+      dispatch(loginSuccess(data.user));
+      navigate("/marketplace");
     } catch (error) {
-     // should add error when backend gives 400, saying that invalid credentials
-      console.error("Error:", error);
+      setErrorMessage(error.message);
     }
   };
 
   const handleGoogleLoginSuccess = (response) => {
     console.log("Login Success:", response);
+    // Handle Google login success
   };
 
   const handleGoogleLoginFailure = (error) => {
@@ -55,25 +62,19 @@ const Signin = () => {
     <GoogleOAuthProvider clientId={clientId}>
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} sx={{ padding: 4, borderRadius: 3, mt: 8 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Typography component="h1" variant="h5">
               Sign In
             </Typography>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               Please login to continue to your account
             </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ mt: 1 }}
-            >
+            {errorMessage && (
+              <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                {errorMessage}
+              </Typography>
+            )}
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required

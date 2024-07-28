@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
 
 // Initial state
-const initialAuthState = {
-  isLoggedIn: false,
-  user: null,
+const initialState = {
+  token: localStorage.getItem("token") || null,
+  isLoggedIn: !!localStorage.getItem("token"),
+  error: null,
 };
 
 const initialWidgetState = {
@@ -11,18 +12,19 @@ const initialWidgetState = {
 };
 
 // Auth Reducer
-const authReducer = (state = initialAuthState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      console.log("inside authReducer");
       return {
         ...state,
+        token: action.payload,
         isLoggedIn: true,
         user: action.payload,
       };
     case "LOGOUT":
       return {
         ...state,
+        token: null,
         isLoggedIn: false,
         user: null,
       };

@@ -1,16 +1,20 @@
-
 const API_URL = "https://infytrade-pms.onrender.com/users";
 
 export const signIn = async (email, password) => {
   const requestBody = { email, password };
 
-  const response = await fetch(`${API_URL}/signin`, {
+  const response = await fetch(`${API_URL}/check`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(requestBody),
   });
+
+  if (!response.ok) {
+    throw new Error('Invalid credentials');
+  }
+
   const data = await response.json();
   return data;
 };

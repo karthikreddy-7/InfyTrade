@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, logout } from "../redux/action";
+import React from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ui_customization from "../assests/ui_customization.jpeg";
 import rtdata_analysis from "../assests/rtdata_analysis.jpeg";
 import mlmodels from "../assests/mlmodels.jpeg";
@@ -9,20 +10,20 @@ import dynamicDashboards from "../assests/dynamic_dashboards.jpeg";
 import traderRankings from "../assests/trader_rankings.jpeg";
 import communityMarketplace from "../assests/community_marketplace.jpeg";
 import invention from "../assests/invention.jpeg";
-import Footer from "./footer";
 
 const LandingPage = () => {
-  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const [subscriptionMessage, setSubscriptionMessage] = useState("");
 
-  const handleLoginStatusChange = () => {
-    const user = { name: "John Doe", email: "john.doe@example.com" };
+  const navigate = useNavigate();
+
+  const handleMarketplaceRedirect = () => {
     if (isLoggedIn) {
-      dispatch(logout());
+      navigate("/marketplace");
     } else {
-      dispatch(loginSuccess(user));
+      alert("Please log in first!");
+      navigate("/signin");
     }
   };
 
@@ -34,37 +35,24 @@ const LandingPage = () => {
   return (
     <>
       <div className="text-left p-4 m-2 max-w-screen mx-auto bg-gray-100 rounded-lg">
-        <div className="flex flex-row h-screen max-w-screen ">
+        <div className="flex flex-row h-screen max-w-screen">
           <div className="w-3/5 p-2 text-2xl m-4 mt-16">
-            <p className="text-blue-500 text-2xl font-bold mb-5">
-              Trade Smarter with InfyTrade
-            </p>
+            <p className="text-blue-500 text-2xl font-bold mb-5">Trade Smarter with InfyTrade</p>
             <h1 className="text-5xl font-bold mb-10 leading-tight">
-              Trade, Analyze, Succeed and{" "}
-              <span className="text-blue-500">Get Amazing Profit</span>
+              Trade, Analyze, Succeed and <span className="text-blue-500">Get Amazing Profit</span>
             </h1>
-            <p className=" text-base font-semibold text-gray-600 mb-10">
-              Revolutionize your trading experience with our cutting-edge tools,
-              real-time insights, and community-driven features.
+            <p className="text-base font-semibold text-gray-600 mb-10">
+              Revolutionize your trading experience with our cutting-edge tools, real-time insights, and community-driven features.
             </p>
             <div className="flex justify-start gap-5">
-              <button
-                className="btn btn-primary text-white "
-                onClick={handleLoginStatusChange}
-              >
-                {"Go to MarketPlace"}
+              <button className="btn btn-primary text-white" onClick={handleMarketplaceRedirect}>
+                Go to MarketPlace
               </button>
-              <button className="btn btn-ghost bg-gray-100">
-                See How it Works
-              </button>
+              <button className="btn btn-ghost bg-gray-100">See How it Works</button>
             </div>
           </div>
-          <div className="w-3/5  overflow-hidden bg-transparent">
-            <img
-              src={flexImage}
-              alt="FlexImage"
-              className="w-full object-cover object-center"
-            />
+          <div className="w-3/5 overflow-hidden bg-transparent">
+            <img src={flexImage} alt="FlexImage" className="w-full object-cover object-center" />
           </div>
         </div>
 
