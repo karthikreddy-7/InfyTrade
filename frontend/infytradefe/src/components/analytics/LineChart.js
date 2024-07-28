@@ -4,7 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, Title, Toolt
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend);
 
-const LineChart = ({ data }) => {
+const LineChart = ({ data, onAddToDashboard }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -58,6 +58,9 @@ const LineChart = ({ data }) => {
         ))}
       </div>
       <Line data={chartData} options={options} />
+      <div className='flex justify-center'>
+        <button className="mt-4 p-2 bg-primary text-white rounded" onClick={onAddToDashboard}>Add to Dashboard</button>
+      </div>
     </div>
   );
 };

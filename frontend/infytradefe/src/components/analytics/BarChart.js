@@ -4,7 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = ({ data }) => {
+const BarChart = ({ data, onAddToDashboard }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -59,8 +59,12 @@ const BarChart = ({ data }) => {
           </div>
         ))}
       </div>
-      <Bar data={chartData} options={options} />
+      <Bar data={chartData} options={options} /> 
+      <div className='flex justify-center'>
+        <button className="mt-4 p-2 bg-primary text-white rounded" onClick={onAddToDashboard}>Add to Dashboard</button>
+      </div>
     </div>
+    
   );
 };
 

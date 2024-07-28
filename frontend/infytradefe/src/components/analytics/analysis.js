@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import BarChart from './BarChart.js';
 import LineChart from './LineChart.js';
-import OHLCChart from './OHLCChart.js';
 import AreaChart from './AreaChart.js';
 import { mockData } from './mockdata.ts';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
@@ -18,8 +17,7 @@ const stockOptions = [
 const chartTypes = [
   {value: 'area', label: 'Area Chart'},
   { value: 'bar', label: 'Bar Chart' },
-  { value: 'line', label: 'Line Chart' },
-  { value: 'ohlc', label: 'OHLC Chart' }
+  { value: 'line', label: 'Line Chart' }
 ];
 
 const periods = [
@@ -68,17 +66,17 @@ const Analysis = () => {
   const renderChart = () => {
     const baseDataset = {
       label: stockOptions.find(stock => stock.value === selectedStock).label,
-      data: mockData[period].datasets[selectedStock].data,
+      data: mockData[period].stockData[selectedStock].data,
       backgroundColor: colors[0],
       borderColor: colors[0],
       borderWidth: 1,
-      opening: mockData[period].datasets[selectedStock].opening,
-      highest: mockData[period].datasets[selectedStock].highest,
-      lowest: mockData[period].datasets[selectedStock].lowest,
+      opening: mockData[period].stockData[selectedStock].opening,
+      highest: mockData[period].stockData[selectedStock].highest,
+      lowest: mockData[period].stockData[selectedStock].lowest,
     };
   
     const additionalDatasets = additionalStocks.map((stock, index) => {
-      const stockData = mockData[period].datasets[stock];
+      const stockData = mockData[period].stockData[stock];
       return {
         label: stockOptions.find(opt => opt.value === stock).label,
         data: stockData.data,
@@ -103,13 +101,10 @@ const Analysis = () => {
         return <BarChart data={data} />;
       case 'line':
         return <LineChart data={data} />;
-      case 'ohlc':
-        return <OHLCChart data={data} />;
       default:
         return null;
     }
   };
-  
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex">

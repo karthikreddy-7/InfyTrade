@@ -4,7 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const AreaChart = ({ data }) => {
+const AreaChart = ({ data, onAddToDashboard }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -61,6 +61,9 @@ const AreaChart = ({ data }) => {
         ))}
       </div>
       <Line data={chartData} options={options} />
+      <div className='flex justify-center'>
+        <button className="mt-4 p-2 bg-primary text-white rounded" onClick={onAddToDashboard}>Add to Dashboard</button>
+      </div>
     </div>
   );
 };
