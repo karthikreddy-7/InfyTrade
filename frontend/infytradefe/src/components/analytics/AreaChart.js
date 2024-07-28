@@ -1,10 +1,10 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const LineChart = ({ data }) => {
+const AreaChart = ({ data }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -40,6 +40,9 @@ const LineChart = ({ data }) => {
     labels: data.labels,
     datasets: data.datasets.map(dataset => ({
       ...dataset,
+      fill: true,
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
     })),
   };
 
@@ -62,4 +65,4 @@ const LineChart = ({ data }) => {
   );
 };
 
-export default LineChart;
+export default AreaChart;

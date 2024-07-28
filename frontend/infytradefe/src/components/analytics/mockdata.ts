@@ -5,32 +5,65 @@ export const mockData = {
       '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
     ],
     datasets: {
-      IBM: { data: generateData(150, 5) },
-      MSFT: { data: generateData(250, 10) },
-      TSLA: { data: generateData(600, 20) },
-      RACE: { data: generateData(400, 15) },
+      IBM: generateDataset(191, 25, 24),
+      MSFT: generateDataset(460, 30, 24),
+      TSLA: generateDataset(220, 20, 24),
+      RACE: generateDataset(400, 15, 24),
     },
   },
   weekly: {
     labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     datasets: {
-      IBM: { data: generateData(150, 5) },
-      MSFT: { data: generateData(250, 10) },
-      TSLA: { data: generateData(600, 20) },
-      RACE: { data: generateData(400, 15) },
+      IBM: generateDataset(191, 25, 7),
+      MSFT: generateDataset(460, 30, 7),
+      TSLA: generateDataset(220, 20, 7),
+      RACE: generateDataset(400, 15, 7),
     },
   },
   monthly: {
     labels: Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`),
     datasets: {
-      IBM: { data: generateData(150, 5) },
-      MSFT: { data: generateData(250, 10) },
-      TSLA: { data: generateData(600, 20) },
-      RACE: { data: generateData(400, 15) },
+      IBM: generateDataset(191, 25, 30),
+      MSFT: generateDataset(460, 30, 30),
+      TSLA: generateDataset(220, 20, 30),
+      RACE: generateDataset(400, 15, 30),
     },
   },
+  yearly: {
+    labels: Array.from({ length: 365 }, (_, i) => `Day ${i + 1}`),
+    datasets: {
+      IBM: generateDataset(191, 25, 365),
+      MSFT: generateDataset(460, 30, 365),
+      TSLA: generateDataset(220, 20, 365),
+      RACE: generateDataset(400, 15, 365),
+    },
+  }
 };
 
-function generateData(base: number, variance: number): number[] {
-  return Array.from({ length: 30 }, () => base + Math.floor(Math.random() * variance * 2) - variance);
+function generateDataset(base: number, variance: number, points: number) {
+  const data = generateSmoothData(base, variance, points);
+  const opening = data[0];
+  const highest = Math.max(...data);
+  const lowest = Math.min(...data);
+
+  return {
+    data,
+    opening,
+    highest,
+    lowest
+  };
+}
+
+function generateSmoothData(base: number, variance: number, points: number) {
+  let data = [];
+  let currentValue = base;
+  const minValue = base * 0.2;
+
+  for (let i = 0; i < points; i++) {
+    let change = Math.random() * variance - (variance / 2);
+    currentValue = Math.max(currentValue + change, minValue);
+    data.push(currentValue);
+  }
+
+  return data;
 }

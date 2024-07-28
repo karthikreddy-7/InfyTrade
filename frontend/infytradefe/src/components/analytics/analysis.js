@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import BarChart from "./BarChart.js";
-import PieChart from "./PieChart.js";
-import LineChart from "./LineChart.js";
-import OHLCChart from "./OHLCChart.js";
-import { mockData } from "./mockdata.ts";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend } from "chart.js";
+import React, { useState } from 'react';
+import BarChart from './BarChart.js';
+import LineChart from './LineChart.js';
+import OHLCChart from './OHLCChart.js';
+import AreaChart from './AreaChart.js';
+import { mockData } from './mockdata.ts';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend);
 
@@ -16,20 +16,25 @@ const stockOptions = [
 ];
 
 const chartTypes = [
+  {value: 'area', label: 'Area Chart'},
   { value: 'bar', label: 'Bar Chart' },
   { value: 'line', label: 'Line Chart' },
-  { value: 'ohlc', label: 'OHLC Chart' }, 
+  { value: 'ohlc', label: 'OHLC Chart' }
 ];
 
 const periods = [
-  { value: 'daily', label: 'Daily' },
-  { value: 'weekly', label: 'Weekly' },
-  { value: 'monthly', label: 'Monthly' },
+  { value: 'daily', label: '1D' },
+  { value: 'weekly', label: '1W' },
+  { value: 'monthly', label: '1M' },
+  { value: 'yearly', label: '1Y' }
 ];
 
 const colors = [
-  '#FF5733', '#33FF57', '#3357FF', '#FF33A6',
-  '#FF8C00', '#00FF8C', '#8C00FF', '#FF1493', '#00CED1'
+  'rgba(255, 99, 132, 0.6)',
+  'rgba(54, 162, 235, 0.6)',
+  'rgba(75, 192, 192, 0.6)',
+  'rgba(153, 102, 255, 0.6)',
+  'rgba(255, 159, 64, 0.6)',
 ];
 
 const Analysis = () => {
@@ -38,14 +43,20 @@ const Analysis = () => {
   const [period, setPeriod] = useState(periods[0].value);
   const [additionalStocks, setAdditionalStocks] = useState([]);
 
-  const handleStockChange = (event) => setSelectedStock(event.target.value);
+  const handleStockChange = (event) => {
+    setSelectedStock(event.target.value);
+  };
 
   const handleChartTypeChange = (event) => {
     setChartType(event.target.value);
-    if (event.target.value !== 'line') setAdditionalStocks([]);
+    if (event.target.value !== 'line') {
+      setAdditionalStocks([]);
+    }
   };
 
-  const handlePeriodChange = (event) => setPeriod(event.target.value);
+  const handlePeriodChange = (event) => {
+    setPeriod(event.target.value);
+  };
 
   const handleAdditionalStockChange = (event) => {
     const value = event.target.value;
@@ -55,32 +66,41 @@ const Analysis = () => {
   };
 
   const renderChart = () => {
-    const selectedStockData = mockData[period].datasets[selectedStock].data;
+    const baseDataset = {
+      label: stockOptions.find(stock => stock.value === selectedStock).label,
+      data: mockData[period].datasets[selectedStock].data,
+      backgroundColor: colors[0],
+      borderColor: colors[0],
+      borderWidth: 1,
+      opening: mockData[period].datasets[selectedStock].opening,
+      highest: mockData[period].datasets[selectedStock].highest,
+      lowest: mockData[period].datasets[selectedStock].lowest,
+    };
+  
+    const additionalDatasets = additionalStocks.map((stock, index) => {
+      const stockData = mockData[period].datasets[stock];
+      return {
+        label: stockOptions.find(opt => opt.value === stock).label,
+        data: stockData.data,
+        backgroundColor: colors[index + 1] || getRandomColor(),
+        borderColor: colors[index + 1] || getRandomColor(),
+        borderWidth: 1,
+        opening: stockData.opening,
+        highest: stockData.highest,
+        lowest: stockData.lowest,
+      };
+    });
+  
     const data = {
       labels: mockData[period].labels,
-      datasets: [
-        {
-          label: stockOptions.find(stock => stock.value === selectedStock).label,
-          data: selectedStockData,
-          backgroundColor: chartType === 'bar' ? 'rgba(54, 162, 235, 0.6)' : colors[0],
-          borderColor: chartType === 'bar' ? 'rgba(54, 162, 235, 1)' : colors[0],
-          borderWidth: 1,
-        },
-        ...additionalStocks.map((stock, index) => ({
-          label: stockOptions.find(opt => opt.value === stock).label,
-          data: mockData[period].datasets[stock].data,
-          backgroundColor: chartType === 'bar' ? 'rgba(54, 162, 235, 0.6)' : colors[(index + 1) % colors.length],
-          borderColor: chartType === 'bar' ? 'rgba(54, 162, 235, 1)' : colors[(index + 1) % colors.length],
-          borderWidth: 1,
-        })),
-      ],
+      datasets: [baseDataset, ...additionalDatasets],
     };
-
+  
     switch (chartType) {
+      case 'area':
+        return <AreaChart data={data} />;
       case 'bar':
         return <BarChart data={data} />;
-      case 'pie':
-        return <PieChart data={data} />;
       case 'line':
         return <LineChart data={data} />;
       case 'ohlc':
@@ -89,6 +109,7 @@ const Analysis = () => {
         return null;
     }
   };
+  
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex">
@@ -117,17 +138,18 @@ const Analysis = () => {
               </option>
             ))}
           </select>
-          <select
-            value={period}
-            onChange={handlePeriodChange}
-            className="p-2 border rounded bg-primary text-white"
-          >
+          <div className="flex gap-2 mb-6">
             {periods.map((option) => (
-              <option className="text-primary bg-white" key={option.value} value={option.value}>
+              <button
+                key={option.value}
+                value={option.value}
+                onClick={handlePeriodChange}
+                className={`p-2 border rounded ${period === option.value ? 'bg-primary text-white' : 'bg-white text-primary'}`}
+              >
                 {option.label}
-              </option>
+              </button>
             ))}
-          </select>
+          </div>
           {chartType === 'line' && (
             <div className="flex flex-col items-start">
               {stockOptions.filter(stock => stock.value !== selectedStock).map((option) => (
@@ -146,11 +168,20 @@ const Analysis = () => {
           )}
         </div>
       </div>
-      <div className="w-3/4 bg-white p-4 rounded shadow-md">
+      <div className="w-3/4 h-full rounded shadow-xl shadow-blue-200">
         {renderChart()}
       </div>
     </div>
   );
+};
+
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 };
 
 export default Analysis;
