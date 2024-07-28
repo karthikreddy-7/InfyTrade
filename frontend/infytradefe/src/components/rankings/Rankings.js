@@ -32,7 +32,9 @@ const Rankings = () => {
         <tbody>
           {rankingsData.map((user, index) => (
             <tr key={index} style={styles.tableRow}>
-              <td style={styles.tableData}>{user.rank}</td>
+              <td style={styles.tableData}>
+                <span style={styles.rankIcon}>🏆</span> {user.rank}
+              </td>
               <td style={styles.tableData}>{user.name}</td>
               <td style={styles.tableData}>{user.portfolioValue}</td>
             </tr>
@@ -42,7 +44,10 @@ const Rankings = () => {
       {/* Pagination Component */}
       <div style={styles.pagination}>
         <button
-          style={styles.paginationButton}
+          style={{
+            ...styles.paginationButton,
+            ...styles.paginationButtonDisabled(currentPage === 1),
+          }}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -60,47 +65,65 @@ const Rankings = () => {
   );
 };
 
-// Inline styles
+// Enhanced inline styles with original color scheme
 const styles = {
   container: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f8f9fa",
     padding: "30px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    maxWidth: "1000px",
-    margin: "0 auto",
-    fontFamily: "Arial, sans-serif"
+    borderRadius: "10px",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+    margin: "20px auto",
+    fontFamily: "'Arial', sans-serif",
+    textAlign: "center",
+    width: "95%",
+    maxWidth: "1200px",
   },
   header: {
     color: "#3498db",
-    textAlign: "center",
-    marginBottom: "30px",
-    fontSize: "2em"
+    marginBottom: "20px",
+    fontSize: "2em",
+    fontWeight: "bold",
   },
   table: {
     width: "100%",
-    borderCollapse: "collapse"
+    borderCollapse: "collapse",
+    marginBottom: "20px",
+    borderRadius: "10px",
+    overflow: "hidden",  // For rounded corners
   },
   tableHeader: {
     backgroundColor: "#3498db",
     color: "#ffffff",
     padding: "15px",
     borderBottom: "2px solid #ddd",
-    textAlign: "center",
-    fontSize: "1.2em"
+    fontSize: "1.1em",
+    textTransform: "uppercase",
   },
   tableRow: {
-    borderBottom: "1px solid #ddd"
+    backgroundColor: "#ffffff",
+    borderBottom: "1px solid #dddddd",
+    transition: "background-color 0.2s",
+    cursor: "pointer",
+  },
+  tableRowHover: {
+    backgroundColor: "#f1f1f1",
   },
   tableData: {
     padding: "15px",
-    textAlign: "center"
+    textAlign: "center",
+    color: "#333",
+    fontSize: "1em",
+    fontWeight: "normal",
+  },
+  rankIcon: {
+    marginRight: "10px",
+    color: "#3498db",
   },
   pagination: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "20px"
+    margin: "20px 0",
   },
   paginationButton: {
     backgroundColor: "#ffffff",
@@ -109,14 +132,21 @@ const styles = {
     padding: "10px 20px",
     margin: "0 5px",
     cursor: "pointer",
-    borderRadius: "4px",
+    borderRadius: "5px",
     fontSize: "1em",
-    fontFamily: "Arial, sans-serif"
+    transition: "background-color 0.2s, color 0.2s",
+    fontWeight: "bold",
   },
+  paginationButtonDisabled: (disabled) => ({
+    color: disabled ? "#ccc" : "#3498db",
+    borderColor: disabled ? "#ccc" : "#3498db",
+    cursor: disabled ? "not-allowed" : "pointer",
+  }),
   pageNumber: {
     margin: "0 10px",
-    fontSize: "1.2em"
-  }
+    fontSize: "1.2em",
+    color: "#3498db",
+  },
 };
 
 export default Rankings;
