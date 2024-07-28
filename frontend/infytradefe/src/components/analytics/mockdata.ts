@@ -1,91 +1,63 @@
-// mockdata.ts
+type StockData = {
+  data: number[];
+  opening: number;
+  highest: number;
+  lowest: number;
+};
 
-export const mockData = {
-    IBM: {
-      labels: [
-        '2024-07-01', 
-        '2024-07-02', 
-        '2024-07-03', 
-        '2024-07-04', 
-        '2024-07-05',
-        '2024-07-07',
-        '2024-07-08',
-        '2024-07-09',
-        '2024-07-10'
-      ],
-      datasets: [
-        {
-          label: 'IBM',
-          data: [120, 115, 125, 130, 128, 133, 170, 181, 175, 176],
-          borderWidth: 1,
-        },
-      ],
-    },
-    MSFT: {
-      labels: [
-        '2024-07-01', 
-        '2024-07-02', 
-        '2024-07-03', 
-        '2024-07-04', 
-        '2024-07-05',
-        '2024-07-07',
-        '2024-07-08',
-        '2024-07-09',
-        '2024-07-10'
-      ],
-      datasets: [
-        {
-          label: 'Microsoft',
-          data: [1400, 1420, 1415, 1430, 1440, 1450, 1500, 1550, 1530, 1540],
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1,
-        },
-      ],
-    },
-    TSLA: {
-      labels: [
-        '2024-07-01', 
-        '2024-07-02', 
-        '2024-07-03', 
-        '2024-07-04', 
-        '2024-07-05',
-        '2024-07-07',
-        '2024-07-08',
-        '2024-07-09',
-        '2024-07-10'
-      ],
-      datasets: [
-        {
-          label: 'Tesla',
-          data: [3200, 3210, 3190, 3220, 3230, 3240, 3300, 3350, 3320, 3330],
-          backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)',
-          borderWidth: 1,
-        },
-      ],
-    },
-    RACE: {
-        labels: [
-          '2024-07-01', 
-          '2024-07-02', 
-          '2024-07-03', 
-          '2024-07-04', 
-          '2024-07-05',
-          '2024-07-07',
-          '2024-07-08',
-          '2024-07-09',
-          '2024-07-10'
-        ],
-        datasets: [
-          {
-            label: 'Ferrari N.V.',
-            data: [215, 220, 230, 240, 235, 250, 255, 260, 245, 250],
-            backgroundColor: 'rgba(37,99,235,255,0.5)',
-            borderColor: 'rgba(37,99,235,255,1)',
-            borderWidth: 1,
-          },
-        ],
-      },
+type PeriodData = {
+  labels: string[];
+  stockData: {
+    IBM: StockData;
+    MSFT: StockData;
+    TSLA: StockData;
+    RACE: StockData;
   };
-  
+};
+
+export const mockData: {
+  daily: PeriodData;
+  weekly: PeriodData;
+  monthly: PeriodData;
+  yearly: PeriodData;
+} = {
+  daily: generateMockPeriodData(24, ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']),
+  weekly: generateMockPeriodData(7, ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
+  monthly: generateMockPeriodData(30, Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`)),
+  yearly: generateMockPeriodData(365, Array.from({ length: 365 }, (_, i) => `Day ${i + 1}`)),
+};
+
+function generateMockPeriodData(points: number, labels: string[]): PeriodData {
+  return {
+    labels,
+    stockData: {
+      IBM: generateStockData(191, 30, points),
+      MSFT: generateStockData(460, 20, points),
+      TSLA: generateStockData(220, 15, points),
+      RACE: generateStockData(400, 25, points),
+    }
+  };
+}
+
+function generateStockData(base: number, variance: number, points: number): StockData {
+  let data: number[] = [];
+  let currentValue = base;
+  let highest = base;
+  let lowest = base;
+  const minValue = base * 0.2;
+
+  for (let i = 0; i < points; i++) {
+    let change = Math.random() * variance - (variance / 2);
+    currentValue = Math.max(currentValue + change, minValue);
+    data.push(currentValue);
+    if (currentValue > highest) highest = currentValue;
+    if (currentValue < lowest) lowest = currentValue;
+  }
+
+  return {
+    data,
+    opening: data[0],
+    highest,
+    lowest
+  };
+}

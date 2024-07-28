@@ -1,10 +1,10 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const BarChart = ({ data, onAddToDashboard }) => {
+const AreaChart = ({ data, onAddToDashboard }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -40,7 +40,8 @@ const BarChart = ({ data, onAddToDashboard }) => {
     labels: data.labels,
     datasets: data.datasets.map(dataset => ({
       ...dataset,
-      backgroundColor: 'rgba(54, 162, 235, 0.6)',
+      fill: true,
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
       borderColor: 'rgba(54, 162, 235, 1)',
     })),
   };
@@ -59,13 +60,12 @@ const BarChart = ({ data, onAddToDashboard }) => {
           </div>
         ))}
       </div>
-      <Bar data={chartData} options={options} /> 
+      <Line data={chartData} options={options} />
       <div className='flex justify-center'>
         <button className="mt-4 p-2 bg-primary text-white rounded" onClick={onAddToDashboard}>Add to Dashboard</button>
       </div>
     </div>
-    
   );
 };
 
-export default BarChart;
+export default AreaChart;
