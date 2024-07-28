@@ -6,7 +6,7 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Marketplace from "./components/marketplace/Marketplace";
@@ -21,6 +21,7 @@ import AutomatedTradingSystem from "./components/ATS/automatedTradingSystem";
 import Rankings from "./components/rankings/Rankings";
 import Community from "./components/community/Community";
 import AccountSettings from "./components/accountSettings";
+import { loginSuccess } from "./redux/action";
 
 const Layout = ({ children }) => (
   <div className="flex h-screen bg-gray-100">
@@ -33,7 +34,7 @@ const Layout = ({ children }) => (
 
 const ProtectedRoute = ({ element }) => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  return isLoggedIn ? element : <Navigate to="/" />;
+  return isLoggedIn ? element : <Navigate to="/signin" />;
 };
 
 const AppRoutes = () => {
@@ -181,6 +182,16 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("sessionToken");
+    if (token) {
+      // Optionally validate the token with the backend and fetch user details
+      dispatch(loginSuccess({ /* user details */ }));
+    }
+  }, [dispatch]);
+
   return (
     <Router>
       <AppRoutes />

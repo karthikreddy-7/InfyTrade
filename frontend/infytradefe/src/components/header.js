@@ -1,22 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, logout } from "../redux/action";
-import { Link } from "react-router-dom";
+import { logout } from "../redux/action";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assests/logo.png";
 
 const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
 
-  const navigation = ["MarketPlace", "About Us", "Help"];
-
-  const handleLoginStatusChange = () => {
-    const user = { name: "John Doe", email: "john.doe@example.com" };
-    if (isLoggedIn) {
-      dispatch(logout());
-    } else {
-      dispatch(loginSuccess(user));
-    }
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("token");
+    navigate("/signin"); // Redirect to sign-in page after logout
   };
 
   return (
@@ -29,30 +25,19 @@ const Header = () => {
           </div>
         </div>
         <div className="flex m-1">
-          <Link
-            to="/"
-            className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full"
-          >
-            Home
-          </Link>
-          <Link
-            to="/marketplace"
-            className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full"
-          >
-            Market Place
-          </Link>
-          <Link
-            to="/signup"
-            className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full"
-          >
-            Sign Up
-          </Link>
-          <Link
-            to="/signin"
-            className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full"
-          >
-            Login
-          </Link>
+          <Link to="/" className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full">Home</Link>
+          <Link to="/signin" className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full">Market Place</Link>
+          {isLoggedIn ? (
+            <>
+              <Link to="/marketplace" className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full">Market Place</Link>
+              <button onClick={handleLogout} className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/signup" className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full">Sign Up</Link>
+              <Link to="/signin" className="btn btn-ghost m-1 font-bold text-blue-600 rounded-full">Login</Link>
+            </>
+          )}
         </div>
       </div>
     </>
