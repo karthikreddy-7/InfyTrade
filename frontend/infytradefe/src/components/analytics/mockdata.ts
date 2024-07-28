@@ -1,4 +1,3 @@
-// mockdata.ts
 export const mockData = {
   daily: {
     labels: [

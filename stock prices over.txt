@@ -1,0 +1,22 @@
+stock prices over:
+a day
+a week
+a month
+a year
+
+types of charts:
+1. Bar chart
+2. Line chart
+2. Pie chart
+
+stock A vs stock B vs stock C vs stock D 
+
+personal access token for krushi.panchal@spit.ac.in: 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
+
+color blue code: #3498db, rgba(52,152,219,255)
+
+// multiple drop down
+  // 1. selectn only one chart
+  // 2. select the type of chart.
+  // 3. if chartSelected == line chart || etc give option to add one more stock into analysis
+  // 4. after displaying the chart give options for hourly, weekly, monthly, yearly.
