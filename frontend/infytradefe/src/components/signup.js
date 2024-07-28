@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { signUp } from "../api/auth";
 import {
   Box,
   Button,
@@ -35,25 +36,12 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const requestBody = { name, email, password };
-
+    
     try {
-      const response = await fetch(" api place here ", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
+      const data = await signUp(name, email, password);
       console.log("Success:", data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:", error.message);
     }
   };
 
