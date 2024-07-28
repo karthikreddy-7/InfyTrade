@@ -20,7 +20,7 @@ import Analysis from "./components/analytics/analysis";
 import AutomatedTradingSystem from "./components/ATS/automatedTradingSystem";
 import Rankings from "./components/rankings/Rankings";
 import Community from "./components/community/Community";
-import AccountSettings from "./components/accountSettings";
+import AccountSettings from "./components/AccountSettings/accountSettings";
 
 const Layout = ({ children }) => (
   <div className="flex h-screen bg-gray-100">
