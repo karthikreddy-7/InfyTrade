@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<Users> {
-    const Users = await this.userRepository.findOne({ where: { id } });
+    const Users = await this.userRepository.findOne({ where: { id } , relations: ['portfolios', 'holdings'] });
     if (!Users) {
       throw new NotFoundException(`Users with ID ${id} not found`);
     }
@@ -46,7 +46,7 @@ export class UsersService {
   }
 
   async checkUser(email: string, password: string): Promise<Users> {
-    const user = await this.userRepository.findOne({ where: { email, password } });
+    const user = await this.userRepository.findOne({ where: { email,password }, relations: ['portfolios', 'holdings'] });
     return user;
   }
 }

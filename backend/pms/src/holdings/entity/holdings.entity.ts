@@ -1,14 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { BaseCustomEntity } from '../../utilities/baseEntity';
 import { Users } from '../../Users/entity/users.entity';
+import { BaseCustomEntity } from '../../utilities/baseEntity';
 
-export enum TransactionType {
-  BUY = 'BUY',
-  SELL = 'SELL',
-}
-
-@Entity('portfolios')
-export class Portfolio extends BaseCustomEntity {
+@Entity('holdings')
+export class holding extends BaseCustomEntity {
   @ManyToOne(() => Users, (user) => user.holdings)
   @JoinColumn({ name: 'userId' })
   user: Users;
@@ -19,18 +14,9 @@ export class Portfolio extends BaseCustomEntity {
   @Column()
   stock: string;
 
-  @Column({
-    type: 'enum',
-    enum: TransactionType,
-  })
-  type: TransactionType;
-
   @Column('decimal', { precision: 10, scale: 2 })
   quantity: number;
 
   @Column('decimal', { precision: 10, scale: 2 })
-  price: number;
-
-  @Column('timestamp')
-  transactionDate: Date;
+  averagePrice: number;
 }

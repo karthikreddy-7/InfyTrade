@@ -33,7 +33,7 @@ export class PortfoliosController {
   @ApiResponse({ status: 200, description: 'Returns the portfolios by ID.', type: ResponsePortfoliosDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
-    return this.portfoliosService.findOne(+id);
+    return this.portfoliosService.findOne(id);
   }
 
   @Patch(':id')
@@ -43,7 +43,7 @@ export class PortfoliosController {
   @ApiResponse({ status: 200, description: 'The portfolios has been successfully updated.', type: ResponsePortfoliosDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   update(@Param('id') id: string, @Body() updatePortfoliosDto: UpdatePortfoliosDto) {
-    return this.portfoliosService.update(+id, updatePortfoliosDto);
+    return this.portfoliosService.update(id, updatePortfoliosDto);
   }
 
   @Delete(':id')
@@ -52,6 +52,6 @@ export class PortfoliosController {
   @ApiResponse({ status: 200, description: 'The portfolios has been successfully deleted.' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
-    return this.portfoliosService.remove(+id);
+    return this.portfoliosService.remove(id);
   }
 }

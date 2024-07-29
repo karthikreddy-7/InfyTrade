@@ -1,3 +1,4 @@
+import { holdingsModule } from './holdings/holdings.module';
 import { ThreadsModule } from './threads/threads.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,9 +19,9 @@ import { Users } from './Users/entity/users.entity';
 
 @Module({
   imports: [
-      ConfigModule.forRoot(),
-      TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+  ConfigModule.forRoot(),
+  TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
@@ -44,6 +45,7 @@ import { Users } from './Users/entity/users.entity';
     CommunityModule,
     RankingsModule,
     ThreadsModule,
+    holdingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
