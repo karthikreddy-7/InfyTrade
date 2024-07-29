@@ -1,3 +1,4 @@
+import { ThreadsModule } from './threads/threads.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -11,11 +12,14 @@ import { WidgetsModule } from './Widgets/widgets.module';
 import { DashboardsModule } from './Dashboards/dashboards.module';
 import { UsersModule } from './Users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CommunityPost } from './Community/entity/community.entity';
+import { Threads } from './Threads/entity/threads.entity';
+import { Users } from './Users/entity/users.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRootAsync({
+      ConfigModule.forRoot(),
+      TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
@@ -27,6 +31,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         database: configService.get<string>('DB_NAME') || 'postgres',
         ssl: configService.get<string>('DB_SSL_MODE') === 'require' || false,
         autoLoadEntities: true,
+        entities: [CommunityPost, Threads, Users],
         synchronize: true,
       }),
     }),
@@ -38,6 +43,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     PortfoliosModule,
     CommunityModule,
     RankingsModule,
+    ThreadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

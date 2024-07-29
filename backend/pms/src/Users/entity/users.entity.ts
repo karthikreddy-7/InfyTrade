@@ -4,6 +4,7 @@ import { Dashboard } from 'src/Dashboards/entity/dashboards.entity';
 import { CommunityPost } from 'src/Community/entity/community.entity';
 import { Portfolio } from 'src/Portfolios/entity/portfolios.entity';
 import { Ranking } from 'src/Rankings/entity/rankings.entity';
+import { Threads } from 'src/Threads/entity/threads.entity';
 
 export enum Visibility {
   PUBLIC = 'public',
@@ -35,4 +36,7 @@ export class Users extends BaseCustomEntity {
 
   @OneToMany(() => Ranking, (ranking) => ranking.user)
   rankings: Ranking[];
+
+  @OneToMany(() => Threads, (thread) => thread.user)
+  comments: Threads[];
 }
