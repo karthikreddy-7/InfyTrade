@@ -1,7 +1,5 @@
 // AccountSettings.js
 import React, { useState } from "react";
-import profilePic from "./profilepic.png"; // Adjust the path as necessary
-
 function AccountSettings() {
   const [isPublic, setIsPublic] = useState(true);
 
