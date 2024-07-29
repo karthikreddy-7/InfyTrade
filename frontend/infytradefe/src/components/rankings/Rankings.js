@@ -1,8 +1,38 @@
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import React, { useState } from "react";
-import { NameInitialsAvatar } from "react-name-initials-avatar";
 
 const Rankings = () => {
   const [currentPage, setCurrentPage] = useState(1);
+
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
+  }
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
 
   // mock data
   const rows = [
@@ -12,7 +42,7 @@ const Rankings = () => {
       country: "United States",
       company: "Zemlak, Daniel and Leannon",
       jobTitle: "Desktop Support Technician",
-      color: "Purple",
+      TradeAmount: "15,000$",
     },
     {
       rank: 2,
@@ -20,7 +50,7 @@ const Rankings = () => {
       country: "China",
       company: "Carroll Group",
       jobTitle: "Tax Accountant",
-      color: "Red",
+      TradeAmount: "15,000$",
     },
     {
       rank: 3,
@@ -28,7 +58,7 @@ const Rankings = () => {
       country: "Russia",
       company: "Rowe-Schoen",
       jobTitle: "Office Assistant I",
-      color: "Crimson",
+      TradeAmount: "15,000$",
     },
     {
       rank: 4,
@@ -36,7 +66,7 @@ const Rankings = () => {
       country: "Brazil",
       company: "Wyman-Ledner",
       jobTitle: "Community Outreach Specialist",
-      color: "Indigo",
+      TradeAmount: "15,000$",
     },
   ];
 
@@ -54,7 +84,7 @@ const Rankings = () => {
             <th>Rankings</th>
             <th>Name</th>
             <th>Job</th>
-            <th>Favorite Color</th>
+            <th>TradeAmount</th>
             <th></th>
           </tr>
         </thead>
@@ -65,7 +95,9 @@ const Rankings = () => {
               <td>
                 <div className="flex items-center gap-3">
                   <div className="avatar">
-                    <NameInitialsAvatar name={row.name} />
+                    <Stack direction="row" spacing={2}>
+                      <Avatar {...stringAvatar(row.name)} />
+                    </Stack>
                   </div>
                   <div>
                     <div className="font-bold">{row.name}</div>
@@ -76,11 +108,11 @@ const Rankings = () => {
               <td>
                 {row.company}
                 <br />
-                <span className="badge badge-ghost badge-sm">
+                <span className="badge badge-ghost badge-md">
                   {row.jobTitle}
                 </span>
               </td>
-              <td>{row.color}</td>
+              <td>{row.TradeAmount}</td>
               <th>
                 <button className="btn btn-ghost btn-sm">details</button>
               </th>
