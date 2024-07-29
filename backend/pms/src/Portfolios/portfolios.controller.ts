@@ -28,9 +28,9 @@ export class PortfoliosController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a portfolios by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the portfolios' })
-  @ApiResponse({ status: 200, description: 'Returns the portfolios by ID.', type: ResponsePortfoliosDto })
+  @ApiOperation({ summary: 'Get a portfolios by UserID' })
+  @ApiParam({ name: 'id', description: 'UserID of the portfolios' })
+  @ApiResponse({ status: 200, description: 'Returns the portfolios by UserID.', type: ResponsePortfoliosDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
     return this.portfoliosService.findOne(id);

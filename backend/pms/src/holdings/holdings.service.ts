@@ -88,8 +88,8 @@ export class holdingsService {
     return this.holdingRepository.find();
   }
 
-  async findOne(id: string): Promise<holding> {
-    const holding = await this.holdingRepository.findOne({ where: { id } });
+  async findOne(id: string): Promise<holding[]> {
+    const holding = await this.holdingRepository.find({ where: {userId: id } });
     if (!holding) {
       throw new NotFoundException(`Holding with ID ${id} not found`);
     }
