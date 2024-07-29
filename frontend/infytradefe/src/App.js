@@ -23,6 +23,7 @@ import Community from "./components/community/Community";
 import { loginSuccess } from "./redux/action";
 import AccountSettings from "./components/AccountSettings/accountSettings";
 import { NextUIProvider, ScrollShadow } from "@nextui-org/react";
+import Walletmoney from "./components/walletmoney";
 
 const Layout = ({ children }) => (
   <div className="flex h-screen bg-gray-100">
@@ -171,6 +172,18 @@ const AppRoutes = () => {
             element={
               <Layout>
                 <AccountSettings />
+              </Layout>
+            }
+          />
+        }
+      />
+      <Route
+        path="/wallet"
+        element={
+          <ProtectedRoute
+            element={
+              <Layout>
+                <Walletmoney />
               </Layout>
             }
           />
