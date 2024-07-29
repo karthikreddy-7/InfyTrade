@@ -40,7 +40,7 @@ const Signin = () => {
     event.preventDefault();
     try {
       const data = await signIn(email, password);
-      localStorage.setItem("sessionToken", data.token); // Store session token
+      localStorage.setItem("sessionToken", data.token);
       dispatch(loginSuccess(data.user));
       navigate("/marketplace");
     } catch (error) {
@@ -59,89 +59,92 @@ const Signin = () => {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <Container component="main" maxWidth="xs">
-        <Paper elevation={3} sx={{ padding: 4, borderRadius: 3, mt: 8 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography component="h1" variant="h5">
-              Sign In
-            </Typography>
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+      <div className="flex justify-center items-center mt-4 h-[80vh] bg-gray-50">
+        <div className=" shadow-md rounded-lg p-6 max-w-xs w-full bg-gray-50">
+          <div className="flex flex-col items-center">
+            <h1 className="text-xl font-bold">Sign In</h1>
+            <p className="text-sm text-gray-600 mt-2">
               Please login to continue to your account
-            </Typography>
+            </p>
             {errorMessage && (
-              <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-                {errorMessage}
-              </Typography>
+              <p className="text-sm text-red-500 mt-2">{errorMessage}</p>
             )}
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={handleEmailChange}
-                InputProps={{ style: { borderRadius: 15 } }}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={handlePasswordChange}
-                InputProps={{ style: { borderRadius: 15 } }}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Keep me logged in"
-              />
-              <Button
+            <form className="w-full mt-4" onSubmit={handleSubmit} noValidate>
+              <div className="mb-4">
+                <label htmlFor="email" className="sr-only">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  required
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="appearance-none rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Email Address"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="appearance-none rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Password"
+                />
+              </div>
+              <div className="mb-4 flex items-center">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  name="remember"
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor="remember"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  Keep me logged in
+                </label>
+              </div>
+              <button
                 type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, bgcolor: "primary.dark", borderRadius: 2 }}
+                className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 Sign In
-              </Button>
-              <Divider sx={{ my: 2 }}>or</Divider>
-              <Box sx={{ mb: 2 }}>
+              </button>
+              <div className="flex items-center justify-center mt-4">
+                <span className="text-gray-500 mx-2">or</span>
+              </div>
+              <div className="flex justify-center mt-2">
                 <GoogleLogin
                   onSuccess={handleGoogleLoginSuccess}
                   onFailure={handleGoogleLoginFailure}
                   buttonText="Sign in with Google"
                 />
-              </Box>
-              <Grid container>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Paper>
-      </Container>
+              </div>
+              <div className="flex justify-center mt-4">
+                <a
+                  href="/signup"
+                  className="text-sm text-indigo-600 hover:underline"
+                >
+                  Don't have an account? Sign up
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </GoogleOAuthProvider>
   );
 };
