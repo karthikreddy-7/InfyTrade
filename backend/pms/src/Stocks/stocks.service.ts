@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStocksDto } from './dto/stocks.create.dto';
 import { UpdateStocksDto } from './dto/stocks.update.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -31,5 +31,14 @@ export class StocksService {
 
   async remove(id: string): Promise<void> {
     await this.stockRepository.delete(id);
+  }
+
+  async searchByName(name: string) {
+    const stock = await this.stockRepository.find({ where: { name : name } });
+    console.log(stock);
+    if (!stock) {
+      throw new NotFoundException(`Stock with name ${name} not found`);
+    }
+    return stock;
   }
 }
