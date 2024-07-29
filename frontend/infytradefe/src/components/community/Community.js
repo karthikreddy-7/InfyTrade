@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { FaTrash, FaComment, FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import new_trader from "C:/InfyTrade/frontend/infytradefe/src/assests/new_trader.webp";
+import market_trend from "C:/InfyTrade/frontend/infytradefe/src/assests/market_trend.png"
+import sectors from "C:/InfyTrade/frontend/infytradefe/src/assests/sectors.webp"
+import tech_analysis from "C:/InfyTrade/frontend/infytradefe/src/assests/tech_analysis.jpg"
+import webinar from "C:/InfyTrade/frontend/infytradefe/src/assests/webinar.jpeg"
 
 const Community = () => {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
@@ -88,7 +93,7 @@ const Community = () => {
       <header className="flex items-center justify-between mb-4">
         <input
           type="text"
-          placeholder="Search for similar issues"
+          placeholder="Search for communities or questions"
           className="p-2 border rounded w-1/2"
         />
         <button
@@ -98,7 +103,47 @@ const Community = () => {
           New Post
         </button>
       </header>
-      
+
+      <div className="community">
+      <div className="flex">
+        <div className="relative w-40 h-24 m-2 cursor-pointer transition duration-300 hover:shadow-xl hover:-translate-y-1">
+          <img src={new_trader} className="w-full h-full object-cover rounded" />
+          <div className="absolute inset-0 bg-black opacity-40 rounded"></div>
+          <div className="absolute bottom-2 left-2 text-white text-sm font-semibold">
+            New Traders Forum
+          </div>
+        </div>
+        <div className="relative w-40 h-24 m-2 cursor-pointer transition duration-300 hover:shadow-xl hover:-translate-y-1">
+          <img src={market_trend} className="w-full h-full object-cover rounded" />
+          <div className="absolute inset-0 bg-black opacity-40 rounded"></div>
+          <div className="absolute bottom-2 left-2 text-white text-sm font-semibold">
+            Current Market Trends
+          </div>
+        </div>
+        <div className="relative w-40 h-24 m-2 cursor-pointer transition duration-300 hover:shadow-xl hover:-translate-y-1">
+          <img src={sectors} className="w-full h-full object-cover rounded" />
+          <div className="absolute inset-0 bg-black opacity-40 rounded"></div>
+          <div className="absolute bottom-2 left-2 text-white text-sm font-semibold">
+            Market Sectors
+          </div>
+        </div>
+        <div className="relative w-40 h-24 m-2 cursor-pointer transition duration-300 hover:shadow-xl hover:-translate-y-1">
+          <img src={tech_analysis} className="w-full h-full object-cover rounded" />
+          <div className="absolute inset-0 bg-black opacity-40 rounded"></div>
+          <div className="absolute bottom-2 left-2 text-white text-sm font-semibold">
+            Technical Analysis Discussion
+          </div>
+        </div>
+        <div className="relative w-40 h-24 m-2 cursor-pointer transition duration-300 hover:shadow-xl hover:-translate-y-1">
+          <img src={webinar} className="w-full h-full object-cover rounded" />
+          <div className="absolute inset-0 bg-black opacity-40 rounded"></div>
+          <div className="absolute bottom-2 left-2 text-white text-sm font-semibold">
+            Webinars and Tutorials
+          </div>
+        </div>
+      </div>
+    </div>
+
       <div className="grid grid-cols-1 gap-4">
         {currentPosts.map((post) => (
           <div key={post.id} className="bg-white p-5 rounded-lg shadow">
@@ -112,7 +157,7 @@ const Community = () => {
               </div>
             </div>
             <div className="mt-2">
-              <h2 className="text-lg font-semibold">{post.content}</h2>
+              <h2 className="text-sm font-semibold">{post.content}</h2>
             </div>
             <div className="mt-4">
               <CommentSection
@@ -226,14 +271,14 @@ const CommentSection = ({ postId, comments, onNewComment, onDeleteComment, onLik
       <div className="flex items-center space-x-2">
         <button
           onClick={() => setIsCommentBoxVisible(!isCommentBoxVisible)}
-          className="flex items-center space-x-2 text-blue-500"
+          className="flex items-center text-sm space-x-2 text-blue-500"
         >
           <FaComment />
           <span>Add Comment</span>
         </button>
         <button
           onClick={() => setIsCommentsVisible(!isCommentsVisible)}
-          className="flex items-center space-x-2 text-blue-500"
+          className="flex items-center text-sm space-x-2 text-blue-500"
         >
           <FaComment />
           <span>{isCommentsVisible ? 'Hide Comments' : `Show Comments (${comments.length})`}</span>
