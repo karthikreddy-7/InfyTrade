@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         lato: ["Lato", "sans-serif"],
-      },
+      }, 
     },
   },
   plugins: [require("daisyui"), nextui()],

@@ -3,20 +3,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../api/auth";
 import { loginSuccess } from "../redux/action";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-  Divider,
-  Paper,
-} from "@mui/material";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import Alert from "./alert";
 
 const clientId = " ";
 
@@ -24,6 +12,15 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const handleAlertClose = () => {
+    setAlert({ show: false, type: "", message: "" });
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,8 +39,10 @@ const Signin = () => {
       const data = await signIn(email, password);
       localStorage.setItem("sessionToken", data.token);
       dispatch(loginSuccess(data.user));
-      navigate("/marketplace");
+      showAlert("success", "You successfully logged in!");
+      setTimeout(() => navigate("/marketplace"), 2000);
     } catch (error) {
+      showAlert("error", "Invalid Creds, Please try again !");
       setErrorMessage(error.message);
     }
   };
@@ -145,6 +144,13 @@ const Signin = () => {
           </div>
         </div>
       </div>
+      {alert.show && (
+        <Alert
+          type={alert.type}
+          message={alert.message}
+          onClose={handleAlertClose}
+        />
+      )}
     </GoogleOAuthProvider>
   );
 };

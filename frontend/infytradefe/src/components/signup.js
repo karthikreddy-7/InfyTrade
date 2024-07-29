@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signUp } from "../api/auth";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import Alert from "./alert";
 
 const clientId = " ";
 
@@ -8,6 +9,15 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const handleAlertClose = () => {
+    setAlert({ show: false, type: "", message: "" });
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -151,6 +161,13 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      {alert.show && (
+        <Alert
+          type={alert.type}
+          message={alert.message}
+          onClose={handleAlertClose}
+        />
+      )}
     </GoogleOAuthProvider>
   );
 };

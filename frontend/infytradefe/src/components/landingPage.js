@@ -10,6 +10,7 @@ import dynamicDashboards from "../assests/dynamic_dashboards.jpeg";
 import traderRankings from "../assests/trader_rankings.jpeg";
 import communityMarketplace from "../assests/community_marketplace.jpeg";
 import invention from "../assests/invention.jpeg";
+import Alert from "./alert";
 
 const LandingPage = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -18,12 +19,23 @@ const LandingPage = () => {
 
   const navigate = useNavigate();
 
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const handleAlertClose = () => {
+    setAlert({ show: false, type: "", message: "" });
+  };
+
   const handleMarketplaceRedirect = () => {
     if (isLoggedIn) {
-      navigate("/marketplace");
+      showAlert("success", "You're logged in, redirecting to marketplace !");
+      setTimeout(() => navigate("/marketplace"), 2000);
     } else {
-      alert("Please log in first!");
-      //navigate("/signin");
+      showAlert("error", "Not LoggedIn, redirecting signIn !");
+      setTimeout(() => navigate("/signin"), 1500);
     }
   };
 
@@ -230,6 +242,13 @@ const LandingPage = () => {
           )}
         </div>
       </div>
+      {alert.show && (
+        <Alert
+          type={alert.type}
+          message={alert.message}
+          onClose={handleAlertClose}
+        />
+      )}
     </>
   );
 };
