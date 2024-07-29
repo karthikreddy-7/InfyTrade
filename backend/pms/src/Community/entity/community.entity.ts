@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseCustomEntity } from '../../utilities/baseEntity';
 import { Users } from '../../Users/entity/users.entity';
-import { Threads } from '../../Threads/entity/threads.entity'; 
+import { Threads } from '../../threads/entity/threads.entity'; 
 
 @Entity('community_posts')
 export class CommunityPost extends BaseCustomEntity {

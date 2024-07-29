@@ -18,8 +18,8 @@ export class ThreadsService {
   
     const thread = this.threadsRepository.create({
       ...rest,
-      post: { id: post }, // setting post using its ID
-      user: user ? { id: user } : undefined, // setting user using its ID if it exists
+      post: { id: post }, 
+      user: user ? user : undefined, 
     });
   
     await this.threadsRepository.save(thread);

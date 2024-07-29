@@ -20,14 +20,14 @@ export class ResponsethreadsDto {
 
   @ApiProperty({
     description: 'The ID of the post this thread belongs to',
-    example: '1',
+    example: '5ec57771-6df2-4b94-89fe-9a8adf1fdafa',
   })
   post: CommunityPost;
 
   @ApiPropertyOptional({
     description: 'The ID of the user who created the thread',
-    example: '1',
+    example: '5ec57771-6df2-4b94-89fe-9a8adf1fdafa',
   })
   @IsOptional()
-  user?: Users;
+  user?: string;
 }

@@ -1,10 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseCustomEntity } from '../../utilities/baseEntity';
-import { Dashboard } from 'src/Dashboards/entity/dashboards.entity';
-import { CommunityPost } from 'src/Community/entity/community.entity';
-import { Portfolio } from 'src/Portfolios/entity/portfolios.entity';
-import { Ranking } from 'src/Rankings/entity/rankings.entity';
-import { Threads } from 'src/Threads/entity/threads.entity';
+import { Dashboard } from '../../Dashboards/entity/dashboards.entity';
+import { CommunityPost } from '../../Community/entity/community.entity';
+import { Portfolio } from '../../Portfolios/entity/portfolios.entity';
+import { Ranking } from '../../Rankings/entity/rankings.entity';
+import { Threads } from '../../threads/entity/threads.entity';
 
 export enum Visibility {
   PUBLIC = 'public',
@@ -13,13 +13,13 @@ export enum Visibility {
 
 @Entity('users')
 export class Users extends BaseCustomEntity {
-  @Column({ type: 'varchar', length: 255, unique: true, nullable:true })
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: true })
   username: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column({ type: 'text'})
+  @Column({ type: 'text' })
   password: string;
 
   @Column({ type: 'enum', enum: Visibility, default: Visibility.PRIVATE })
@@ -36,7 +36,4 @@ export class Users extends BaseCustomEntity {
 
   @OneToMany(() => Ranking, (ranking) => ranking.user)
   rankings: Ranking[];
-
-  @OneToMany(() => Threads, (thread) => thread.user)
-  comments: Threads[];
 }

@@ -13,7 +13,7 @@ import { DashboardsModule } from './Dashboards/dashboards.module';
 import { UsersModule } from './Users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CommunityPost } from './Community/entity/community.entity';
-import { Threads } from './Threads/entity/threads.entity';
+import { Threads } from './threads/entity/threads.entity';
 import { Users } from './Users/entity/users.entity';
 
 @Module({
