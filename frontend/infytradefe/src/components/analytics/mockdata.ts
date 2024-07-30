@@ -1,33 +1,11 @@
-type StockData = {
-  data: number[];
-  opening: number;
-  highest: number;
-  lowest: number;
-};
-
-type PeriodData = {
-  labels: string[];
-  stockData: {
-    IBM: StockData;
-    MSFT: StockData;
-    TSLA: StockData;
-    RACE: StockData;
-  };
-};
-
-export const mockData: {
-  daily: PeriodData;
-  weekly: PeriodData;
-  monthly: PeriodData;
-  yearly: PeriodData;
-} = {
+export const mockData = {
   daily: generateMockPeriodData(24, ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']),
   weekly: generateMockPeriodData(7, ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
   monthly: generateMockPeriodData(30, Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`)),
   yearly: generateMockPeriodData(365, Array.from({ length: 365 }, (_, i) => `Day ${i + 1}`)),
 };
 
-function generateMockPeriodData(points: number, labels: string[]): PeriodData {
+function generateMockPeriodData(points: number, labels: string[]) {
   return {
     labels,
     stockData: {
@@ -39,15 +17,15 @@ function generateMockPeriodData(points: number, labels: string[]): PeriodData {
   };
 }
 
-function generateStockData(base: number, variance: number, points: number): StockData {
+function generateStockData(base: number, variance: number, points: number) {
   let data: number[] = [];
-  let currentValue = base;
-  let highest = base;
-  let lowest = base;
-  const minValue = base * 0.2;
+  let currentValue: number = base;
+  let highest: number = base;
+  let lowest: number = base;
+  const minValue: number = base * 0.2;
 
   for (let i = 0; i < points; i++) {
-    let change = Math.random() * variance - (variance / 2);
+    let change: number = Math.random() * variance - (variance / 2);
     currentValue = Math.max(currentValue + change, minValue);
     data.push(currentValue);
     if (currentValue > highest) highest = currentValue;
