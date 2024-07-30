@@ -29,6 +29,9 @@ export class Users extends BaseCustomEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   balance: number;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  profit: number;
+
   @OneToMany(() => Dashboard, (dashboard) => dashboard.user)
   dashboards: Dashboard[];
 

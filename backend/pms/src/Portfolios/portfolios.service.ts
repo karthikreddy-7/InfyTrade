@@ -53,8 +53,8 @@ export class PortfoliosService {
     return this.portfolioRepository.find();
   }
 
-  async findOne(id: string): Promise<Portfolio> {
-    const portfolio = await this.portfolioRepository.findOne({ where: {userId: id } });
+  async findOne(id: string): Promise<Portfolio[]> {
+    const portfolio = await this.portfolioRepository.find({ where: {userId: id } });
     if (!portfolio) {
       throw new NotFoundException(`Portfolio with ID ${id} not found`);
     }
