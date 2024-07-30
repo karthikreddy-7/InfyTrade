@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FaTrash, FaComment, FaThumbsUp, FaThumbsDown, FaBars, FaTimes } from 'react-icons/fa';
-import new_trader from "../assests/new_trader.webp";
-import market_trend from "../assests/market_trend.png";
-import sectors from "../assests/sectors.webp";
-import tech_analysis from "../assests/tech_analysis.jpg";
-import webinar from "../assests/webinar.jpeg";
-import faq from "../assests/faq.jpg";
+import new_trader from "../../assests/new_trader.webp";
+import market_trend from "../../assests/market_trend.png";
+import sectors from "../../assests/sectors.webp";
+import tech_analysis from "../../assests/tech_analysis.jpg";
+import webinar from "../../assests/webinar.jpeg";
+import faq from "../../assests/faq.jpg";
 
 const communityData = [
   { id: 1, name: "New Traders Forum", image: new_trader },
