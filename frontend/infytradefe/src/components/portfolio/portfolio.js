@@ -231,8 +231,8 @@ function Portfolio() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-2">
                 {/* Portfolio Table */}
                 <div className="p-2">
-                  <h2 className="text-left text-2xl font-semibold mb-2">
-                    Portfolio
+                  <h2 className="text-left text-2xl text-gray-800 font-bold mb-2 ml-4">
+                    Transaction History
                   </h2>
                   <Table
                     aria-label="Portfolio table"
@@ -265,13 +265,13 @@ function Portfolio() {
 
                 {/* Holdings Table */}
                 <div className=" p-2">
-                  <h2 className="text-left text-2xl font-semibold mb-2">
+                  <h2 className="text-left text-2xl text-gray-800 font-bold mb-2 ml-4">
                     Holdings
                   </h2>
                   <div className="overflow-x-auto">
                     <Table
                       aria-label="Holdings table"
-                      className="w-full min-h-[35vh] max-h-[35vh]"
+                      className="w-full min-h-[40vh] max-h-[40vh]"
                     >
                       <TableHeader columns={Holdingscolumns}>
                         {(Holdingscolumns) => (

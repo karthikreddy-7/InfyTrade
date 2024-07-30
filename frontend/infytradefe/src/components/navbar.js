@@ -85,7 +85,12 @@ const Navbar = () => {
                     }`}
                     onClick={() => handleMenuItemClick(item.path, item.name)}
                   >
-                    <Icon size={18} />
+                    <div
+                      className="tooltip  tooltip-right"
+                      data-tip={item.name}
+                    >
+                      <Icon size={18} />
+                    </div>
                     <span className={`text-sm ${isOpen ? "block" : "hidden"}`}>
                       {item.name}
                     </span>
