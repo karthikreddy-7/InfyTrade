@@ -18,14 +18,14 @@ function generateMockPeriodData(points: number, labels: string[]) {
 }
 
 function generateStockData(base: number, variance: number, points: number) {
-  let data = [];
-  let currentValue = base;
-  let highest = base;
-  let lowest = base;
-  const minValue = base * 0.2;
+  let data: number[] = [];
+  let currentValue: number = base;
+  let highest: number = base;
+  let lowest: number = base;
+  const minValue: number = base * 0.2;
 
   for (let i = 0; i < points; i++) {
-    let change = Math.random() * variance - (variance / 2);
+    let change: number = Math.random() * variance - (variance / 2);
     currentValue = Math.max(currentValue + change, minValue);
     data.push(currentValue);
     if (currentValue > highest) highest = currentValue;
