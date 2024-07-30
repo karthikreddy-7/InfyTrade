@@ -19,7 +19,7 @@ import "tailwindcss/tailwind.css";
 import logo from "../assests/logo.png";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [activePage, setActivePage] = useState("Market Place");
   const navigate = useNavigate();
   const dispatch = useDispatch();

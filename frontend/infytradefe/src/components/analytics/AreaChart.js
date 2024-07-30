@@ -67,7 +67,7 @@ const AreaChart = ({ data, onAddToDashboard }) => {
 
   return (
     <div className="h-screen bg-white">
-      <div className="mb-4">
+      <div className="mb-12">
         <h3>{data.title}</h3>
         {data.datasets.map((dataset) => (
           <div key={dataset.label}>
@@ -88,7 +88,7 @@ const AreaChart = ({ data, onAddToDashboard }) => {
       <Line data={chartData} options={options} />
       <div className="flex justify-center">
         <button
-          className="mt-4 p-2 bg-primary text-white rounded"
+          className="p-2 bg-primary text-white rounded"
           onClick={onAddToDashboard}
         >
           Add to Dashboard

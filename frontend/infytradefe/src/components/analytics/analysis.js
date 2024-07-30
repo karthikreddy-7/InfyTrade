@@ -130,8 +130,8 @@ const Analysis = () => {
   };
 
   return (
-    <div className="flex flex-row">
-      <div className="card bg-gray-100 w-2/6 rounded-none">
+    <div className="flex flex-row  justify-center items-center">
+      <div className="card bg-gray-100 w-2/6 h-screen rounded-none">
         <div className="card-body">
           <div>
             <h2 className="card-title font-bold text-2xl">Stock Analysis</h2>
@@ -211,7 +211,7 @@ const Analysis = () => {
         </div>
       </div>
       <div className="h-screen w-[50vw] p-4 flex flex-1 justify-center items-center">
-        <div className="h-screen min-w-full justify-center items-center">
+        <div className="h-[100vh] min-w-full justify-center items-center">
           {renderChart()}
         </div>
       </div>
