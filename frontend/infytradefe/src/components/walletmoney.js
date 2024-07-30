@@ -5,17 +5,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { calculateFinalAmount } from "../utilities/calculateFinalAmount";
 import { updateUser } from "../api/auth";
 import ModalComponent from "./modal";
+import Alert from "./alert";
 
 function Walletmoney() {
   const [loading, setLoading] = useState(true);
   const [loadingMinTimeElapsed, setLoadingMinTimeElapsed] = useState(false);
 
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const handleAlertClose = () => {
+    setAlert({ show: false, type: "", message: "" });
+  };
+
   const [isAddFundsOpen, setIsAddFundsOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
   const [isDepositOpen, setIsDepositOpen] = useState(false);
 
-  const [amount, setAmount] = useState(""); // State to store the amount input
-  const [transactionType, setTransactionType] = useState(""); // State to store the current transaction type
+  const [amount, setAmount] = useState("");
+  const [transactionType, setTransactionType] = useState("");
 
   const dispatch = useDispatch();
   let user = useSelector((state) => state.auth.user);
@@ -91,11 +102,9 @@ function Walletmoney() {
   // Handle form submission
   const handleSubmit = async () => {
     console.log("inside handlesubmit");
-    const finalAmount = calculateFinalAmount(
-      transactionType,
-      user.balance,
-      parseFloat(amount)
-    );
+    const finalAmount = parseFloat(
+      calculateFinalAmount(transactionType, user.balance, parseFloat(amount))
+    ).toFixed(2);
 
     try {
       const response = await updateUser(
@@ -105,9 +114,20 @@ function Walletmoney() {
       );
       console.log(response);
       user = response;
-      if (transactionType === "addFunds") setIsAddFundsOpen(false);
-      if (transactionType === "withdraw") setIsWithdrawOpen(false);
-      if (transactionType === "deposit") setIsDepositOpen(false);
+      if (transactionType === "addFunds") {
+        showAlert("success", "You successfully logged in!");
+        setIsAddFundsOpen(false);
+      }
+
+      if (transactionType === "withdraw") {
+        showAlert("success", `You Withdrawed ${amount} !`);
+        setIsWithdrawOpen(false);
+      }
+
+      if (transactionType === "deposit") {
+        showAlert("success", `You Deposited ${amount} !`);
+        setIsDepositOpen(false);
+      }
     } catch (error) {
       console.error("Transaction failed:", error);
     }
@@ -122,44 +142,55 @@ function Walletmoney() {
       ) : (
         <>
           <div className="flex flex-row">
-            <div className="flex flex-col justify-center items-start h-screen">
-              <div className="stats bg-primary text-primary-content justify-center items-center ml-8">
-                <div className="stat">
-                  <div className="stat-title text-white">Account balance</div>
-                  <div className="stat-value text-white">${user.balance}</div>
-                  <div className="stat-actions">
-                    <button
-                      className="btn btn-sm btn-success text-white"
-                      onClick={() => {
-                        setTransactionType("addFunds");
-                        setIsAddFundsOpen(true);
-                      }}
-                    >
-                      Add Funds
-                    </button>
-                  </div>
-                </div>
+            <div className=" flex flex-col items-start">
+              <div className="m-6 mb-24">
+                <h1 className="text-2xl p-4 font-bold">
+                  Welcome {user.name} !
+                </h1>
+                <p className="font-semibold ml-8 text-xl">
+                  Your Wallet and Summary is here:
+                </p>
+              </div>
 
-                <div className="stat">
-                  <div className="stat-actions">
-                    <button
-                      className="btn btn-sm m-2"
-                      onClick={() => {
-                        setTransactionType("withdraw");
-                        setIsWithdrawOpen(true);
-                      }}
-                    >
-                      Withdrawal
-                    </button>
-                    <button
-                      className="btn btn-sm m-2"
-                      onClick={() => {
-                        setTransactionType("deposit");
-                        setIsDepositOpen(true);
-                      }}
-                    >
-                      Deposit
-                    </button>
+              <div className="flex flex-col justify-center items-start h-[screen] mt-8">
+                <div className="stats bg-primary text-primary-content justify-center items-center ml-8">
+                  <div className="stat">
+                    <div className="stat-title text-white">Account balance</div>
+                    <div className="stat-value text-white">${user.balance}</div>
+                    <div className="stat-actions">
+                      <button
+                        className="btn btn-sm btn-success text-white"
+                        onClick={() => {
+                          setTransactionType("addFunds");
+                          setIsAddFundsOpen(true);
+                        }}
+                      >
+                        Add Funds
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="stat">
+                    <div className="stat-actions">
+                      <button
+                        className="btn btn-sm m-2"
+                        onClick={() => {
+                          setTransactionType("withdraw");
+                          setIsWithdrawOpen(true);
+                        }}
+                      >
+                        Withdrawal
+                      </button>
+                      <button
+                        className="btn btn-sm m-2"
+                        onClick={() => {
+                          setTransactionType("deposit");
+                          setIsDepositOpen(true);
+                        }}
+                      >
+                        Deposit
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -294,6 +325,13 @@ function Walletmoney() {
             </div>
           </ModalComponent>
         </>
+      )}
+      {alert.show && (
+        <Alert
+          type={alert.type}
+          message={alert.message}
+          onClose={handleAlertClose}
+        />
       )}
     </>
   );
