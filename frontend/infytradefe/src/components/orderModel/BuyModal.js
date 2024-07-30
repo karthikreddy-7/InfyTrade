@@ -29,7 +29,7 @@ const BuyModal = ({ company, marketPrice, onClose }) => {
               <span className="block bg-gray-100 text-gray-800 p-3 rounded">{company}</span>
             </div>
             <div>
-              <label className="block text-gray-600 mb-1">Market Price:</label>
+              <label className="block text-gray-600 mb-1">Market Price:{price}</label>
               <span className="block bg-gray-100 text-gray-800 p-3 rounded">${marketPrice}</span>
             </div>
           </div>
