@@ -1,9 +1,23 @@
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getRandomTimeout } from "../../utilities/getRandomTimeout";
+import { CircularProgress } from "@nextui-org/react";
 
 const Rankings = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [loadingMinTimeElapsed, setLoadingMinTimeElapsed] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadingMinTimeElapsed(true);
+      //setloading should be removed
+      setLoading(false);
+    }, getRandomTimeout());
+
+    return () => clearTimeout(timer);
+  }, []);
 
   function stringAvatar(name) {
     return {
@@ -76,51 +90,59 @@ const Rankings = () => {
   };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>Rankings</th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>TradeAmount</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, index) => (
-            <tr key={index}>
-              <th>{row.rank}.</th>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <Stack direction="row" spacing={2}>
-                      <Avatar {...stringAvatar(row.name)} />
-                    </Stack>
-                  </div>
-                  <div>
-                    <div className="font-bold">{row.name}</div>
-                    <div className="text-sm opacity-50">{row.country}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {row.company}
-                <br />
-                <span className="badge badge-ghost badge-md">
-                  {row.jobTitle}
-                </span>
-              </td>
-              <td>{row.TradeAmount}</td>
-              <th>
-                <button className="btn btn-ghost btn-sm">details</button>
-              </th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {loading || !loadingMinTimeElapsed ? (
+        <div className="w-full h-screen flex items-center justify-center">
+          <span className="loading loading-infinity loading-lg"></span>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>Rankings</th>
+                <th>Name</th>
+                <th>Job</th>
+                <th>TradeAmount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, index) => (
+                <tr key={index}>
+                  <th>{row.rank}.</th>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <Stack direction="row" spacing={2}>
+                          <Avatar {...stringAvatar(row.name)} />
+                        </Stack>
+                      </div>
+                      <div>
+                        <div className="font-bold">{row.name}</div>
+                        <div className="text-sm opacity-50">{row.country}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {row.company}
+                    <br />
+                    <span className="badge badge-ghost badge-md">
+                      {row.jobTitle}
+                    </span>
+                  </td>
+                  <td>{row.TradeAmount}</td>
+                  <th>
+                    <button className="btn btn-ghost btn-sm">details</button>
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
   );
 };
 export default Rankings;
