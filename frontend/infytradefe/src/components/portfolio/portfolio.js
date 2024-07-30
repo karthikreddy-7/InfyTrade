@@ -6,6 +6,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Progress,
+  CircularProgress,
 } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import {
@@ -79,18 +81,57 @@ function Portfolio() {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <div className="w-full h-screen flex items-center justify-center">
+          <CircularProgress size="lg" isIndeterminate aria-label="Loading..." />
+        </div>
       ) : (
         <>
-          <div className="flex flex-row">
+          <div className="bg-gray-200 h-screen">
             <div>
-              <h2 className="text-left text-2xl font-semibold ml-4 mb-2">
-                Portfolio
-              </h2>
-              <div className="overflow-x-auto">
+              <h1 className="text-2xl p-6 font-bold">Welcome Karthik !</h1>
+              <p className="font-semibold ml-8">
+                Your personalised Portfolio is here:
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {/* Profit/Loss Card */}
+              <div className="p-4  bg-white shadow-lg rounded-lg m-4">
+                <h3 h4 className="font-semibold mb-2">
+                  Profit/Loss
+                </h3>
+                <p className="text-lg">$5000</p>
+                {/* You can add a chart or additional details here */}
+              </div>
+
+              {/* Total Balance Card */}
+              <div className="p-4 bg-white shadow-lg rounded-lg m-4">
+                <h3 h4 className="font-semibold mb-2">
+                  Total Balance
+                </h3>
+                <p className="text-lg">$25000</p>
+                {/* You can add a chart or additional details here */}
+              </div>
+
+              {/* Charts Card */}
+              <div className="p-4 bg-white rounded-lg m-4">
+                <h3 h4 className="font-semibold mb-2">
+                  Charts
+                </h3>
+                <div className="h-40 bg-gray-200 flex items-center justify-center">
+                  {/* Placeholder for chart */}
+                  <p className="text-gray-500">Chart here</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-4">
+              {/* Portfolio Table */}
+              <div className="p-2">
+                <h2 className="text-left text-2xl font-semibold mb-2">
+                  Portfolio
+                </h2>
                 <Table
                   aria-label="Portfolio table"
-                  className="w-[40vw] h-[40vh]"
+                  className="w-full min-h-[35vh] max-h-[35vh]"
                 >
                   <TableHeader columns={Portfoliocolumns}>
                     {(Portfoliocolumns) => (
@@ -116,39 +157,41 @@ function Portfolio() {
                   </TableBody>
                 </Table>
               </div>
-            </div>
-            <div>
-              <h2 className="text-left text-2xl font-semibold ml-4 mb-2">
-                Holdings
-              </h2>
-              <div className="overflow-x-auto">
-                <Table
-                  aria-label="Portfolio table"
-                  className="w-[40vw] h-[40vh]"
-                >
-                  <TableHeader columns={Holdingscolumns}>
-                    {(Holdingscolumns) => (
-                      <TableColumn
-                        key={Holdingscolumns.key}
-                        className="font-bold text-sm"
-                      >
-                        {Holdingscolumns.label}
-                      </TableColumn>
-                    )}
-                  </TableHeader>
-                  <TableBody
-                    items={Holdingsrows}
-                    emptyContent="No rows to display."
+
+              {/* Holdings Table */}
+              <div className=" p-2">
+                <h2 className="text-left text-2xl font-semibold mb-2">
+                  Holdings
+                </h2>
+                <div className="overflow-x-auto">
+                  <Table
+                    aria-label="Holdings table"
+                    className="w-full min-h-[35vh] max-h-[35vh]"
                   >
-                    {(item) => (
-                      <TableRow key={item.key}>
-                        {(columnKey) => (
-                          <TableCell>{item[columnKey]}</TableCell>
-                        )}
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
+                    <TableHeader columns={Holdingscolumns}>
+                      {(Holdingscolumns) => (
+                        <TableColumn
+                          key={Holdingscolumns.key}
+                          className="font-bold text-sm"
+                        >
+                          {Holdingscolumns.label}
+                        </TableColumn>
+                      )}
+                    </TableHeader>
+                    <TableBody
+                      items={Holdingsrows}
+                      emptyContent="No rows to display."
+                    >
+                      {(item) => (
+                        <TableRow key={item.key}>
+                          {(columnKey) => (
+                            <TableCell>{item[columnKey]}</TableCell>
+                          )}
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </div>
           </div>

@@ -85,7 +85,7 @@ const Navbar = () => {
                     }`}
                     onClick={() => handleMenuItemClick(item.path, item.name)}
                   >
-                    <Icon size={16} />
+                    <Icon size={18} />
                     <span className={`text-sm ${isOpen ? "block" : "hidden"}`}>
                       {item.name}
                     </span>
@@ -101,16 +101,16 @@ const Navbar = () => {
               className="flex items-center justify-center space-x-2 py-2 focus:outline-none"
             >
               {isOpen ? (
-                <FaChevronLeft size={16} />
+                <FaChevronLeft size={18} />
               ) : (
-                <FaChevronRight size={16} />
+                <FaChevronRight size={18} />
               )}
             </button>
             <div
               className="flex items-center space-x-2 py-2 cursor-pointer text-red-500"
               onClick={handleLogout}
             >
-              <FaSignOutAlt size={16} />
+              <FaSignOutAlt size={18} />
               <span
                 className={`text-sm ${
                   isOpen ? "block" : "hidden"

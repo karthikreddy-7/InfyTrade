@@ -38,7 +38,7 @@ const Signin = () => {
     try {
       const data = await signIn(email, password);
       console.log(data);
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", JSON.stringify(data));
       dispatch(loginSuccess(data));
       showAlert("success", "You successfully logged in!");
       setTimeout(() => navigate("/marketplace"), 2000);

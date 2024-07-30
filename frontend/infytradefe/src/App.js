@@ -28,7 +28,7 @@ import Walletmoney from "./components/walletmoney";
 const Layout = ({ children }) => (
   <div className="flex h-screen bg-gray-100">
     <Navbar />
-    <main className="flex-1 p-4 bg-white overflow-auto">{children}</main>
+    <main className="flex-1 bg-white overflow-auto">{children}</main>
   </div>
 );
 
@@ -197,16 +197,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("sessionToken");
-    if (token) {
+    const token = localStorage.getItem("token");
+    const parsedToken = JSON.parse(token); 
+    console.log(parsedToken);
+    if (parsedToken) {
       // Optionally validate the token with the backend and fetch user details
-      dispatch(
-        loginSuccess({
-          /* user details */
-        })
-      );
+      dispatch(loginSuccess(parsedToken));
     }
-  }, [dispatch]);
+  }, []);
 
   return (
     <NextUIProvider>
