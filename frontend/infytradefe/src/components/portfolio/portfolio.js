@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "@tremor/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import {
   fetchPortfolioData,
@@ -11,8 +18,6 @@ function Portfolio() {
   const [portfolioData, setPortfolioData] = useState([]);
   const [holdingsData, setHoldingsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,25 +27,15 @@ function Portfolio() {
 
         if (portfolio.length === 0) {
           const portfolioResponse = await fetchPortfolioData(user.id);
-          console.log(portfolioResponse);
           portfolio = portfolioResponse || [];
         }
-
         if (holdings.length === 0) {
           const holdingsResponse = await fetchUserHoldings(user.id);
-          console.log(holdingsResponse);
           holdings = holdingsResponse || [];
         }
 
-        setPortfolioData(portfolio);
         setHoldingsData(holdings);
-        console.log(portfolio);
-        console.log(holdings);
-        if (portfolio.length === 0 && holdings.length === 0) {
-          setMessage(
-            "No history / No portfolio. Please navigate to the marketplace section to buy/sell portfolios."
-          );
-        }
+        setPortfolioData(portfolio);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -51,51 +46,115 @@ function Portfolio() {
     fetchData();
   }, [user]);
 
+  const Portfoliocolumns = [
+    { key: "stock", label: "Stock" },
+    { key: "type", label: "Type" },
+    { key: "quantity", label: "Quantity" },
+    { key: "price", label: "Price" },
+    { key: "transactionDate", label: "Date" },
+  ];
+
+  const Holdingscolumns = [
+    { key: "stock", label: "Stock" },
+    { key: "quantity", label: "Quantity" },
+    { key: "averagePrice", label: "Average Price" },
+  ];
+
+  const Portfoliorows = portfolioData?.map((item) => ({
+    key: item.id,
+    stock: item.stock,
+    type: item.type,
+    quantity: item.quantity,
+    price: item.price,
+    transactionDate: new Date(item.transactionDate).toLocaleDateString(),
+  }));
+
+  const Holdingsrows = holdingsData?.map((item) => ({
+    key: item.id,
+    stock: item.stock,
+    quantity: item.quantity,
+    averagePrice: item.averagePrice,
+  }));
+
   return (
     <>
       {loading ? (
         <p>Loading...</p>
-      ) : message ? (
-        <p>{message}</p>
       ) : (
         <>
-          <h2 className="text-center text-xl font-semibold mb-4">Portfolio</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-            {portfolioData.map((item) => (
-              <Card key={item.id} className="mx-auto max-w-xs rounded-md">
-                <div className="p-4">
-                  <p className="text-center font-bold">{item.stock}</p>
-                  <p className="text-center text-slate-400">
-                    {item.type} - {item.quantity} @ ${item.price}
-                  </p>
-                  <p className="text-center text-slate-400">
-                    Date: {new Date(item.transactionDate).toLocaleDateString()}
-                  </p>
-                </div>
-              </Card>
-            ))}
-          </div>
-
-          <h2 className="text-center text-xl font-semibold mb-4">Holdings</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-            {holdingsData.map((item) => (
-              <Card key={item.id} className="mx-auto max-w-xs rounded-md">
-                <div className="p-4">
-                  <p className="text-center font-bold">{item.stock}</p>
-                  <p className="text-center text-slate-400">
-                    Quantity: {item.quantity}
-                  </p>
-                  <p className="text-center text-slate-400">
-                    Average Price: ${item.averagePrice}
-                  </p>
-                </div>
-              </Card>
-            ))}
+          <div className="flex flex-row">
+            <div>
+              <h2 className="text-left text-2xl font-semibold ml-4 mb-2">
+                Portfolio
+              </h2>
+              <div className="overflow-x-auto">
+                <Table
+                  aria-label="Portfolio table"
+                  className="w-[40vw] h-[40vh]"
+                >
+                  <TableHeader columns={Portfoliocolumns}>
+                    {(Portfoliocolumns) => (
+                      <TableColumn
+                        key={Portfoliocolumns.key}
+                        className="font-bold text-sm"
+                      >
+                        {Portfoliocolumns.label}
+                      </TableColumn>
+                    )}
+                  </TableHeader>
+                  <TableBody
+                    items={Portfoliorows}
+                    emptyContent="No rows to display."
+                  >
+                    {(item) => (
+                      <TableRow key={item.key}>
+                        {(columnKey) => (
+                          <TableCell>{item[columnKey]}</TableCell>
+                        )}
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-left text-2xl font-semibold ml-4 mb-2">
+                Holdings
+              </h2>
+              <div className="overflow-x-auto">
+                <Table
+                  aria-label="Portfolio table"
+                  className="w-[40vw] h-[40vh]"
+                >
+                  <TableHeader columns={Holdingscolumns}>
+                    {(Holdingscolumns) => (
+                      <TableColumn
+                        key={Holdingscolumns.key}
+                        className="font-bold text-sm"
+                      >
+                        {Holdingscolumns.label}
+                      </TableColumn>
+                    )}
+                  </TableHeader>
+                  <TableBody
+                    items={Holdingsrows}
+                    emptyContent="No rows to display."
+                  >
+                    {(item) => (
+                      <TableRow key={item.key}>
+                        {(columnKey) => (
+                          <TableCell>{item[columnKey]}</TableCell>
+                        )}
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
           </div>
         </>
       )}
     </>
-
   );
 }
 
