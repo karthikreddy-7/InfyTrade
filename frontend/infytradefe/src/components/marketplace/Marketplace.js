@@ -30,40 +30,76 @@ const Marketplace = () => {
   const stockNames = ["IBM", "MSFT", "TSLA", "RACE"];
 
   // Function to calculate bid and ask prices based on the average price
-const calculateBidAsk = (avgPrice) => {
-  const bid = (parseFloat(avgPrice) - (Math.random() * 10)).toFixed(2);
-  const ask = (parseFloat(avgPrice) + (Math.random() * 10)).toFixed(2);
-  return { bid, ask };
-};
-  // Fetch stocks and calculate bid/ask
-useEffect(() => {
-  const fetchStocks = async () => {
-    try {
-      const fetchedStocks = await Promise.all(stockNames.map(name => fetchStockByName(name)));
-      const stocksWithPrices = fetchedStocks.map(stock => {
-        const { bid, ask } = calculateBidAsk(stock.price);
-        return { ...stock, bid, ask };
-      });
-      setStocks(stocksWithPrices);
-      calculateMarketPrice(stocksWithPrices);
-    } catch (error) {
-      console.error("Failed to fetch stocks:", error);
-    }
+  const calculateBidAsk = (avgPrice) => {
+    const bid = (parseFloat(avgPrice) - (Math.random() * 10)).toFixed(2);
+    const ask = (parseFloat(avgPrice) + (Math.random() * 10)).toFixed(2);
+    return { bid, ask };
   };
-  fetchStocks();
 
-  const intervalId = setInterval(fetchStocks, 2000);
+  const fluctuatePrice = (price, percentage) => {
+    const fluctuation = (Math.random() * (percentage * 2)) - percentage;
+    return parseFloat(price) + (parseFloat(price) * fluctuation / 100);
+  };
 
-  return () => clearInterval(intervalId);
-}, []);
+  // Save stocks to local storage
+  const saveStocksToLocalStorage = (stocks) => {
+    localStorage.setItem("stocks", JSON.stringify(stocks));
+    console.log("Saved stocks to local storage:", stocks);
+  };
 
-const calculateMarketPrice = (stocks) => {
-  const totalPrices = stocks.reduce((sum, stock) => sum + parseFloat(stock.price), 0);
-  const avgPrice = (totalPrices / stocks.length).toFixed(2);
-  const { newPrice } = adjustMarketPrice(avgPrice);
-  setMarketPrice(newPrice);
-};
+  // Load stocks from local storage
+  const loadStocksFromLocalStorage = () => {
+    const savedStocks = localStorage.getItem("stocks");
+    console.log("Loaded stocks from local storage:", savedStocks);
+    return savedStocks ? JSON.parse(savedStocks) : [];
+  };
 
+  useEffect(() => {
+    const fetchStocks = async () => {
+      try {
+        // Fetch static stock data
+        const fetchedStocks = await Promise.all(stockNames.map(name => fetchStockByName(name)));
+        console.log("Fetched stocks:", fetchedStocks); 
+
+        // Apply random fluctuations to price, bid, and ask
+        const stocksWithFluctuations = fetchedStocks.map(stock => {
+          const fluctuatedPrice = fluctuatePrice(stock.price, 2); // Fluctuate within ±2%
+          const { bid, ask } = calculateBidAsk(fluctuatedPrice);
+          return { ...stock, price: fluctuatedPrice.toFixed(2), bid, ask };
+        });
+        
+        console.log("Stocks with fluctuations:", stocksWithFluctuations); 
+        setStocks(stocksWithFluctuations);
+        saveStocksToLocalStorage(stocksWithFluctuations);
+        calculateMarketPrice(stocksWithFluctuations);
+      } catch (error) {
+        console.error("Failed to fetch stocks:", error);
+      }
+    };
+
+    const storedStocks = loadStocksFromLocalStorage();
+    if (storedStocks.length > 0) {
+      setStocks(storedStocks);
+      calculateMarketPrice(storedStocks);
+    } else {
+      fetchStocks();
+    }
+
+    const intervalId = setInterval(() => {
+      fetchStocks();
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const calculateMarketPrice = (stocks) => {
+    const totalPrices = stocks.reduce((sum, stock) => sum + parseFloat(stock.price), 0);
+    const avgPrice = (totalPrices / stocks.length).toFixed(2);
+    console.log("Average market price:", avgPrice); 
+    const { newPrice } = adjustMarketPrice(avgPrice);
+    console.log("Adjusted market price:", newPrice); 
+    setMarketPrice(newPrice);
+  };
 
   const getPriceChange = (price, avgPrice) => {
     const change = (parseFloat(price) - parseFloat(avgPrice)).toFixed(2);
@@ -211,7 +247,6 @@ const calculateMarketPrice = (stocks) => {
             )}
           </div>
 
-
           <div className="grid grid-cols-1 gap-4 col-span-1">
             <div className="bg-blue-100 p-5 rounded-lg shadow mb-4">
               <div className="flex items-center justify-between">
@@ -260,7 +295,6 @@ const calculateMarketPrice = (stocks) => {
             </div>
           </div>
         </div>
-
 
         <div className="bg-white p-5 rounded-lg shadow">
           <div className="grid grid-cols-6 gap-4 mb-2">
@@ -318,7 +352,6 @@ const calculateMarketPrice = (stocks) => {
         </div>
 
       </main>
-
 
       <aside className="w-80 bg-white p-5 shadow-lg overflow-y-auto flex flex-col">
         <div className="bg-white p-5 rounded-lg shadow mb-4">
