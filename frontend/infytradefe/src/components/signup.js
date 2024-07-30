@@ -38,15 +38,14 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      const data = await signUp(name, email, password);
-      console.log("Success:", data);
-      dispatch(loginSuccess(data));
-      showAlert("success", "You successfully logged in!");
+      const data = await signUp(name, email, password, dispatch);
+      console.log(data);
+      localStorage.setItem("token", JSON.stringify(data));
+      showAlert("success", "You successfully signed up!");
       setTimeout(() => navigate("/marketplace"), 2000);
     } catch (error) {
-      console.error("Error:", error.message);
+      showAlert("error", error.message);
     }
   };
 

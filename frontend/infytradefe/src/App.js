@@ -198,7 +198,7 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const parsedToken = JSON.parse(token); 
+    const parsedToken = JSON.parse(token);
     console.log(parsedToken);
     if (parsedToken) {
       // Optionally validate the token with the backend and fetch user details
@@ -210,7 +210,9 @@ const App = () => {
     <NextUIProvider>
       <Router>
         <ScrollShadow hideScrollBar>
-          <AppRoutes />
+          <div className="focus:outline-none caret-transparent">
+            <AppRoutes />
+          </div>
         </ScrollShadow>
       </Router>
     </NextUIProvider>

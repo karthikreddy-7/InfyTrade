@@ -86,7 +86,7 @@ const Navbar = () => {
                     onClick={() => handleMenuItemClick(item.path, item.name)}
                   >
                     <div
-                      className="tooltip  tooltip-right"
+                      className="tooltip  tooltip-right font-normal"
                       data-tip={item.name}
                     >
                       <Icon size={18} />

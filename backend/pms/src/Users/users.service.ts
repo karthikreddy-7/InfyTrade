@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUsersDto } from './dto/users.create.dto';
 import { UpdateUsersDto } from './dto/users.update.dto';
-import { Users } from './entity/users.entity';
+import { Users, Visibility } from './entity/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +18,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<Users[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ where: { visibility: Visibility.PUBLIC } });
   }
 
   async findOne(id: string): Promise<Users> {

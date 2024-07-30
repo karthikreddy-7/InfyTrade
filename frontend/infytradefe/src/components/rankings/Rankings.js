@@ -3,91 +3,72 @@ import Stack from "@mui/material/Stack";
 import React, { useEffect, useState } from "react";
 import { getRandomTimeout } from "../../utilities/getRandomTimeout";
 import { CircularProgress } from "@nextui-org/react";
+import { getAllUsers } from "../../api/auth";
 
 const Rankings = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMinTimeElapsed, setLoadingMinTimeElapsed] = useState(false);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllUsers();
+        console.log(data);
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
     const timer = setTimeout(() => {
       setLoadingMinTimeElapsed(true);
-      //setloading should be removed
-      setLoading(false);
     }, getRandomTimeout());
 
     return () => clearTimeout(timer);
   }, []);
 
   function stringAvatar(name) {
+    // Check if name is defined and has at least two words
+    if (name && name.split(" ").length > 1) {
+      return {
+        sx: {
+          bgcolor: stringToColor(name),
+        },
+        children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+      };
+    }
+
+    // Handle cases where name is not valid
     return {
       sx: {
-        bgcolor: stringToColor(name),
+        bgcolor: stringToColor(name || "Default Name"),
       },
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+      children: `${(name || "N").charAt(0)}`,
     };
   }
 
   function stringToColor(string) {
     let hash = 0;
-    let i;
-
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
+    for (let i = 0; i < string.length; i += 1) {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
 
     let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
+    for (let i = 0; i < 3; i += 1) {
       const value = (hash >> (i * 8)) & 0xff;
       color += `00${value.toString(16)}`.slice(-2);
     }
-    /* eslint-enable no-bitwise */
-
     return color;
   }
 
-  // mock data
-  const rows = [
-    {
-      rank: 1,
-      name: "Hart Hagerty",
-      country: "United States",
-      company: "Zemlak, Daniel and Leannon",
-      jobTitle: "Desktop Support Technician",
-      TradeAmount: "15,000$",
-    },
-    {
-      rank: 2,
-      name: "Brice Swyre",
-      country: "China",
-      company: "Carroll Group",
-      jobTitle: "Tax Accountant",
-      TradeAmount: "15,000$",
-    },
-    {
-      rank: 3,
-      name: "Marjy Ferencz",
-      country: "Russia",
-      company: "Rowe-Schoen",
-      jobTitle: "Office Assistant I",
-      TradeAmount: "15,000$",
-    },
-    {
-      rank: 4,
-      name: "Yancy Tear",
-      country: "Brazil",
-      company: "Wyman-Ledner",
-      jobTitle: "Community Outreach Specialist",
-      TradeAmount: "15,000$",
-    },
-  ];
-
-  // Handler for changing pages
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  // Sort users by profit in descending order
+  const sortedUsers = users.sort((a, b) => b.profit - a.profit);
 
   return (
     <>
@@ -104,37 +85,36 @@ const Rankings = () => {
                 <th>Rankings</th>
                 <th>Name</th>
                 <th>Job</th>
-                <th>TradeAmount</th>
+                <th>Profit</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, index) => (
-                <tr key={index}>
-                  <th>{row.rank}.</th>
+              {sortedUsers.map((user, index) => (
+                <tr key={user.id}>
+                  <th>{index + 1}.</th>
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="avatar">
                         <Stack direction="row" spacing={2}>
-                          <Avatar {...stringAvatar(row.name)} />
+                          <Avatar {...stringAvatar(user.username)} />
                         </Stack>
                       </div>
                       <div>
-                        <div className="font-bold">{row.name}</div>
-                        <div className="text-sm opacity-50">{row.country}</div>
+                        <div className="font-bold">{user.username}</div>
+                        <div className="text-sm opacity-50">{user.email}</div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    {row.company}
-                    <br />
-                    <span className="badge badge-ghost badge-md">
-                      {row.jobTitle}
-                    </span>
+                    <div className="badge badge-ghost badge-md">
+                      {/* Placeholder for jobTitle if available */}
+                      Trader
+                    </div>
                   </td>
-                  <td>{row.TradeAmount}</td>
+                  <td>{user.profit}</td>
                   <th>
-                    <button className="btn btn-ghost btn-sm">details</button>
+                    <button className="btn btn-ghost btn-sm">Details</button>
                   </th>
                 </tr>
               ))}

@@ -117,7 +117,9 @@ function Portfolio() {
           >
             <div className=" h-screen">
               <div>
-                <h1 className="text-2xl p-4 font-bold">Welcome Karthik !</h1>
+                <h1 className="text-2xl p-4 font-bold">
+                  Welcome {user.name} !
+                </h1>
                 <p className="font-semibold ml-8 text-xl">
                   Your personalised Portfolio is here:
                 </p>
