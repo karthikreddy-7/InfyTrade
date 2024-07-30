@@ -6,6 +6,23 @@ function Walletmoney() {
   const [loading, setLoading] = useState(true);
   const [loadingMinTimeElapsed, setLoadingMinTimeElapsed] = useState(false);
 
+  const data = [
+    {
+      id: 1,
+      name: "Cy Ganderton",
+      job: "Quality Control Specialist",
+      favoriteColor: "Blue",
+    },
+    {
+      id: 2,
+      name: "Hart Hagerty",
+      job: "Desktop Support Technician",
+      favoriteColor: "Purple",
+    },
+    { id: 3, name: "Brice Swyre", job: "Tax Accountant", favoriteColor: "Red" },
+    // Add more data objects as needed
+  ];
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoadingMinTimeElapsed(true);
@@ -23,53 +40,96 @@ function Walletmoney() {
         </div>
       ) : (
         <>
-          <div className="m-8">
-            <h1 className="font-bold text-2xl">You cards</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="p-4  bg-white shadow-lg rounded-lg m-4">
-                <h3 h4 className="font-semibold mb-2">
-                  Profit/Loss
-                </h3>
-                <p className="text-lg">$5000</p>
-              </div>
-              <div className="p-4 bg-white shadow-lg rounded-lg m-4">
-                <h3 h4 className="font-semibold mb-2">
-                  Total Balance
-                </h3>
-                <p className="text-lg">$25000</p>
-              </div>
-              <div className="p-4  bg-white shadow-lg rounded-lg m-4">
-                <h3 h4 className="font-semibold mb-2">
-                  Profit/Loss
-                </h3>
-                <p className="text-lg">$5000</p>
-              </div>
-              <div className="p-4  bg-white shadow-lg rounded-lg m-4">
-                <h3 h4 className="font-semibold mb-2">
-                  Profit/Loss
-                </h3>
-                <p className="text-lg">$5000</p>
-              </div>
-            </div>
-            <div className="stats bg-primary text-primary-content">
-              <div className="stat">
-                <div className="stat-title">Account balance</div>
-                <div className="stat-value">$89,400</div>
-                <div className="stat-actions">
-                  <button className="btn btn-sm btn-success">Add funds</button>
+          <div className=" flex flex-row">
+            <div className="flex flex-col justify-center items-start h-screen">
+              <div className="stats bg-primary text-primary-content justify-center items-center ml-8">
+                <div className="stat">
+                  <div className="stat-title text-white">Account balance</div>
+                  <div className="stat-value text-white">$89,400</div>
+                  <div className="stat-actions">
+                    <button className="btn btn-sm btn-success text-white">
+                      Add funds
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="stat">
-                <div className="stat-title">Current balance</div>
-                <div className="stat-value">$89,400</div>
-                <div className="stat-actions">
-                  <button className="btn btn-sm">Withdrawal</button>
-                  <button className="btn btn-sm">Deposit</button>
+                <div className="stat">
+                  <div className="stat-title text-white">Current balance</div>
+                  <div className="stat-value text-white">$89,400</div>
+                  <div className="stat-actions">
+                    <button className="btn btn-sm m-2">Withdrawal</button>
+                    <button className="btn btn-sm m-2">Deposit</button>
+                  </div>
                 </div>
               </div>
+              <div className="stats bg-primary mt-4 text-primary-content justify-center items-center ml-8">
+                <div className="stat">
+                  <div className="stat-title text-white">Account balance</div>
+                  <div className="stat-value text-white">$89,400</div>
+                  <div className="stat-actions">
+                    <button className="btn btn-sm btn-success text-white">
+                      Add funds
+                    </button>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <div className="stat-title text-white">Current balance</div>
+                  <div className="stat-value text-white">$89,400</div>
+                  <div className="stat-actions">
+                    <button className="btn btn-sm m-2">Withdrawal</button>
+                    <button className="btn btn-sm m-2">Deposit</button>
+                  </div>
+                </div>
+              </div>
+              <div className="stats bg-primary mt-4 text-primary-content justify-center items-center ml-8">
+                <div className="stat">
+                  <div className="stat-title text-white">Account balance</div>
+                  <div className="stat-value text-white">$89,400</div>
+                  <div className="stat-actions">
+                    <button className="btn btn-sm btn-success text-white">
+                      Add funds
+                    </button>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <div className="stat-title text-white">Current balance</div>
+                  <div className="stat-value text-white">$89,400</div>
+                  <div className="stat-actions">
+                    <button className="btn btn-sm m-2">Withdrawal</button>
+                    <button className="btn btn-sm m-2">Deposit</button>
+                  </div>
+                </div>
+              </div>
+              <div></div>
             </div>
-            <div></div>
+            <div className=" h-screen justify-center items-center p-6">
+              <div className="m-2 text-2xl font-bold p-4">Wallet Summary</div>
+              <div className="overflow-x-auto">
+                <table className="table table-zebra">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Job</th>
+                      <th>Favorite Color</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((item, index) => (
+                      <tr key={item.id} className="hover">
+                        <th>{index + 1}</th>
+                        <td>{item.name}</td>
+                        <td>{item.job}</td>
+                        <td>{item.favoriteColor}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </>
       )}
