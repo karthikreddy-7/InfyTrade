@@ -8,8 +8,10 @@ export const fetchStockByName = async (name) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    const prices = data.map(stock => parseFloat(stock.price));
-    const avgPrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2);
+    const prices = data.map((stock) => parseFloat(stock.price));
+    const avgPrice = (
+      prices.reduce((a, b) => a + b, 0) / prices.length
+    ).toFixed(2);
     return { symbol: data[0].symbol, price: avgPrice };
   } catch (error) {
     console.error("Failed to fetch stock data:", error);
@@ -30,4 +32,25 @@ export const adjustMarketPrice = (price) => {
   const change = (Math.random() * 2 - 1).toFixed(2); // Change between -1 and 1
   const newPrice = (parseFloat(price) + parseFloat(change)).toFixed(2);
   return { newPrice, change };
+};
+
+// Function to fluctate baseprice
+export const fluctuateBasePrice = (price, percentage) => {
+  const fluctuation = Math.random() * (percentage * 2) - percentage;
+  return parseFloat(price) + (parseFloat(price) * fluctuation) / 100;
+};
+
+export const fetchStockByNameRedux = async (name) => {
+  try {
+    const response = await fetch(`${API_URL}/stocks/search?name=${name}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const prices = data.map((stock) => parseFloat(stock.price));
+    return prices;
+  } catch (error) {
+    console.error("Failed to fetch stock data:", error);
+    throw error;
+  }
 };

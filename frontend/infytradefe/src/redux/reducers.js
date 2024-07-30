@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { ibmReducer, msftReducer, raceReducer, tslaReducer } from "./stockreducers";
 
 // Initial state
 const initialState = {
@@ -55,6 +56,10 @@ const widgetReducer = (state = initialWidgetState, action) => {
 const rootReducer = combineReducers({
   auth: authReducer,
   widgets: widgetReducer,
+  ibm: ibmReducer,
+  tsla: tslaReducer,
+  msft: msftReducer,
+  race: raceReducer,
 });
 
 export default rootReducer;
