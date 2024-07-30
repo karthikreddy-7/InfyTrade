@@ -4,12 +4,13 @@ module.exports = {
   content: [
     "./src/**/*.{html,js,jsx,ts,tsx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       fontFamily: {
         lato: ["Lato", "sans-serif"],
-      }, 
+      },
     },
   },
   plugins: [require("daisyui"), nextui()],

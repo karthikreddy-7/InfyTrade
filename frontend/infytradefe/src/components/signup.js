@@ -60,7 +60,7 @@ const Signup = () => {
               Sign up to enjoy the features of InfyTrade
             </p>
             <form
-              className="w-full mt-4 flex flex-col items-center"
+              className="w-full mt-4 flex flex-col justify-center items-center"
               onSubmit={handleSubmit}
               noValidate
             >

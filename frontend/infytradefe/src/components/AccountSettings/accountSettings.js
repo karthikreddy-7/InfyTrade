@@ -1,7 +1,5 @@
 // AccountSettings.js
 import React, { useState } from "react";
-import profilePic from './profilepic.png'; // Adjust the path as necessary
-
 function AccountSettings() {
   const [isPublic, setIsPublic] = useState(true);
 
@@ -10,18 +8,18 @@ function AccountSettings() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-100 rounded-lg shadow-lg">
+    <div className="max-w-5xl mx-auto p-2 rounded-lg">
       <header className="text-center mb-6">
         <h1 className="text-3xl font-semibold">Welcome, Alexa</h1>
       </header>
       <div className="bg-white rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
-            <img
-              src={profilePic}
-              alt="Alexa Rawles"
-              className="w-20 h-20 rounded-full mr-4"
-            />
+            <div className="avatar">
+              <div className="w-24 rounded-full mr-4">
+                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              </div>
+            </div>
             <div>
               <h2 className="text-xl font-semibold">Alexa Rawles</h2>
               <p className="text-gray-600">alexarawles@gmail.com</p>
@@ -33,20 +31,40 @@ function AccountSettings() {
         </div>
         <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="form-group">
-            <label className="block mb-2 text-sm font-medium text-gray-700">Full Name</label>
-            <input type="text" placeholder="Your First Name" className="w-full px-3 py-2 border rounded-lg" />
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Full Name
+            </label>
+            <input
+              type="text"
+              placeholder="Your First Name"
+              className="w-full px-3 py-2 border rounded-lg"
+            />
           </div>
           <div className="form-group">
-            <label className="block mb-2 text-sm font-medium text-gray-700">Gender</label>
-            <input type="text" placeholder="Your Gender" className="w-full px-3 py-2 border rounded-lg" />
+            <label className="block mb-2 text-sm font-medium text-gray-700">
+              Gender
+            </label>
+            <input
+              type="text"
+              placeholder="Your Gender"
+              className="w-full px-3 py-2 border rounded-lg"
+            />
           </div>
           <div className="form-group flex items-center justify-between">
             <div className="w-2/3">
-              <label className="block mb-2 text-sm font-medium text-gray-700">Country</label>
-              <input type="text" placeholder="Your Country" className="w-full px-3 py-2 border rounded-lg" />
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Country
+              </label>
+              <input
+                type="text"
+                placeholder="Your Country"
+                className="w-full px-3 py-2 border rounded-lg"
+              />
             </div>
             <div className="flex items-center ml-4">
-              <label className="block text-sm font-medium text-gray-700 mr-2">Private</label>
+              <label className="block text-sm font-medium text-gray-700 mr-2">
+                Private
+              </label>
               <div className="relative">
                 <input
                   type="checkbox"
@@ -65,7 +83,9 @@ function AccountSettings() {
                   }`}
                 ></div>
               </div>
-              <label className="block text-sm font-medium text-gray-700 ml-2">Public</label>
+              <label className="block text-sm font-medium text-gray-700 ml-2">
+                Public
+              </label>
             </div>
           </div>
         </form>

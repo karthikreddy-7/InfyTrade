@@ -28,9 +28,9 @@ export class holdingsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a holdings by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the holdings' })
-  @ApiResponse({ status: 200, description: 'Returns the holdings by ID.', type: ResponseholdingsDto })
+  @ApiOperation({ summary: 'Get a holdings by UserID' })
+  @ApiParam({ name: 'id', description: 'UserID of the holdings' })
+  @ApiResponse({ status: 200, description: 'Returns the holdings by UserID.', type: [ResponseholdingsDto] })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
     return this.holdingsService.findOne(id);
