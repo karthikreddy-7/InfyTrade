@@ -1,11 +1,12 @@
 export function calculateFinalAmount(transactionType, currentBalance, amount) {
+  let finalAmount;
   switch (transactionType) {
-    case "addFunds":
-      return currentBalance + amount;
     case "withdraw":
-      return currentBalance - amount;
+      finalAmount = Number(currentBalance) - Number(amount);
+      return finalAmount;
     case "deposit":
-      return currentBalance + amount;
+      finalAmount = Number(currentBalance) + Number(amount);
+      return finalAmount;
     default:
       throw new Error("Invalid transaction type");
   }

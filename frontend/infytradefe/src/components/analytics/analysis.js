@@ -16,6 +16,7 @@ import {
   Legend,
 } from "chart.js";
 import { Button, Checkbox, Select, SelectItem } from "@nextui-org/react";
+import robo from "../../assests/robo.jpg";
 
 ChartJS.register(
   CategoryScale,
@@ -58,7 +59,7 @@ const colors = [
 ];
 
 const Analysis = () => {
-  const [selectedStock, setSelectedStock] = useState(stockOptions[0].value);
+  const [selectedStock, setSelectedStock] = useState();
   const [chartType, setChartType] = useState(chartTypes[0].value);
   const [period, setPeriod] = useState(periods[0].value);
   const [additionalStocks, setAdditionalStocks] = useState([]);
@@ -142,19 +143,6 @@ const Analysis = () => {
           </div>
           <div className="flex flex-col gap-8 mt-4">
             <Select
-              label="Select a stock"
-              value={selectedStock}
-              onChange={handleStockChange}
-              className="max-w-xl"
-            >
-              {stockOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </Select>
-
-            <Select
               label="Select chart type"
               value={chartType}
               onChange={handleChartTypeChange}
@@ -166,7 +154,18 @@ const Analysis = () => {
                 </SelectItem>
               ))}
             </Select>
-
+            <Select
+              label="Select a stock"
+              value={selectedStock}
+              onChange={handleStockChange}
+              className="max-w-xl"
+            >
+              {stockOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </Select>
             <div className="grid grid-cols-4 gap-2 mb-2">
               {periods.map((option) => (
                 <Button
@@ -210,9 +209,17 @@ const Analysis = () => {
           </div>
         </div>
       </div>
-      <div className="h-screen w-[50vw] p-4 flex flex-1 justify-center items-center">
-        <div className="h-[100vh] min-w-full justify-center items-center">
-          {renderChart()}
+      <div className="h-screen w-full flex flex-1 justify-center items-center">
+        <div className="h-[100vh] w-[50vw] min-w-full justify-center items-center">
+          {!selectedStock ? (
+            <img
+              src={robo}
+              className="object-fill w-full h-full"
+              alt="No result"
+            />
+          ) : (
+            <>{renderChart()}</>
+          )}
         </div>
       </div>
     </div>

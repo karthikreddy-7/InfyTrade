@@ -63,9 +63,16 @@ function AutomatedTradingSystem() {
         <div className="flex h-screen bg-gray-100">
           <div className="card bg-gray-50 w-2/5 rounded-none">
             <div className="card-body shadow-md  h-screen">
-              <h2 className="card-title text-2xl font-bold text-gray-900 mb-1">
-                Automated Trading System
-              </h2>
+              <div className="flex flex-col text-center justify-center items-center">
+                <h2 className="card-title text-2xl font-bold text-gray-900 mb-1">
+                  Automated Trading System
+                </h2>
+                <p className=" text-gray-600 text-center">
+                  Choose which stock you want to buy or sell based on the price
+                  of another stock.
+                </p>
+              </div>
+
               <form onSubmit={handleSubmit}>
                 <div className="mb-2">
                   <label className="block text-base font-medium text-gray-800 mb-1">
@@ -145,17 +152,13 @@ function AutomatedTradingSystem() {
                   Set Rule
                 </button>
               </form>
-              <p className="mt-4 text-gray-600 text-center">
-                Choose which stock you want to buy or sell based on the price of
-                another stock.
-              </p>
             </div>
           </div>
           <div className="w-3/5 bg-gray-100  flex items-center justify-center">
             {!result && !showInfoMessage ? (
               <img
                 src={robo}
-                className="object-fill w-full h-full mb-4"
+                className="object-fill w-full h-full"
                 alt="No result"
               />
             ) : null}

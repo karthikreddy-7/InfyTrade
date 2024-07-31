@@ -24,6 +24,7 @@ import { loginSuccess } from "./redux/action";
 import AccountSettings from "./components/AccountSettings/accountSettings";
 import { NextUIProvider, ScrollShadow } from "@nextui-org/react";
 import Walletmoney from "./components/walletmoney";
+import DummyMarketPlace from "./components/marketplace/Dummymarketplace";
 
 const Layout = ({ children }) => (
   <div className="flex h-screen bg-gray-100">
@@ -87,7 +88,7 @@ const AppRoutes = () => {
           <ProtectedRoute
             element={
               <Layout>
-                <Marketplace />
+                <DummyMarketPlace />
               </Layout>
             }
           />
