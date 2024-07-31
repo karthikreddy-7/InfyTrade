@@ -1,12 +1,12 @@
 // News.js
-import React from 'react';
+import React from "react";
 
 const News = () => {
   return (
-    <div className="bg-white p-5 rounded-lg shadow mb-4">
+    <div className="bg-white shadow p-1 pt-5 h-full">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold mb-2">Stock Market News</h2>
-        <button className="text-blue-500">See All</button>
+        <button className="text-blue-500 mr-3">See All</button>
       </div>
       <div className="space-y-4">
         {[
@@ -26,7 +26,7 @@ const News = () => {
               "Tech stocks are surging following positive earnings reports from major companies.",
           },
         ].map((news, index) => (
-          <div key={index} className="bg-gray-100 p-3 rounded-lg shadow">
+          <div key={index} className="bg-gray-200 p-3 rounded-lg">
             <h3 className="font-semibold text-md mb-1">{news.title}</h3>
             <p className="text-sm text-gray-700">{news.description}</p>
           </div>

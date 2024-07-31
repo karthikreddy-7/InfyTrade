@@ -11,6 +11,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { Button } from "@nextui-org/react";
 
 ChartJS.register(
   CategoryScale,
@@ -41,8 +42,10 @@ const AreaChart = ({ data, onAddToDashboard }) => {
     scales: {
       x: {
         title: {
-          display: true,
-          text: "Time",
+          display: false, // Hide x-axis title
+        },
+        ticks: {
+          display: false, // Hide x-axis labels
         },
       },
       y: {
@@ -55,45 +58,42 @@ const AreaChart = ({ data, onAddToDashboard }) => {
     },
   };
 
+  // Transforming stockData to chartData
+  const prices = data.prices.map((price) => parseFloat(price));
+  const labels = prices.map((_, index) => `Time ${index + 1}`);
   const chartData = {
-    labels: data.labels,
-    datasets: data.datasets.map((dataset) => ({
-      ...dataset,
-      fill: true,
-      backgroundColor: "rgba(54, 162, 235, 0.2)",
-      borderColor: "rgba(54, 162, 235, 1)",
-    })),
+    labels,
+    datasets: [
+      {
+        label: data.symbol,
+        data: prices,
+        fill: true,
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+      },
+    ],
   };
 
+  // Calculate opening, highest, and lowest prices
+  const opening = prices[0];
+  const highest = Math.max(...prices);
+  const lowest = Math.min(...prices);
+
   return (
-    <div className="h-screen bg-white">
-      <div className="mb-12">
-        <h3>{data.title}</h3>
-        {data.datasets.map((dataset) => (
-          <div key={dataset.label}>
-            <p className="flex justify-around font-medium text-sm text-center decoration-2">
-              <p className="text-sky-500">
-                Opening: USD {dataset.opening.toFixed(2)}
-              </p>
-              <p className="text-green-600">
-                Highest: USD {dataset.highest.toFixed(2)}
-              </p>
-              <p className="text-red-600">
-                Lowest: USD {dataset.lowest.toFixed(2)}
-              </p>
-            </p>
-          </div>
-        ))}
+    <div className="h-full bg-white">
+      <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-around font-medium text-sm text-center w-full">
+          <p className="text-sky-500">Opening: USD {opening.toFixed(2)}</p>
+          <p className="text-green-600">Highest: USD {highest.toFixed(2)}</p>
+          <p className="text-red-600">Lowest: USD {lowest.toFixed(2)}</p>
+        </div>
+        <div className="relative">
+          <Button value="add-to-dashboard" className="p-2">
+            Add to Dashboard
+          </Button>
+        </div>
       </div>
       <Line data={chartData} options={options} />
-      <div className="flex justify-center">
-        <button
-          className="p-2 bg-primary text-white rounded"
-          onClick={onAddToDashboard}
-        >
-          Add to Dashboard
-        </button>
-      </div>
     </div>
   );
 };
