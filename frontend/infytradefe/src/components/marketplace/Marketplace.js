@@ -31,7 +31,9 @@ const stockLogos = {
 };
 
 const calculateTopGainersAndLosers = (stocks) => {
-  const sortedStocks = [...stocks].sort((a, b) => b.changePercent - a.changePercent);
+  const sortedStocks = [...stocks].sort(
+    (a, b) => b.changePercent - a.changePercent
+  );
   return {
     gainers: sortedStocks.slice(0, 2),
     losers: sortedStocks.slice(-2),
@@ -94,7 +96,7 @@ const Marketplace = () => {
   };
 
   const getStockData = (symbol) => {
-    return stocks.find(stock => stock.symbol === symbol) || {};
+    return stocks.find((stock) => stock.symbol === symbol) || {};
   };
 
   return (
@@ -124,20 +126,19 @@ const Marketplace = () => {
               </label>
             </header>
             <div className="mb-3">
-  <div className="flex space-x-4 overflow-x-auto">
-    {stocks.map((stock) => (
-      <div className="flex-shrink-0 w-1/4">
-        <StockCard
-          key={stock.symbol}
-          stock={stock}
-          stockLogos={stockLogos}
-          handleCardClick={handleCardClick}
-        />
-      </div>
-    ))}
-  </div>
-</div>
-
+              <div className="flex space-x-4 overflow-x-auto">
+                {stocks.map((stock) => (
+                  <div className="flex-shrink-0 w-1/4">
+                    <StockCard
+                      key={stock.symbol}
+                      stock={stock}
+                      stockLogos={stockLogos}
+                      handleCardClick={handleCardClick}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
               <div className="col-span-3 bg-white p-5 rounded-lg shadow">
@@ -148,16 +149,12 @@ const Marketplace = () => {
                 <TopLoser losers={losers} stockLogos={stockLogos} />
               </div>
             </div>
-
-              <MarketTrendGenerator
-                stocks={[ibm, msft, tsla, race]}
-                stockLogos={stockLogos}
-                handleBuyClick={handleBuyClick}
-                handleSellClick={handleSellClick}
-              />
-          </div>
-          <div className="h-screen">
-            <News />
+            <MarketTrendGenerator
+              stocks={[ibm, msft, tsla, race]}
+              stockLogos={stockLogos}
+              handleBuyClick={handleBuyClick}
+              handleSellClick={handleSellClick}
+            />
           </div>
         </div>
       </main>
@@ -180,7 +177,6 @@ const Marketplace = () => {
         />
       )}
     </div>
-
   );
 };
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { createPortfolio } from '../../api/portfolioHoldings';
+import React, { useState } from "react";
+import { createPortfolio } from "../../api/portfolioHoldings";
 
 const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
   const [quantity, setQuantity] = useState("");
@@ -31,16 +31,24 @@ const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-40 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Sell {company}</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Sell {company}
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block text-gray-600 mb-1">Current Stock Name:</label>
-              <span className="block bg-gray-100 text-gray-800 p-3 rounded">{company}</span>
+              <label className="block text-gray-600 mb-1">
+                Current Stock Name:
+              </label>
+              <span className="block bg-gray-100 text-gray-800 p-3 rounded">
+                {company}
+              </span>
             </div>
             <div>
               <label className="block text-gray-600 mb-1">Market Price:</label>
-              <span className="block bg-gray-100 text-gray-800 p-3 rounded">${marketPrice}</span>
+              <span className="block bg-gray-100 text-gray-800 p-3 rounded">
+                ${marketPrice}
+              </span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 mb-4">
@@ -55,13 +63,12 @@ const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
               />
             </div>
             <div>
-              <label className="block text-gray-600 mb-1">Price (Ask Price):</label>
-              <input
-                type="number"
-                value={price}
-                readOnly // Make the input read-only
-                className="border-2 border-red-300 p-3 rounded-lg w-full bg-gray-100 text-gray-800"
-              />
+              <label className="block text-gray-600 mb-1">
+                Price (Ask Price):
+              </label>
+              <span className="block bg-gray-100 text-gray-800 p-3 rounded">
+                ${askPrice}
+              </span>
             </div>
           </div>
           <div className="flex justify-end gap-2 mt-4">
