@@ -101,18 +101,15 @@ function Walletmoney() {
 
   // Handle form submission
   const handleSubmit = async () => {
-    console.log("inside handlesubmit");
     const finalAmount = parseFloat(
       calculateFinalAmount(transactionType, user.balance, parseFloat(amount))
     ).toFixed(2);
-
     try {
       const response = await updateUser(
         user.id,
         { balance: finalAmount },
         dispatch
       );
-      console.log(response);
       user = response;
       if (transactionType === "addFunds") {
         showAlert("success", "You successfully logged in!");
@@ -157,17 +154,7 @@ function Walletmoney() {
                   <div className="stat">
                     <div className="stat-title text-white">Account balance</div>
                     <div className="stat-value text-white">${user.balance}</div>
-                    <div className="stat-actions">
-                      <button
-                        className="btn btn-sm btn-success text-white"
-                        onClick={() => {
-                          setTransactionType("addFunds");
-                          setIsAddFundsOpen(true);
-                        }}
-                      >
-                        Add Funds
-                      </button>
-                    </div>
+                    <div className="stat-actions"></div>
                   </div>
 
                   <div className="stat">
