@@ -18,7 +18,7 @@ export const initializeIbmStockPricesThunk = () => async (dispatch) => {
     const bid = (parseFloat(initialPrice) * 1.02).toFixed(2);
     const ask = (parseFloat(initialPrice) * 0.98).toFixed(2);
     console.log({ prices, bid, ask, currentPrice: initialPrice });
-    dispatch(setIbmStock({ prices, bid, ask, currentPrice: initialPrice }));
+    dispatch(setIbmStock({ symbol: "IBM", prices, bid, ask, currentPrice: initialPrice }));
   } catch (error) {
     console.error("Failed to initialize IBM stock prices:", error);
   }
@@ -30,7 +30,7 @@ export const initializeTslaStockPricesThunk = () => async (dispatch) => {
     const initialPrice = prices[prices.length - 1];
     const bid = (parseFloat(initialPrice) * 1.02).toFixed(2);
     const ask = (parseFloat(initialPrice) * 0.98).toFixed(2);
-    dispatch(setTslaStock({ prices, bid, ask, currentPrice: initialPrice }));
+    dispatch(setTslaStock({ symbol: "TSLA", prices, bid, ask, currentPrice: initialPrice }));
   } catch (error) {
     console.error("Failed to initialize TSLA stock prices:", error);
   }
@@ -42,7 +42,7 @@ export const initializeMsftStockPricesThunk = () => async (dispatch) => {
     const initialPrice = prices[prices.length - 1];
     const bid = (parseFloat(initialPrice) * 1.02).toFixed(2);
     const ask = (parseFloat(initialPrice) * 0.98).toFixed(2);
-    dispatch(setMsftStock({ prices, bid, ask, currentPrice: initialPrice }));
+    dispatch(setMsftStock({ symbol: "MSFT", prices, bid, ask, currentPrice: initialPrice }));
   } catch (error) {
     console.error("Failed to initialize MSFT stock prices:", error);
   }
@@ -54,7 +54,7 @@ export const initializeRaceStockPricesThunk = () => async (dispatch) => {
     const initialPrice = prices[prices.length - 1];
     const bid = (parseFloat(initialPrice) * 1.02).toFixed(2);
     const ask = (parseFloat(initialPrice) * 0.98).toFixed(2);
-    dispatch(setRaceStock({ prices, bid, ask, currentPrice: initialPrice }));
+    dispatch(setRaceStock({ symbol: "RACE", prices, bid, ask, currentPrice: initialPrice }));
   } catch (error) {
     console.error("Failed to initialize RACE stock prices:", error);
   }
@@ -81,6 +81,7 @@ export const updateIbmStockPriceThunk = () => (dispatch, getState) => {
 
   dispatch(
     updateIbmStock({
+      symbol: "IBM",
       prices: [...currentPrices, newPrice],
       bid,
       ask,
@@ -108,6 +109,7 @@ export const updateTslaStockPriceThunk = () => (dispatch, getState) => {
 
   dispatch(
     updateTslaStock({
+      symbol: "TSLA",
       prices: [...currentPrices, newPrice],
       bid,
       ask,
@@ -135,6 +137,7 @@ export const updateMsftStockPriceThunk = () => (dispatch, getState) => {
 
   dispatch(
     updateMsftStock({
+      symbol: "MSFT",
       prices: [...currentPrices, newPrice],
       bid,
       ask,
@@ -162,6 +165,7 @@ export const updateRaceStockPriceThunk = () => (dispatch, getState) => {
 
   dispatch(
     updateRaceStock({
+      symbol: "RACE",
       prices: [...currentPrices, newPrice],
       bid,
       ask,
