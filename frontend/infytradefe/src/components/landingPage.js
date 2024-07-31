@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ui_customization from "../assests/ui_customization.jpeg";
 import rtdata_analysis from "../assests/rtdata_analysis.jpeg";
 import mlmodels from "../assests/mlmodels.jpeg";
-import flexImage from "../assests/flex_image.jpeg";
+import flexImage from "../assests/flex_image.png";
 import dynamicDashboards from "../assests/dynamic_dashboards.jpeg";
 import traderRankings from "../assests/trader_rankings.jpeg";
 import communityMarketplace from "../assests/community_marketplace.jpeg";

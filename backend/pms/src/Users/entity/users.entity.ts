@@ -17,6 +17,9 @@ export class Users extends BaseCustomEntity {
   @Column({ type: 'varchar', length: 255, unique: true, nullable: true })
   username: string;
 
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: true })
+  name: string;
+
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 

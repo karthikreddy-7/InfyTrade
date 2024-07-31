@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.non-clickable {
+  @apply pointer-events-none opacity-50; /* Tailwind utility classes */
+}

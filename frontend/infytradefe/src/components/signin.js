@@ -34,17 +34,17 @@ const Signin = () => {
   };
 
   const handleSubmit = async (event) => {
+    console.log("inside handlesubmit signin");
     event.preventDefault();
     try {
-      const data = await signIn(email, password);
+      const data = await signIn(email, password, dispatch);
       console.log(data);
-      localStorage.setItem("token", JSON.stringify(data));
-      dispatch(loginSuccess(data));
+      console.log(data);
+
       showAlert("success", "You successfully logged in!");
       setTimeout(() => navigate("/marketplace"), 2000);
     } catch (error) {
       showAlert("error", "Invalid Creds, Please try again !");
-      setErrorMessage(error.message);
     }
   };
 

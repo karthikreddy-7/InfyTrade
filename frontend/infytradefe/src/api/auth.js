@@ -1,29 +1,41 @@
+import { loginSuccess } from "../redux/action";
+
 const API_URL = "https://infytrade-pms.onrender.com/users";
 
-export const signIn = async (email, password) => {
+export const signIn = async (email, password, dispatch) => {
+  const API_URL = `${process.env.REACT_APP_API_BASE_URL}/users/check`;
   const requestBody = { email, password };
 
-  const response = await fetch(`${API_URL}/check`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
-  });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
 
-  if (!response.ok) {
-    throw new Error('Invalid credentials');
+    if (!response.ok) {
+      throw new Error("Invalid credentials");
+    }
+
+    const data = await response.json();
+
+    dispatch(loginSuccess(data));
+
+    localStorage.setItem("token", JSON.stringify(data));
+
+    return data;
+  } catch (error) {
+    throw error;
   }
-
-  const data = await response.json();
-  return data;
 };
 
-export const signUp = async (name, email, password) => {
-  const userName = generateRandomUserName(name);
-  console.log(userName);
+export const signUp = async (name, email, password, dispatch) => {
+  const username = generateRandomUserName(name);
+  console.log(username);
 
-  const requestBody = { name, email, userName, password };
+  const requestBody = { name, email, username, password };
 
   try {
     const response = await fetch(API_URL, {
@@ -38,12 +50,80 @@ export const signUp = async (name, email, password) => {
       if (response.status === 400) {
         throw new Error("Bad request. Please check your input.");
       } else {
-        throw new Error("An unexpected error occurred. Please try again later.");
+        throw new Error(
+          "An unexpected error occurred. Please try again later."
+        );
       }
     }
 
     const data = await response.json();
+
+    dispatch(loginSuccess(data));
+    localStorage.setItem("token", JSON.stringify(data));
+
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUser = async (userId, updateData, dispatch) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/users/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      }
+    );
+    const data = await response.json();
+    dispatch(loginSuccess(data));
+    localStorage.setItem("token", JSON.stringify(data));
+    if (!response.ok) {
+      if (response.status === 400) {
+        throw new Error("Bad request. Please check your input.");
+      } else if (response.status === 404) {
+        throw new Error("User not found.");
+      } else {
+        throw new Error(
+          "An unexpected error occurred. Please try again later."
+        );
+      }
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/users`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      if (response.status === 400) {
+        throw new Error("Bad request. Please check your input.");
+      } else if (response.status === 404) {
+        throw new Error("User not found.");
+      } else {
+        throw new Error(
+          "An unexpected error occurred. Please try again later."
+        );
+      }
+    }
+    const data = await response.json();
+    const sortedData = data.sort((a, b) => b.profit - a.profit);
+    return sortedData;
   } catch (error) {
     throw error;
   }

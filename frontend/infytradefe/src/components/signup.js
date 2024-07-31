@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { signUp } from "../api/auth";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import Alert from "./alert";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/action";
+import { useNavigate } from "react-router-dom";
 
 const clientId = " ";
 
@@ -10,6 +13,8 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const showAlert = (type, message) => {
     setAlert({ show: true, type, message });
@@ -33,12 +38,14 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      const data = await signUp(name, email, password);
-      console.log("Success:", data);
+      const data = await signUp(name, email, password, dispatch);
+      console.log(data);
+      localStorage.setItem("token", JSON.stringify(data));
+      showAlert("success", "You successfully signed up!");
+      setTimeout(() => navigate("/marketplace"), 2000);
     } catch (error) {
-      console.error("Error:", error.message);
+      showAlert("error", error.message);
     }
   };
 
@@ -137,17 +144,6 @@ const Signup = () => {
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">or</span>
-                </div>
-              </div>
-              <div className="mb-4 w-full">
-                <GoogleLogin
-                  onSuccess={handleGoogleLoginSuccess}
-                  onFailure={handleGoogleLoginFailure}
-                  buttonText="Continue with Google"
-                  className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                />
               </div>
               <div className="flex justify-center">
                 <a
