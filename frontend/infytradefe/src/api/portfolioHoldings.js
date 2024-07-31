@@ -11,7 +11,6 @@ export const fetchPortfolioData = async (userId) => {
 };
 
 export const createPortfolio = async (portfolioData) => {
-  console.log("portfolioData",portfolioData);
   try {
     const response = await fetch(
       `${process.env.REACT_APP_API_BASE_URL}/portfolios`,

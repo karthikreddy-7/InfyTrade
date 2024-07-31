@@ -6,7 +6,9 @@ const News = () => {
     <div className="bg-white shadow p-1 pt-5 h-full">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold mb-2">Stock Market News</h2>
-        <button className="text-blue-500 mr-3">See All</button>
+        <button className="text-blue-700 text-xs font-bold mr-3">
+          See All
+        </button>
       </div>
       <div className="space-y-4">
         {[
