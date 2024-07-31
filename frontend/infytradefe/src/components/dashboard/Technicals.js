@@ -1,5 +1,4 @@
 import React from 'react';
-import { Gauge } from 'react-chartjs-2';
 
 const Technicals = () => {
   const data = {
