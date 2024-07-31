@@ -77,7 +77,7 @@ export const updateIbmStockPriceThunk = () => (dispatch, getState) => {
   const bid = (parseFloat(newPrice) - parseFloat(newPrice) * 0.02).toFixed(2);
   const ask = (parseFloat(newPrice) + parseFloat(newPrice) * 0.02).toFixed(2);
 
-  console.log({ currentPrices, bid, ask, currentPrice: newPrice });
+  // console.log({ currentPrices, bid, ask, currentPrice: newPrice });
 
   dispatch(
     updateIbmStock({

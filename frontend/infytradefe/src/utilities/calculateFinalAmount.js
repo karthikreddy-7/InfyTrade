@@ -11,3 +11,5 @@ export function calculateFinalAmount(transactionType, currentBalance, amount) {
       throw new Error("Invalid transaction type");
   }
 }
+
+
