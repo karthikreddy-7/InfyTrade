@@ -33,8 +33,8 @@ const stockLogos = {
 const calculateTopGainersAndLosers = (stocks) => {
   const sortedStocks = [...stocks].sort((a, b) => b.changePercent - a.changePercent);
   return {
-    gainers: sortedStocks.slice(0, 3),
-    losers: sortedStocks.slice(-3),
+    gainers: sortedStocks.slice(0, 2),
+    losers: sortedStocks.slice(-2),
   };
 };
 
@@ -52,7 +52,7 @@ const Marketplace = () => {
   const msft = useSelector((state) => state.msft || {});
   const race = useSelector((state) => state.race || {});
   const user = useSelector((state) => state.auth.user); // Get user details from auth state
-  
+
   useEffect(() => {
     // Fetch initial stock data
     dispatch(initializeIbmStockPricesThunk());
@@ -101,7 +101,7 @@ const Marketplace = () => {
     <div className="min-h-screen flex">
       <main className="flex-1 p-5 overflow-y-auto">
         <div className="flex flex-row gap-2">
-          <div>
+          <div className="w-full">
             <header className="flex items-center justify-between mb-4">
               <label className="input input-bordered flex items-center gap-2">
                 <input
@@ -124,37 +124,37 @@ const Marketplace = () => {
               </label>
             </header>
             <div className="mb-3">
-              <h2 className="text-lg font-semibold mb-2">Stocks</h2>
-              <div className="flex space-x-7 overflow-x-auto">
-                {stocks.map((stock) => (
-                  <StockCard
-                    key={stock.symbol}
-                    stock={stock}
-                    stockLogos={stockLogos}
-                    handleCardClick={handleCardClick}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-              <div className="bg-white p-5 rounded-lg shadow col-span-2">
+  <div className="flex space-x-4 overflow-x-auto">
+    {stocks.map((stock) => (
+      <div className="flex-shrink-0 w-1/4">
+        <StockCard
+          key={stock.symbol}
+          stock={stock}
+          stockLogos={stockLogos}
+          handleCardClick={handleCardClick}
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+              <div className="col-span-3 bg-white p-5 rounded-lg shadow">
                 <StockChartGenerator selectedStock={selectedStock} />
               </div>
+              <div className="col-span-1 bg-white p-5 rounded-lg shadow">
+                <TopGainer gainers={gainers} stockLogos={stockLogos} />
+                <TopLoser losers={losers} stockLogos={stockLogos} />
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 col-span-1">
-              <TopGainer gainers={gainers} stockLogos={stockLogos} />
-            </div>
-            <TopLoser losers={losers} stockLogos={stockLogos} />
-
-            <div className="bg-white p-5 rounded-lg shadow">
               <MarketTrendGenerator
                 stocks={[ibm, msft, tsla, race]}
                 stockLogos={stockLogos}
                 handleBuyClick={handleBuyClick}
                 handleSellClick={handleSellClick}
               />
-            </div>
           </div>
           <div className="h-screen">
             <News />
@@ -180,6 +180,7 @@ const Marketplace = () => {
         />
       )}
     </div>
+
   );
 };
 
