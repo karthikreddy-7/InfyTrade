@@ -51,7 +51,8 @@ const Marketplace = () => {
   const tsla = useSelector((state) => state.tsla || {});
   const msft = useSelector((state) => state.msft || {});
   const race = useSelector((state) => state.race || {});
-
+  const user = useSelector((state) => state.auth.user); // Get user details from auth state
+  
   useEffect(() => {
     // Fetch initial stock data
     dispatch(initializeIbmStockPricesThunk());
@@ -73,7 +74,6 @@ const Marketplace = () => {
   const stocks = [ibm, msft, tsla, race];
 
   useEffect(() => {
-    const stocks = [ibm, msft, tsla, race];
     const { gainers, losers } = calculateTopGainersAndLosers(stocks);
     setGainers(gainers);
     setLosers(losers);
@@ -93,85 +93,90 @@ const Marketplace = () => {
     setIsSellModalOpen(true);
   };
 
+  const getStockData = (symbol) => {
+    return stocks.find(stock => stock.symbol === symbol) || {};
+  };
+
   return (
     <div className="min-h-screen flex">
       <main className="flex-1 p-5 overflow-y-auto">
-      <div className="flex flex-row gap-2">
-        <div>
-        <header className="flex items-center justify-between mb-4">
-          <label className="input input-bordered flex items-center gap-2">
-            <input
-              type="text"
-              className="grow"
-              placeholder="Search for Stocks"
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
+        <div className="flex flex-row gap-2">
+          <div>
+            <header className="flex items-center justify-between mb-4">
+              <label className="input input-bordered flex items-center gap-2">
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="Search for Stocks"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="h-4 w-4 opacity-70"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </label>
+            </header>
+            <div className="mb-3">
+              <h2 className="text-lg font-semibold mb-2">Stocks</h2>
+              <div className="flex space-x-7 overflow-x-auto">
+                {stocks.map((stock) => (
+                  <StockCard
+                    key={stock.symbol}
+                    stock={stock}
+                    stockLogos={stockLogos}
+                    handleCardClick={handleCardClick}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+              <div className="bg-white p-5 rounded-lg shadow col-span-2">
+                <StockChartGenerator selectedStock={selectedStock} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 col-span-1">
+              <TopGainer gainers={gainers} stockLogos={stockLogos} />
+            </div>
+            <TopLoser losers={losers} stockLogos={stockLogos} />
+
+            <div className="bg-white p-5 rounded-lg shadow">
+              <MarketTrendGenerator
+                stocks={[ibm, msft, tsla, race]}
+                stockLogos={stockLogos}
+                handleBuyClick={handleBuyClick}
+                handleSellClick={handleSellClick}
               />
-            </svg>
-          </label>
-        </header>
-        <div className="mb-3">
-          <h2 className="text-lg font-semibold mb-2">Stocks</h2>
-          <div className="flex space-x-7 overflow-x-auto">
-          {stocks.map((stock) => (
-            <StockCard
-              key={stock.symbol}
-              stock={stock}
-              stockLogos={stockLogos}
-              handleCardClick={handleCardClick}
-            />
-          ))}
+            </div>
+          </div>
+          <div className="h-screen">
+            <News />
+          </div>
         </div>
-      </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-          <div className="bg-white p-5 rounded-lg shadow col-span-2">
-          <StockChartGenerator selectedStock={selectedStock} />
-        </div>
-        </div>
-
-
-        <div className="grid grid-cols-1 gap-4 col-span-1">
-          <TopGainer gainers={gainers} stockLogos={stockLogos} />
-      </div>
-          <TopLoser losers={losers} stockLogos={stockLogos} />
-
-        <div className="bg-white p-5 rounded-lg shadow">
-        <MarketTrendGenerator
-          stocks={[ibm, msft, tsla, race]}
-          stockLogos={stockLogos}
-          handleBuyClick={handleBuyClick}
-          handleSellClick={handleSellClick}
-        />
-        </div>
-        </div>
-        <div className="h-screen
-        ">
-        <News />
-        </div>
-        </div>
-
       </main>
       {isBuyModalOpen && (
         <BuyModal
-          isOpen={isBuyModalOpen}
           onClose={() => setIsBuyModalOpen(false)}
           company={selectedCompany}
+          marketPrice={getStockData(selectedCompany).currentPrice}
+          bidPrice={getStockData(selectedCompany).bid}
+          userId={user?.id}
         />
       )}
       {isSellModalOpen && (
         <SellModal
-          isOpen={isSellModalOpen}
           onClose={() => setIsSellModalOpen(false)}
           company={selectedCompany}
+          marketPrice={getStockData(selectedCompany).currentPrice}
+          askPrice={getStockData(selectedCompany).ask}
+          userId={user?.id}
         />
       )}
     </div>

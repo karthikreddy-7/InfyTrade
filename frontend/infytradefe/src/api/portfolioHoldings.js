@@ -11,6 +11,7 @@ export const fetchPortfolioData = async (userId) => {
 };
 
 export const createPortfolio = async (portfolioData) => {
+  console.log("portfolioData",portfolioData);
   try {
     const response = await fetch(
       `${process.env.REACT_APP_API_BASE_URL}/portfolios`,
@@ -36,15 +37,17 @@ export const createPortfolio = async (portfolioData) => {
   }
 };
 
+
+
 // Example usage
-const portfolioData = {
-  userId: "5ec57771-6df2-4b94-89fe-9a8adf1fdafa",
-  stock: "AAPL",
-  type: "BUY",
-  quantity: 10.5,
-  price: 150.75,
-  transactionDate: "2024-07-29T12:34:56Z",
-};
+// const portfolioData = {
+//   userId: "5ec57771-6df2-4b94-89fe-9a8adf1fdafa",
+//   stock: "AAPL",
+//   type: "BUY",
+//   quantity: 10.5,
+//   price: 150.75,
+//   transactionDate: "2024-07-29T12:34:56Z",
+// };
 
 export const fetchUserHoldings = async (userId) => {
   try {

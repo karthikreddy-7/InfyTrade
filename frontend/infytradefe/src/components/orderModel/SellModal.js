@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
+import { createPortfolio } from '../../api/portfolioHoldings';
 
-const SellModal = ({ company, marketPrice, onClose }) => {
+const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
   const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
-  const [targetPrice, setTargetPrice] = useState("");
-  const [stopLoss, setStopLoss] = useState("");
+  const [price, setPrice] = useState(askPrice); // Initialize price with askPrice
 
   const handleQuantityChange = (event) => setQuantity(event.target.value);
-  const handlePriceChange = (event) => setPrice(event.target.value);
-  const handleTargetPriceChange = (event) => setTargetPrice(event.target.value);
-  const handleStopLossChange = (event) => setStopLoss(event.target.value);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle sell action here
-    console.log(`Selling ${quantity} of ${company} at ${price}`);
-    onClose(); // Close the modal after submission
+
+    const portfolioData = {
+      userId: userId,
+      stock: company,
+      type: "SELL",
+      quantity: parseFloat(quantity),
+      price: parseFloat(price),
+      transactionDate: new Date().toISOString(),
+    };
+
+    try {
+      const response = await createPortfolio(portfolioData);
+      console.log("Portfolio created successfully:", response);
+      onClose();
+    } catch (error) {
+      console.error("Error creating portfolio:", error);
+    }
   };
 
   return (
@@ -45,33 +55,12 @@ const SellModal = ({ company, marketPrice, onClose }) => {
               />
             </div>
             <div>
-              <label className="block text-gray-600 mb-1">Price:</label>
+              <label className="block text-gray-600 mb-1">Price (Ask Price):</label>
               <input
                 type="number"
                 value={price}
-                onChange={handlePriceChange}
-                className="border-2 border-red-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-200"
-                required
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-gray-600 mb-1">Target Price:</label>
-              <input
-                type="number"
-                value={targetPrice}
-                onChange={handleTargetPriceChange}
-                className="border-2 border-red-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-200"
-              />
-            </div>
-            <div>
-              <label className="block text-gray-600 mb-1">Stop Loss:</label>
-              <input
-                type="number"
-                value={stopLoss}
-                onChange={handleStopLossChange}
-                className="border-2 border-red-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-red-200"
+                readOnly // Make the input read-only
+                className="border-2 border-red-300 p-3 rounded-lg w-full bg-gray-100 text-gray-800"
               />
             </div>
           </div>
