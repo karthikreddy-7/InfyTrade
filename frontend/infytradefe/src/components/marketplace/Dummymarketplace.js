@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import BuyModal from "../orderModel/BuyModal";
 import SellModal from "../orderModel/SellModal";
 import StockCard from "./StockCard";
-import StockChartGenerator from "./StockChartGenerator";
 import TopGainer from "./TopGainer";
 import TopLoser from "./TopLoser";
 import MarketTrendGenerator from "./MarketTrendGenerator";
@@ -22,13 +21,13 @@ import {
   updateMsftStockPriceThunk,
   updateRaceStockPriceThunk,
 } from "../../redux/stockThunks";
+import { Button } from "@nextui-org/react";
 import backgroundImage from "../../assests/bgportfolio.jpg";
-import { RadioGroup, Radio } from "@nextui-org/react";
+import { FaChevronDown } from "react-icons/fa";
 import AreaChart from "../analytics/AreaChart";
 import BarChart from "../analytics/BarChart";
 import LineChart from "../analytics/LineChart";
 import OHCL from "../analytics/OHCL";
-import { FaChevronDown } from "react-icons/fa";
 
 const stockLogos = {
   IBM: ibmLogo,
@@ -44,6 +43,8 @@ const chartTypes = [
   { label: "Area Chart", value: "Area Chart" },
 ];
 
+const stockTypes = ["IBM", "MSFT", "TSLA", "RACE"];
+
 const calculateTopGainersAndLosers = (stocks) => {
   const sortedStocks = [...stocks].sort(
     (a, b) => b.changePercent - a.changePercent
@@ -57,29 +58,29 @@ const calculateTopGainersAndLosers = (stocks) => {
 const DummyMarketPlace = () => {
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState("IBM");
   const [selectedStock, setSelectedStock] = useState(null);
   const [gainers, setGainers] = useState([]);
   const [losers, setLosers] = useState([]);
-  const [loading, setLoading] = useState(true); // Add a loading state
-  const [selectedChartType, setSelectedChartType] = React.useState("");
+  const [loading, setLoading] = useState(true);
+  const [selectedChartType, setSelectedChartType] = useState("Line Chart");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isStockDropdownOpen, setIsStockDropdownOpen] = useState(false);
+  const [chartData, setChartData] = useState(null);
 
   const dispatch = useDispatch();
   const ibm = useSelector((state) => state.ibm || {});
   const tsla = useSelector((state) => state.tsla || {});
   const msft = useSelector((state) => state.msft || {});
   const race = useSelector((state) => state.race || {});
-  const user = useSelector((state) => state.auth.user); // Get user details from auth state
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    // Fetch initial stock data
     dispatch(initializeIbmStockPricesThunk());
     dispatch(initializeTslaStockPricesThunk());
     dispatch(initializeMsftStockPricesThunk());
     dispatch(initializeRaceStockPricesThunk());
 
-    // Update stock prices every 2 seconds
     const intervalId = setInterval(() => {
       dispatch(updateIbmStockPriceThunk());
       dispatch(updateTslaStockPriceThunk());
@@ -101,6 +102,28 @@ const DummyMarketPlace = () => {
     }
   }, [ibm, msft, tsla, race]);
 
+  useEffect(() => {
+    setChartData(null); // Clear the chart data
+    let stockData;
+    switch (selectedCompany) {
+      case "IBM":
+        stockData = ibm;
+        break;
+      case "MSFT":
+        stockData = msft;
+        break;
+      case "TSLA":
+        stockData = tsla;
+        break;
+      case "RACE":
+        stockData = race;
+        break;
+      default:
+        stockData = null;
+    }
+    setChartData(stockData);
+  }, [selectedCompany, selectedChartType, ibm, msft, tsla, race]);
+
   const handleCardClick = (stock) => {
     setSelectedCompany(stock.symbol);
     setSelectedStock(stock);
@@ -120,9 +143,18 @@ const DummyMarketPlace = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const handleStockDropdownToggle = () => {
+    setIsStockDropdownOpen(!isStockDropdownOpen);
+  };
+
   const handleChartTypeSelect = (value) => {
     setSelectedChartType(value);
     setIsDropdownOpen(false);
+  };
+
+  const handleStockTypeSelect = (value) => {
+    setSelectedCompany(value);
+    setIsStockDropdownOpen(false);
   };
 
   const getStockData = (symbol) => {
@@ -130,35 +162,16 @@ const DummyMarketPlace = () => {
   };
 
   const renderChart = () => {
-    let stockData;
-    switch (selectedCompany) {
-      case "IBM":
-        stockData = ibm;
-        break;
-      case "MSFT":
-        stockData = msft;
-        break;
-      case "TSLA":
-        stockData = tsla;
-        break;
-      case "RACE":
-        stockData = race;
-        break;
-      default:
-        return null;
-    }
-
-    if (!stockData) return null;
-    console.log(stockData);
+    if (!chartData) return null;
     switch (selectedChartType) {
       case "OHLC Chart":
-        return <OHCL Stock={stockData} />;
+        return <OHCL Stock={chartData} />;
       case "Line Chart":
-        return <LineChart data={stockData} />;
+        return <LineChart data={chartData} />;
       case "Bar Chart":
-        return <BarChart data={stockData} />;
+        return <BarChart data={chartData} />;
       case "Area Chart":
-        return <AreaChart data={stockData} />;
+        return <AreaChart data={chartData} />;
       default:
         return null;
     }
@@ -209,19 +222,24 @@ const DummyMarketPlace = () => {
                 ))}
               </div>
               <div className="bg-white h-full w-full p-1">
-                <div className="flex flex-col p-4 text-xl">
-                  <div className="dropdown">
+                <div className="flex flex-row p-4 text-xl">
+                  <div className="dropdown mr-4">
                     <div
                       tabIndex={0}
                       role="button"
                       className="btn m-1 btn-wide justify-between"
                       onClick={handleDropdownToggle}
                     >
-                      {selectedChartType == ""
+                      {selectedChartType === ""
                         ? "Select the type of chart"
                         : selectedChartType}
                       <FaChevronDown size={18} />
                     </div>
+                    {/* <div className="relative">
+                   <Button value="add-to-dashboard" className="p-2">
+                   Add to Dashboard
+                    </Button>
+                     </div> */}
                     {isDropdownOpen && (
                       <ul
                         tabIndex={0}
@@ -240,29 +258,60 @@ const DummyMarketPlace = () => {
                       </ul>
                     )}
                   </div>
+                  <div className="dropdown mr-4">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn m-1 btn-wide justify-between"
+                      onClick={handleStockDropdownToggle}
+                    >
+                      {selectedCompany === ""
+                        ? "Select the stock"
+                        : selectedCompany}
+                      <FaChevronDown size={18} />
+                    </div>
+                    {isStockDropdownOpen && (
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                      >
+                        {stockTypes.map((company) => (
+                          <li key={company}>
+                            <a
+                              onClick={() => handleStockTypeSelect(company)}
+                              href="#"
+                            >
+                              {company}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div className="ml-auto">
+                    <Button auto color="primary" className="bg-[#1233ff]">
+                      Add to Dashboard
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex-1 max-h-[30vh] items-center justify-center">
-                  {renderChart()}
-                </div>
+                {renderChart()}
               </div>
             </div>
           </div>
           {isBuyModalOpen && (
             <BuyModal
+              isOpen={isBuyModalOpen}
               onClose={() => setIsBuyModalOpen(false)}
-              company={selectedCompany}
-              marketPrice={getStockData(selectedCompany).currentPrice}
-              bidPrice={getStockData(selectedCompany).bid}
-              userId={user?.id}
+              stockSymbol={selectedCompany}
+              user={user}
             />
           )}
           {isSellModalOpen && (
             <SellModal
+              isOpen={isSellModalOpen}
               onClose={() => setIsSellModalOpen(false)}
-              company={selectedCompany}
-              marketPrice={getStockData(selectedCompany).currentPrice}
-              askPrice={getStockData(selectedCompany).ask}
-              userId={user?.id}
+              stockSymbol={selectedCompany}
+              user={user}
             />
           )}
         </div>
