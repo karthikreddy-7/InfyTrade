@@ -28,12 +28,12 @@ export class DashboardsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a dashboards by ID' })
-  @ApiParam({ name: 'id', description: 'ID of the dashboards' })
-  @ApiResponse({ status: 200, description: 'Returns the dashboards by ID.', type: ResponseDashboardsDto })
+  @ApiOperation({ summary: 'Get a dashboards by UserID' })
+  @ApiParam({ name: 'id', description: 'UserID of the dashboards' })
+  @ApiResponse({ status: 200, description: 'Returns the dashboards by UserID.', type: ResponseDashboardsDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
-    return this.dashboardsService.findOne(+id);
+    return this.dashboardsService.findOne(id);
   }
 
   @Patch(':id')
@@ -43,7 +43,7 @@ export class DashboardsController {
   @ApiResponse({ status: 200, description: 'The dashboards has been successfully updated.', type: ResponseDashboardsDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   update(@Param('id') id: string, @Body() updateDashboardsDto: UpdateDashboardsDto) {
-    return this.dashboardsService.update(+id, updateDashboardsDto);
+    return this.dashboardsService.update(id, updateDashboardsDto);
   }
 
   @Delete(':id')
@@ -52,6 +52,6 @@ export class DashboardsController {
   @ApiResponse({ status: 200, description: 'The dashboards has been successfully deleted.' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
-    return this.dashboardsService.remove(+id);
+    return this.dashboardsService.remove(id);
   }
 }

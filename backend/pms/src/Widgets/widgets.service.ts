@@ -1,26 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateWidgetsDto } from './dto/widgets.create.dto';
 import { UpdateWidgetsDto } from './dto/widgets.update.dto';
+import { Widget } from './entity/widgets.entity';
 
 @Injectable()
 export class WidgetsService {
-  create(createWidgetsDto: CreateWidgetsDto) {
-    return 'This action adds a new widgets';
+  constructor(
+    @InjectRepository(Widget)
+    private readonly widgetsRepository: Repository<Widget>,
+  ) {}
+
+  async create(createWidgetsDto: CreateWidgetsDto): Promise<Widget> {
+    const widget = this.widgetsRepository.create(createWidgetsDto);
+    return await this.widgetsRepository.save(widget);
   }
 
-  findAll() {
-    return `This action returns all widgetss`;
+  async findAll(): Promise<Widget[]> {
+    return await this.widgetsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} widgets`;
+  async findOne(id: string): Promise<Widget> {
+    const widget = await this.widgetsRepository.findOne({ where: { id } });
+    if (!widget) {
+      throw new NotFoundException(`Widget with ID ${id} not found`);
+    }
+    return widget;
   }
 
-  update(id: number, updateWidgetsDto: UpdateWidgetsDto) {
-    return `This action updates a #${id} widgets`;
+  async update(id: string, updateWidgetsDto: UpdateWidgetsDto): Promise<Widget> {
+    const widget = await this.widgetsRepository.preload({
+      id: id,
+      ...updateWidgetsDto,
+    });
+    if (!widget) {
+      throw new NotFoundException(`Widget with ID ${id} not found`);
+    }
+    return await this.widgetsRepository.save(widget);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} widgets`;
+  async remove(id: string): Promise<void> {
+    const widget = await this.findOne(id);
+    await this.widgetsRepository.remove(widget);
   }
 }

@@ -1,26 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateDashboardsDto } from './dto/dashboards.create.dto';
 import { UpdateDashboardsDto } from './dto/dashboards.update.dto';
+import { Dashboard } from './entity/dashboards.entity';
 
 @Injectable()
 export class DashboardsService {
-  create(createDashboardsDto: CreateDashboardsDto) {
-    return 'This action adds a new dashboards';
+  constructor(
+    @InjectRepository(Dashboard)
+    private readonly dashboardsRepository: Repository<Dashboard>,
+  ) {}
+
+  async create(createDashboardsDto: CreateDashboardsDto): Promise<Dashboard> {
+    const dashboard = this.dashboardsRepository.create(createDashboardsDto);
+    return await this.dashboardsRepository.save(dashboard);
   }
 
-  findAll() {
-    return `This action returns all dashboardss`;
+  async findAll(): Promise<Dashboard[]> {
+    return await this.dashboardsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dashboards`;
+  async findOne(id: string): Promise<Dashboard[]> {
+    const dashboard = await this.dashboardsRepository.find({ where: {userId: id } });
+    if (!dashboard) {
+      throw new NotFoundException(`Dashboard with ID ${id} not found`);
+    }
+    return dashboard;
   }
 
-  update(id: number, updateDashboardsDto: UpdateDashboardsDto) {
-    return `This action updates a #${id} dashboards`;
+  async update(id: string, updateDashboardsDto: UpdateDashboardsDto): Promise<Dashboard> {
+    const dashboard = await this.dashboardsRepository.preload({
+      id: id,
+      ...updateDashboardsDto,
+    });
+    if (!dashboard) {
+      throw new NotFoundException(`Dashboard with ID ${id} not found`);
+    }
+    return await this.dashboardsRepository.save(dashboard);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dashboards`;
+  async remove(id: string): Promise<void> {
+    const dashboard = await this.findOne(id);
+    await this.dashboardsRepository.remove(dashboard);
   }
 }

@@ -33,7 +33,7 @@ export class WidgetsController {
   @ApiResponse({ status: 200, description: 'Returns the widgets by ID.', type: ResponseWidgetsDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   findOne(@Param('id') id: string) {
-    return this.widgetsService.findOne(+id);
+    return this.widgetsService.findOne(id);
   }
 
   @Patch(':id')
@@ -43,7 +43,7 @@ export class WidgetsController {
   @ApiResponse({ status: 200, description: 'The widgets has been successfully updated.', type: ResponseWidgetsDto })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   update(@Param('id') id: string, @Body() updateWidgetsDto: UpdateWidgetsDto) {
-    return this.widgetsService.update(+id, updateWidgetsDto);
+    return this.widgetsService.update(id, updateWidgetsDto);
   }
 
   @Delete(':id')
@@ -52,6 +52,6 @@ export class WidgetsController {
   @ApiResponse({ status: 200, description: 'The widgets has been successfully deleted.' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   remove(@Param('id') id: string) {
-    return this.widgetsService.remove(+id);
+    return this.widgetsService.remove(id);
   }
 }
