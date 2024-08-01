@@ -72,7 +72,7 @@ const LineChart = ({ data, onAddToDashboard }) => {
   };
 
   // Calculate opening, highest, and lowest prices
-  const opening = prices[0];
+  const opening = prices?.length > 0 ? prices[0] : 0;
   const highest = Math.max(...prices);
   const lowest = Math.min(...prices);
 
@@ -84,8 +84,8 @@ const LineChart = ({ data, onAddToDashboard }) => {
   };
 
   return (
-    <div className="h-full bg-white">
-      <div className="flex justify-between items-center mb-2">
+    <div className="h-[64vh] bg-white">
+      <div className="flex justify-between items-center mb-2 overflow-hidden">
         <div className="flex justify-around font-medium text-sm text-center w-full">
           <p className="text-sky-500">Opening: USD {opening.toFixed(2)}</p>
           <p className="text-green-600">Highest: USD {highest.toFixed(2)}</p>

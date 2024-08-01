@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import { createPortfolio } from "../../api/portfolioHoldings";
 
-const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
+const SellModal = ({
+  company,
+  marketPrice,
+  askPrice,
+  userId,
+  onClose,
+  showAlert,
+}) => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState(askPrice); // Initialize price with askPrice
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleQuantityChange = (event) => setQuantity(event.target.value);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true when starting the request
 
     const portfolioData = {
       userId: userId,
@@ -21,10 +30,14 @@ const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
 
     try {
       const response = await createPortfolio(portfolioData);
-      console.log("Portfolio created successfully:", response);
+      console.log("Portfolio updated successfully:", response);
+      showAlert("success", "Stock Sold Successfully!");
       onClose();
     } catch (error) {
-      console.error("Error creating portfolio:", error);
+      console.error("Error updating portfolio:", error);
+      showAlert("error", "Failed to sell stock.");
+    } finally {
+      setLoading(false); // Set loading to false after the request is complete
     }
   };
 
@@ -81,9 +94,21 @@ const SellModal = ({ company, marketPrice, askPrice, userId, onClose }) => {
             </button>
             <button
               type="submit"
-              className="bg-red-500 text-white px-4 py-2 rounded-lg font-medium shadow-sm hover:bg-red-600 transition"
+              className={`flex btn items-center ${
+                loading
+                  ? "bg-gray-500 text-black cursor-not-allowed"
+                  : "bg-red-500 text-black hover:bg-red-600"
+              } px-4 py-2 rounded-lg font-medium shadow-sm transition`}
+              disabled={loading} // Disable button while loading
             >
-              Sell
+              {loading && (
+                <span
+                  className="loading loading-spinner spinner-border spinner-border-sm mr-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              )}
+              {loading ? "Selling..." : "Sell"}
             </button>
           </div>
         </form>

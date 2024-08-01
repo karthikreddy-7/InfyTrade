@@ -75,7 +75,7 @@ const BarChart = ({ data, onAddToDashboard }) => {
   const lowest = Math.min(...prices);
 
   return (
-    <div className="h-full bg-white">
+    <div className="h-[64vh] bg-white">
       <div className="flex justify-between items-center mb-2">
         <div className="flex justify-around font-medium text-sm text-center w-full">
           <p className="text-sky-500">Opening: USD {opening.toFixed(2)}</p>

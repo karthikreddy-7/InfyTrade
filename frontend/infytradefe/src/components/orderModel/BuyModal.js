@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import { createPortfolio } from "../../api/portfolioHoldings";
 
-const BuyModal = ({ onClose, company, marketPrice, bidPrice, userId }) => {
+const BuyModal = ({
+  onClose,
+  company,
+  marketPrice,
+  bidPrice,
+  userId,
+  showAlert,
+}) => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState(bidPrice); // Initialize price with bidPrice
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleQuantityChange = (event) => setQuantity(event.target.value);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true when starting the request
 
     const portfolioData = {
       userId: userId,
@@ -22,9 +31,13 @@ const BuyModal = ({ onClose, company, marketPrice, bidPrice, userId }) => {
     try {
       const response = await createPortfolio(portfolioData);
       console.log("Portfolio created successfully:", response);
+      showAlert("success", "Stock bought successfully!");
       onClose();
     } catch (error) {
       console.error("Error creating portfolio:", error);
+      showAlert("error", "Failed to buy stocks.");
+    } finally {
+      setLoading(false); // Set loading to false after the request is complete
     }
   };
 
@@ -81,9 +94,21 @@ const BuyModal = ({ onClose, company, marketPrice, bidPrice, userId }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium shadow-sm hover:bg-blue-600 transition"
+              className={`flex btn items-center ${
+                loading
+                  ? "bg-gray-500 text-black cursor-not-allowed"
+                  : "bg-blue-500 text-black hover:bg-blue-600"
+              } px-4 py-2 rounded-lg font-medium shadow-sm transition`}
+              disabled={loading}
             >
-              Buy
+              {loading && (
+                <span
+                  className="loading loading-spinner text-black font-bold spinner-border spinner-border-sm mr-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              )}
+              {loading ? "Buying..." : "Buy"}
             </button>
           </div>
         </form>

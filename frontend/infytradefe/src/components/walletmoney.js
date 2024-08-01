@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { getRandomTimeout } from "../utilities/getRandomTimeout";
 import { useDispatch, useSelector } from "react-redux";
 import { calculateFinalAmount } from "../utilities/calculateFinalAmount";
-import { updateUser } from "../api/auth";
+import { getUser, updateUser } from "../api/auth";
 import ModalComponent from "./modal";
 import Alert from "./alert";
+import { loginSuccess } from "../redux/action";
 
 function Walletmoney() {
   const [loading, setLoading] = useState(true);
@@ -20,6 +21,21 @@ function Walletmoney() {
   const handleAlertClose = () => {
     setAlert({ show: false, type: "", message: "" });
   };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const updatedUser = await getUser(user.id);
+        dispatch(loginSuccess(updatedUser));
+      } catch (error) {
+        showAlert("error", "Failed to fetch user details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
 
   const [isAddFundsOpen, setIsAddFundsOpen] = useState(false);
   const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);

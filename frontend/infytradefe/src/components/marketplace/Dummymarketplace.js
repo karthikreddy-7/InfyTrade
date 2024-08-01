@@ -28,6 +28,7 @@ import AreaChart from "../analytics/AreaChart";
 import BarChart from "../analytics/BarChart";
 import LineChart from "../analytics/LineChart";
 import OHCL from "../analytics/OHCL";
+import Alert from "../alert";
 
 const stockLogos = {
   IBM: ibmLogo,
@@ -74,6 +75,15 @@ const DummyMarketPlace = () => {
   const msft = useSelector((state) => state.msft || {});
   const race = useSelector((state) => state.race || {});
   const user = useSelector((state) => state.auth.user);
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+
+  const showAlert = (type, message) => {
+    setAlert({ show: true, type, message });
+  };
+
+  const handleAlertClose = () => {
+    setAlert({ show: false, type: "", message: "" });
+  };
 
   useEffect(() => {
     dispatch(initializeIbmStockPricesThunk());
@@ -103,7 +113,6 @@ const DummyMarketPlace = () => {
   }, [ibm, msft, tsla, race]);
 
   useEffect(() => {
-    setChartData(null); // Clear the chart data
     let stockData;
     switch (selectedCompany) {
       case "IBM":
@@ -204,13 +213,21 @@ const DummyMarketPlace = () => {
               </div>
               <div className="grid grid-cols-2 gap-0">
                 <TopGainer gainers={gainers} stockLogos={stockLogos} />
+
                 <TopLoser losers={losers} stockLogos={stockLogos} />
               </div>
               <div>
                 <News />
               </div>
             </div>
-            <div className="flex flex-col h-full w-full">
+            <div
+              className="flex flex-col h-full w-full"
+              style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
               <div className="grid grid-cols-4 gap-0 w-full">
                 {stocks.map((stock) => (
                   <StockCard
@@ -221,8 +238,8 @@ const DummyMarketPlace = () => {
                   />
                 ))}
               </div>
-              <div className="bg-white h-full w-full p-1">
-                <div className="flex flex-row p-4 text-xl">
+              <div className="bg-white h-full w-full">
+                <div className="flex flex-row p-4 text-xl bg-sky-100">
                   <div className="dropdown mr-4">
                     <div
                       tabIndex={0}
@@ -258,7 +275,7 @@ const DummyMarketPlace = () => {
                       </ul>
                     )}
                   </div>
-                  <div className="dropdown mr-4">
+                  <div className="dropdown mr-1">
                     <div
                       tabIndex={0}
                       role="button"
@@ -288,10 +305,10 @@ const DummyMarketPlace = () => {
                       </ul>
                     )}
                   </div>
-                  <div className="ml-auto">
-                    <Button auto color="primary" className="bg-[#1233ff]">
+                  <div className="mt-3">
+                    <button className="btn btn-sm bg-blue-700 text-white">
                       Add to Dashboard
-                    </Button>
+                    </button>
                   </div>
                 </div>
                 {renderChart()}
@@ -300,21 +317,32 @@ const DummyMarketPlace = () => {
           </div>
           {isBuyModalOpen && (
             <BuyModal
-              isOpen={isBuyModalOpen}
               onClose={() => setIsBuyModalOpen(false)}
-              stockSymbol={selectedCompany}
-              user={user}
+              company={selectedCompany}
+              marketPrice={getStockData(selectedCompany).currentPrice}
+              bidPrice={getStockData(selectedCompany).bid}
+              userId={user?.id}
+              showAlert={showAlert}
             />
           )}
           {isSellModalOpen && (
             <SellModal
-              isOpen={isSellModalOpen}
               onClose={() => setIsSellModalOpen(false)}
-              stockSymbol={selectedCompany}
-              user={user}
+              company={selectedCompany}
+              marketPrice={getStockData(selectedCompany).currentPrice}
+              askPrice={getStockData(selectedCompany).ask}
+              userId={user?.id}
+              showAlert={showAlert}
             />
           )}
         </div>
+      )}
+      {alert.show && (
+        <Alert
+          type={alert.type}
+          message={alert.message}
+          onClose={handleAlertClose}
+        />
       )}
     </>
   );

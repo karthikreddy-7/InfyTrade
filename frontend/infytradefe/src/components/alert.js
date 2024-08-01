@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { IoIosClose } from "react-icons/io";
 
 const Alert = ({ type, message, onClose }) => {
   useEffect(() => {
@@ -7,7 +8,7 @@ const Alert = ({ type, message, onClose }) => {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, []);
 
   const alertClasses = {
     success: "alert alert-success bg-green-100 text-black font-semibold",
@@ -24,7 +25,7 @@ const Alert = ({ type, message, onClose }) => {
 
   return (
     <div
-      className={`fixed bottom-8 left-4 flex items-center gap-2 p-4 w-[25vw] rounded shadow-lg ${alertClasses[type]}`}
+      className={`fixed bottom-8 left-4 flex items-end justify-center gap-4 p-4 w-[22vw] rounded shadow-lg ${alertClasses[type]}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

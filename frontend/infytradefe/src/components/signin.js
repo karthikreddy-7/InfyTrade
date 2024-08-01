@@ -6,13 +6,14 @@ import { loginSuccess } from "../redux/action";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import Alert from "./alert";
 
-const clientId = " ";
+const clientId = "YOUR_GOOGLE_CLIENT_ID"; // Add your Google Client ID here
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const showAlert = (type, message) => {
     setAlert({ show: true, type, message });
@@ -34,17 +35,18 @@ const Signin = () => {
   };
 
   const handleSubmit = async (event) => {
-    console.log("inside handlesubmit signin");
     event.preventDefault();
+    setLoading(true); // Set loading to true when starting the request
+
     try {
       const data = await signIn(email, password, dispatch);
       console.log(data);
-      console.log(data);
-
       showAlert("success", "You successfully logged in!");
       setTimeout(() => navigate("/marketplace"), 2000);
     } catch (error) {
-      showAlert("error", "Invalid Creds, Please try again !");
+      showAlert("error", "Invalid credentials, please try again!");
+    } finally {
+      setLoading(false); // Set loading to false after the request is complete
     }
   };
 
@@ -60,7 +62,7 @@ const Signin = () => {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <div className="flex justify-center items-center mt-4 h-[80vh] bg-gray-50">
-        <div className=" shadow-md rounded-lg p-6 max-w-xs w-full bg-gray-50">
+        <div className="shadow-md rounded-lg p-6 max-w-xs w-full bg-gray-50">
           <div className="flex flex-col items-center">
             <h1 className="text-xl font-bold">Sign In</h1>
             <p className="text-sm text-gray-600 mt-2">
@@ -119,9 +121,21 @@ const Signin = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={`w-full py-2 btn px-4 rounded-md text-white focus:outline-none focus:ring-2 ${
+                  loading
+                    ? "bg-black cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
+                disabled={loading} // Disable button while loading
               >
-                Sign In
+                {loading && (
+                  <span
+                    className=" loading loading-spinner spinner-border spinner-border-sm mr-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                )}
+                {loading ? "Signing In..." : "Sign In"}
               </button>
               <div className="flex items-center justify-center mt-4">
                 <span className="text-gray-500 mx-2">or</span>

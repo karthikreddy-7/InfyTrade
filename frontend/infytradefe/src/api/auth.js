@@ -152,6 +152,35 @@ export const fetchAndDispatchDashboards = async (userId, dispatch) => {
   }
 };
 
+export const getUser = async (userId) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      if (response.status === 400) {
+        throw new Error("Bad request. Please check your input.");
+      } else if (response.status === 404) {
+        throw new Error("User not found.");
+      } else {
+        throw new Error(
+          "An unexpected error occurred. Please try again later."
+        );
+      }
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const generateRandomUserName = (name) => {
   const randomDigits = Math.floor(Math.random() * 1000);
   return `${name}${randomDigits}`;

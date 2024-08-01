@@ -1,0 +1,26 @@
+/* News.css */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.5s forwards;
+}

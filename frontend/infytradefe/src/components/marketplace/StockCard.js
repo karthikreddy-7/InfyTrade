@@ -35,7 +35,7 @@ const StockCard = ({ stock, stockLogos, handleCardClick }) => {
   return (
     <div
       key={stock.symbol}
-      className="flex flex-col justify-center items-start h-[20vh] w-[14vw] max-w-xs pl-6 pr-14 gap-2 cursor-pointer bg-white"
+      className="flex flex-col justify-center items-start h-[20vh] w-[14vw] max-w-xs pl-6 pr-14 gap-2 cursor-pointer bg-sky-100"
       onClick={() => handleCardClick(stock)}
     >
       <div className="mt-">

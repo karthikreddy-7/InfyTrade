@@ -13,6 +13,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({ show: false, type: "", message: "" });
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,6 +39,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const data = await signUp(name, email, password, dispatch);
       console.log(data);
@@ -46,6 +48,8 @@ const Signup = () => {
       setTimeout(() => navigate("/marketplace"), 2000);
     } catch (error) {
       showAlert("error", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,7 +142,14 @@ const Signup = () => {
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Sign Up
+                {loading && (
+                  <span
+                    className=" loading loading-spinner spinner-border spinner-border-sm mr-2"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                )}
+                {loading ? "Signing Up..." : "Sign Up"}
               </button>
               <div className="relative my-4 w-full">
                 <div className="absolute inset-0 flex items-center">

@@ -72,8 +72,8 @@ const OHCL = ({ Stock }) => {
         options={options}
         series={[{ data: chartData }]}
         type="candlestick"
-        height={420}
-        width={750}
+        height={430}
+        width={790}
         className="mt-4"
       />
     </div>
