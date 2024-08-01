@@ -129,7 +129,7 @@ const DummyMarketPlace = () => {
         </div>
       ) : (
         <div
-          className="h-screen w-full flex"
+          className="h-screen w-full flex flex-col"
           style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: "cover",
@@ -162,43 +162,35 @@ const DummyMarketPlace = () => {
                   />
                 ))}
               </div>
-              <div className="bg-white h-full w-full p-1">
-                <div className="flex flex-col p-4 text-xl">
-                  <div className="dropdown">
-                    <div
-                      tabIndex={0}
-                      role="button"
-                      className="btn m-1"
-                      onClick={handleDropdownToggle}
-                    >
-                      Select the type of chart{" "}
-                      {/* Display currently selected chart type */}
-                    </div>
-                    {isDropdownOpen && (
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-                      >
-                        {chartTypes.map((chart) => (
-                          <li key={chart.value}>
-                            <a
-                              onClick={() => handleChartTypeSelect(chart.value)}
-                              href="#"
-                            >
-                              {chart.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between p-2">
+                  <select
+                    className="form-select"
+                    value={selectedStock?.symbol || "IBM"}
+                    onChange={(e) => setSelectedStock(getStockData(e.target.value))}
+                  >
+                    {stocks.map((stock) => (
+                      <option key={stock.symbol} value={stock.symbol}>
+                        {stock.symbol}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className="form-select"
+                    value={selectedChartType}
+                    onChange={(e) => handleChartTypeSelect(e.target.value)}
+                  >
+                    {chartTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div className="flex-1">
-                  <StockChartGenerator
-                    stock={selectedStock}
-                    chartType={selectedChartType}
-                  />
-                </div>
+                <StockChartGenerator
+                  chartType={selectedChartType}
+                  stockSymbol={selectedStock?.symbol || "IBM"}
+                />
               </div>
             </div>
           </div>
