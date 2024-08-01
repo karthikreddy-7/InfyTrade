@@ -34,9 +34,11 @@ export const adjustMarketPrice = (price) => {
   return { newPrice, change };
 };
 
-// Function to fluctate baseprice
+// Function to fluctuate base price with minimal fluctuations
 export const fluctuateBasePrice = (price, percentage) => {
-  const fluctuation = Math.random() * (percentage * 2) - percentage;
+  // Ensure the percentage is very small for minimal fluctuation
+  const smallPercentage = Math.min(percentage, 0.5); // Set a very small maximum percentage
+  const fluctuation = Math.random() * (smallPercentage * 2) - smallPercentage;
   return parseFloat(price) + (parseFloat(price) * fluctuation) / 100;
 };
 

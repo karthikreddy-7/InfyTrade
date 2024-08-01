@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRandomTimeout } from "../../utilities/getRandomTimeout";
-import MonthlyRetail from "./MonthlyRetail";
-import NumberOfTrades from "./NumberOfTrades";
-import Technicals from "./Technicals";
-import Purchases from "./Purchases";
 import TradesByStrategies from "./TradesByStrategies";
 import ProfitLossCumulative from "./ProfitLossCumulative";
 import Watchlist from "./Watchlist";
 import { fetchAndDispatchDashboards } from "../../api/auth";
-import AreaChart from "../analytics/AreaChart";
-import BarChart from "../analytics/BarChart";
-import LineChart from "../analytics/LineChart";
 import OHCL from "../analytics/OHCL";
-import Alert from "../alert";
-
+import LineChart from "../analytics/LineChart";
+import BarChart from "../analytics/BarChart";
+import AreaChart from "../analytics/AreaChart";
+import { setDashboards } from "../../redux/action";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [loadingMinTimeElapsed, setLoadingMinTimeElapsed] = useState(false);
-  const dashboards = useSelector((state) => state.dashboards);
+  const [dashboards, setDashboard] = useState();
+  const [chartData, setChartData] = useState(null);
+  const [selectedChartType, setSelectedChartType] = useState("OHLC");
+  const [selectedStockSymbol, setSelectedStockSymbol] = useState("IBM");
+
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const ibm = useSelector((state) => state.ibm || {});
+  const tsla = useSelector((state) => state.tsla || {});
+  const msft = useSelector((state) => state.msft || {});
+  const race = useSelector((state) => state.race || {});
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -34,28 +36,52 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    console.log(dashboards);
-    if (user?.id){
-      fetchAndDispatchDashboards(user.id, dispatch).catch((error) => {
-        console.error("Failed to fetch dashboards:", error);
-      });
+    if (user?.id) {
+      fetchAndDispatchDashboards(user.id, dispatch)
+        .then((data) => {
+          dispatch(setDashboards(data.dashboards));
+          setDashboard(data);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch dashboards:", error);
+        });
     }
+  }, [user, dispatch]);
 
-  }, [user]);
+  useEffect(() => {
+    let stockData;
+    switch (selectedStockSymbol) {
+      case "IBM":
+        stockData = ibm;
+        break;
+      case "TSLA":
+        stockData = tsla;
+        break;
+      case "MSFT":
+        stockData = msft;
+        break;
+      case "RACE":
+        stockData = race;
+        break;
+      default:
+        stockData = {};
+    }
+    setChartData(stockData);
+  }, [selectedStockSymbol, ibm, msft, tsla, race]);
 
-  const renderChart = (widget) => {
-    console.log(widget);
-    switch (widget.chartType) {
-      // case "OHLC":
-      //   return <OHCL Stock={chartData} />;
-      // case "Line":
-      //   return <LineChart data={chartData} />;
-      // case "Bar":
-      //   return <BarChart data={chartData} />;
-      // case "Area":
-      //   return <AreaChart data={chartData} />;
-      // default:
-      //   return null;
+  const renderChart = () => {
+    if (!chartData) return null;
+    switch (selectedChartType.toLowerCase()) {
+      case "ohlc":
+        return <OHCL Stock={chartData} />;
+      case "line":
+        return <LineChart data={chartData} />;
+      case "bar":
+        return <BarChart data={chartData} />;
+      case "area":
+        return <AreaChart data={chartData} />;
+      default:
+        return <p>No chart type found</p>;
     }
   };
 
@@ -68,14 +94,9 @@ const Dashboard = () => {
       ) : (
         <div className="flex flex-row h-screen">
           <div className="flex-grow border-b-black border-small flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 p-4">
-              {dashboards && dashboards.length > 0 && dashboards[0].widgets.slice(0, 4).map((widget) => (
-                <div key={widget.id} className="p-2 border rounded shadow">
-                  <h3 className="text-lg font-semibold">{widget.stockSymbol}</h3>
-                  {renderChart(widget)}
-                </div>
-              ))}
-            </div>
+            <p className="font-bold text-2xl">
+              No dashboards available to display
+            </p>
           </div>
           <div className="w-1/3 flex flex-col bg-gray-100">
             <div className="flex flex-col h-full">
