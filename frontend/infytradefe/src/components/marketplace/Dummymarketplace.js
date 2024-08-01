@@ -172,7 +172,7 @@ const DummyMarketPlace = () => {
         </div>
       ) : (
         <div
-          className="h-screen w-full flex flex-col"
+          className="h-screen w-full flex"
           style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: "cover",
@@ -208,30 +208,6 @@ const DummyMarketPlace = () => {
                   />
                 ))}
               </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between p-2">
-                  <select
-                    className="form-select"
-                    value={selectedStock?.symbol || "IBM"}
-                    onChange={(e) => setSelectedStock(getStockData(e.target.value))}
-                  >
-                    {stocks.map((stock) => (
-                      <option key={stock.symbol} value={stock.symbol}>
-                        {stock.symbol}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className="form-select"
-                    value={selectedChartType}
-                    onChange={(e) => handleChartTypeSelect(e.target.value)}
-                  >
-                    {chartTypes.map((type) => (
-                      <option key={type.value} value={type.value}>
-                        {type.label}
-                      </option>
-                    ))}
-                  </select>
               <div className="bg-white h-full w-full p-1">
                 <div className="flex flex-col p-4 text-xl">
                   <div className="dropdown">
@@ -265,10 +241,6 @@ const DummyMarketPlace = () => {
                     )}
                   </div>
                 </div>
-                <StockChartGenerator
-                  chartType={selectedChartType}
-                  stockSymbol={selectedStock?.symbol || "IBM"}
-                />
                 <div className="flex-1 max-h-[30vh] items-center justify-center">
                   {renderChart()}
                 </div>
