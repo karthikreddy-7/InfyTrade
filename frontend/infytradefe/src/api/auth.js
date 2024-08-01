@@ -136,16 +136,18 @@ export const fetchAndDispatchDashboards = async (userId, dispatch) => {
 
   try {
     const dashboardsResponse = await fetch(`${DASHBOARDS_API_URL}/${userId}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
       },
     });
-
+console.log(dashboardsResponse);
     if (!dashboardsResponse.ok) {
       throw new Error("Failed to fetch dashboards");
     }
 
     const dashboards = await dashboardsResponse.json();
+    console.log("dashboard",dashboards);
     dispatch(setDashboards(dashboards));
   } catch (error) {
     console.error("Error fetching dashboards:", error);
