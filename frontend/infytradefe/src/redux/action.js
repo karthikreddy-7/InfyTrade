@@ -29,7 +29,6 @@ export const fetchUserWidgets = () => async (dispatch) => {
   });
 };
 
-
 // actions/stockActions.js
 
 // IBM Actions
@@ -74,4 +73,15 @@ export const setRaceStock = (stock) => ({
 export const updateRaceStock = (stock) => ({
   type: "UPDATE_RACE",
   payload: stock,
+});
+
+// Dashboard Actions
+export const setDashboards = (dashboard) => ({
+  type: "SET_DASHBOARD",
+  payload: dashboard,
+});
+
+export const updateDashboard = (dashboard) => ({
+  type: "UPDATE_DASHBOARD",
+  payload: dashboard,
 });

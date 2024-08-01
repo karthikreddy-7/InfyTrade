@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import { ibmReducer, msftReducer, raceReducer, tslaReducer } from "./stockreducers";
+import {
+  ibmReducer,
+  msftReducer,
+  raceReducer,
+  tslaReducer,
+} from "./stockreducers";
 
 // Initial state
 const initialState = {
@@ -10,6 +15,10 @@ const initialState = {
 
 const initialWidgetState = {
   widgets: [],
+};
+
+const initialDashboardState = {
+  dashboards: [],
 };
 
 // Auth Reducer
@@ -52,10 +61,31 @@ const widgetReducer = (state = initialWidgetState, action) => {
   }
 };
 
+// Dashboard Reducer
+const dashboardReducer = (state = initialDashboardState, action) => {
+  switch (action.type) {
+    case "SET_DASHBOARD":
+      return {
+        ...state,
+        dashboards: action.payload,
+      };
+    case "UPDATE_DASHBOARD":
+      return {
+        ...state,
+        dashboards: state.dashboards.map((dashboard) =>
+          dashboard.id === action.payload.id ? action.payload : dashboard
+        ),
+      };
+    default:
+      return state;
+  }
+};
+
 // Root Reducer
 const rootReducer = combineReducers({
   auth: authReducer,
   widgets: widgetReducer,
+  dashboards: dashboardReducer,
   ibm: ibmReducer,
   tsla: tslaReducer,
   msft: msftReducer,

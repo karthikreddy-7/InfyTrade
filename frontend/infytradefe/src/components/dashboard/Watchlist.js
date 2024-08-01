@@ -1,66 +1,47 @@
-import React from 'react';
+import React from "react";
 
 const Watchlist = () => {
   const watchlistData = [
-    { symbol: 'IBM', last: '16.10', change: '+0.15' },
-    { symbol: 'MSFT', last: '281.15', change: '+4.80' },
-    { symbol: 'TASLA', last: '82.076', change: '-0.52' },
-    { symbol: 'RACE', last: '108.45', change: '+0.45' },
+    { symbol: "IBM", last: "16.10", change: "+0.15" },
+    { symbol: "MSFT", last: "281.15", change: "+4.80" },
+    { symbol: "TSLA", last: "82.076", change: "-0.52" },
   ];
 
   return (
-    <div style={styles.card}>
-      <h3 style={styles.cardTitle}>Watchlist</h3>
-      <table style={styles.table}>
+    <div className=" p-2 text-black font-bold  shadow-lg">
+      <h3 className="mb-3 text-sm  pl-2 font-bold">Watchlist</h3>
+      <table className="w-full border-collapse ">
         <thead>
           <tr>
-            <th>Symbol</th>
-            <th>Last</th>
-            <th>Change</th>
+            <th className="border border-gray-600 p-2 text-xs text-left">
+              Symbol
+            </th>
+            <th className="border border-gray-600 p-2 text-xs text-left">
+              Last
+            </th>
+            <th className="border border-gray-600 p-2 text-xs text-left">
+              Change
+            </th>
           </tr>
         </thead>
         <tbody>
           {watchlistData.map((item, index) => (
             <tr key={index}>
-              <td>{item.symbol}</td>
-              <td>{item.last}</td>
-              <td>{item.change}</td>
+              <td className="border text-xs border-gray-600 p-2 text-left">
+                {item.symbol}
+              </td>
+              <td className="border text-xs border-gray-600 p-2 text-left">
+                {item.last}
+              </td>
+              <td className="border text-xs border-gray-600 p-2 text-left">
+                {item.change}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-};
-
-const styles = {
-  card: {
-    background: '#2c2c2e',
-    borderRadius: '8px',
-    padding: '20px',
-    color: '#fff',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  cardTitle: {
-    marginBottom: '10px',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    marginTop: '10px',
-  },
-table: {
-    th: {
-      border: '1px solid #555',
-      padding: '8px',
-      textAlign: 'left',
-    },
-    td: {
-      border: '1px solid #555',
-      padding: '8px',
-      textAlign: 'left',
-    },
-  },
 };
 
 export default Watchlist;

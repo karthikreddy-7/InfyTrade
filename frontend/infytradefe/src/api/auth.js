@@ -1,9 +1,8 @@
-import { loginSuccess } from "../redux/action";
-
-const API_URL = "https://infytrade-pms.onrender.com/users";
+import { loginSuccess, setDashboards } from "../redux/action";
 
 export const signIn = async (email, password, dispatch) => {
   const API_URL = `${process.env.REACT_APP_API_BASE_URL}/users/check`;
+  const DASHBOARDS_API_URL = `${process.env.REACT_APP_API_BASE_URL}/dashboards`;
   const requestBody = { email, password };
 
   try {
@@ -19,19 +18,20 @@ export const signIn = async (email, password, dispatch) => {
       throw new Error("Invalid credentials");
     }
 
-    const data = await response.json();
+    const userData = await response.json();
+    dispatch(loginSuccess(userData));
+    localStorage.setItem("token", JSON.stringify(userData));
+    const userId = userData.id;
+    await fetchAndDispatchDashboards(userId, dispatch);
 
-    dispatch(loginSuccess(data));
-
-    localStorage.setItem("token", JSON.stringify(data));
-
-    return data;
+    return userData;
   } catch (error) {
     throw error;
   }
 };
 
 export const signUp = async (name, email, password, dispatch) => {
+  const API_URL = `${process.env.REACT_APP_API_BASE_URL}/users`;
   const username = generateRandomUserName(name);
   console.log(username);
 
@@ -126,6 +126,29 @@ export const getAllUsers = async () => {
     return sortedData;
   } catch (error) {
     throw error;
+  }
+};
+
+// utils/dashboardUtils.js
+
+export const fetchAndDispatchDashboards = async (userId, dispatch) => {
+  const DASHBOARDS_API_URL = `${process.env.REACT_APP_API_BASE_URL}/dashboards`;
+
+  try {
+    const dashboardsResponse = await fetch(`${DASHBOARDS_API_URL}/${userId}`, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!dashboardsResponse.ok) {
+      throw new Error("Failed to fetch dashboards");
+    }
+
+    const dashboards = await dashboardsResponse.json();
+    dispatch(setDashboards(dashboards));
+  } catch (error) {
+    console.error("Error fetching dashboards:", error);
   }
 };
 
