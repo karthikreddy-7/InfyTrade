@@ -24,6 +24,11 @@ import {
 } from "../../redux/stockThunks";
 import backgroundImage from "../../assests/bgportfolio.jpg";
 import { RadioGroup, Radio } from "@nextui-org/react";
+import AreaChart from "../analytics/AreaChart";
+import BarChart from "../analytics/BarChart";
+import LineChart from "../analytics/LineChart";
+import OHCL from "../analytics/OHCL";
+import { FaChevronDown } from "react-icons/fa";
 
 const stockLogos = {
   IBM: ibmLogo,
@@ -33,9 +38,10 @@ const stockLogos = {
 };
 
 const chartTypes = [
-  { label: "OHLC", value: "OHLC" },
-  { label: "Line", value: "Line" },
-  // Add more chart types here as needed
+  { label: "OHLC Chart", value: "OHLC Chart" },
+  { label: "Line Chart", value: "Line Chart" },
+  { label: "Bar Chart", value: "Bar Chart" },
+  { label: "Area Chart", value: "Area Chart" },
 ];
 
 const calculateTopGainersAndLosers = (stocks) => {
@@ -56,7 +62,7 @@ const DummyMarketPlace = () => {
   const [gainers, setGainers] = useState([]);
   const [losers, setLosers] = useState([]);
   const [loading, setLoading] = useState(true); // Add a loading state
-  const [selectedChartType, setSelectedChartType] = React.useState("OHLC");
+  const [selectedChartType, setSelectedChartType] = React.useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -79,7 +85,7 @@ const DummyMarketPlace = () => {
       dispatch(updateTslaStockPriceThunk());
       dispatch(updateMsftStockPriceThunk());
       dispatch(updateRaceStockPriceThunk());
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, [dispatch]);
@@ -96,6 +102,7 @@ const DummyMarketPlace = () => {
   }, [ibm, msft, tsla, race]);
 
   const handleCardClick = (stock) => {
+    setSelectedCompany(stock.symbol);
     setSelectedStock(stock);
   };
 
@@ -108,17 +115,53 @@ const DummyMarketPlace = () => {
     setSelectedCompany(symbol);
     setIsSellModalOpen(true);
   };
+
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
   const handleChartTypeSelect = (value) => {
-    console.log(value);
     setSelectedChartType(value);
     setIsDropdownOpen(false);
   };
 
   const getStockData = (symbol) => {
     return stocks.find((stock) => stock.symbol === symbol) || {};
+  };
+
+  const renderChart = () => {
+    let stockData;
+    switch (selectedCompany) {
+      case "IBM":
+        stockData = ibm;
+        break;
+      case "MSFT":
+        stockData = msft;
+        break;
+      case "TSLA":
+        stockData = tsla;
+        break;
+      case "RACE":
+        stockData = race;
+        break;
+      default:
+        return null;
+    }
+
+    if (!stockData) return null;
+    console.log(stockData);
+    switch (selectedChartType) {
+      case "OHLC Chart":
+        return <OHCL Stock={stockData} />;
+      case "Line Chart":
+        return <LineChart data={stockData} />;
+      case "Bar Chart":
+        return <BarChart data={stockData} />;
+      case "Area Chart":
+        return <AreaChart data={stockData} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -149,6 +192,9 @@ const DummyMarketPlace = () => {
               <div className="grid grid-cols-2 gap-0">
                 <TopGainer gainers={gainers} stockLogos={stockLogos} />
                 <TopLoser losers={losers} stockLogos={stockLogos} />
+              </div>
+              <div>
+                <News />
               </div>
             </div>
             <div className="flex flex-col h-full w-full">
@@ -186,11 +232,46 @@ const DummyMarketPlace = () => {
                       </option>
                     ))}
                   </select>
+              <div className="bg-white h-full w-full p-1">
+                <div className="flex flex-col p-4 text-xl">
+                  <div className="dropdown">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn m-1 btn-wide justify-between"
+                      onClick={handleDropdownToggle}
+                    >
+                      {selectedChartType == ""
+                        ? "Select the type of chart"
+                        : selectedChartType}
+                      <FaChevronDown size={18} />
+                    </div>
+                    {isDropdownOpen && (
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                      >
+                        {chartTypes.map((chart) => (
+                          <li key={chart.value}>
+                            <a
+                              onClick={() => handleChartTypeSelect(chart.value)}
+                              href="#"
+                            >
+                              {chart.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
                 <StockChartGenerator
                   chartType={selectedChartType}
                   stockSymbol={selectedStock?.symbol || "IBM"}
                 />
+                <div className="flex-1 max-h-[30vh] items-center justify-center">
+                  {renderChart()}
+                </div>
               </div>
             </div>
           </div>

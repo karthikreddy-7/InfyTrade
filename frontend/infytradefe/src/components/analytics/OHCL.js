@@ -1,26 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const OHCL = ({ Stock }) => {
   const [chartData, setChartData] = useState([]);
-  useEffect(() => {
-    if (selectedStock) {
-      const bid = parseFloat(stockData.bid);
-      const ask = parseFloat(stockData.ask);
-      const currentPrices = stockData?.prices.map((price) => parseFloat(price));
-      const open = parseFloat(currentPrices[0].toFixed(2));
-      const high = parseFloat(Math.max(...currentPrices, bid, ask).toFixed(2));
-      const low = parseFloat(Math.min(...currentPrices, bid, ask).toFixed(2));
-      const close = parseFloat(
-        currentPrices[currentPrices.length - 1].toFixed(2)
-      );
 
-      const newCandle = {
-        x: new Date(),
-        y: [open, high, low, close],
-      };
-      setChartData((prevData) => [...prevData, newCandle]);
+  useEffect(() => {
+    if (!Stock || !Stock.prices || Stock.prices.length === 0) {
+      return;
     }
+
+    const bid = parseFloat(Stock.bid) || 0;
+    const ask = parseFloat(Stock.ask) || 0;
+    const currentPrices = Stock.prices
+      .map((price) => parseFloat(price))
+      .filter((price) => !isNaN(price));
+
+    if (currentPrices.length === 0) {
+      return;
+    }
+
+    const open = parseFloat(currentPrices[0].toFixed(2));
+    const high = parseFloat(Math.max(...currentPrices, bid, ask).toFixed(2));
+    const low = parseFloat(Math.min(...currentPrices, bid, ask).toFixed(2));
+    const close = parseFloat(
+      currentPrices[currentPrices.length - 1].toFixed(2)
+    );
+
+    const newCandle = {
+      x: new Date(),
+      y: [open, high, low, close],
+    };
+    setChartData((prevData) => [...prevData, newCandle]);
   }, [Stock]);
 
   const options = {
@@ -29,7 +39,7 @@ const OHCL = ({ Stock }) => {
       type: "candlestick",
     },
     title: {
-      text: `CandleStick Chart - ${Stock?.symbol}`,
+      text: `CandleStick Chart - ${Stock?.symbol || "No Symbol"}`,
       align: "left",
     },
     tooltip: {
@@ -55,20 +65,18 @@ const OHCL = ({ Stock }) => {
       },
     },
   };
+
   return (
-    <>
-      <div>
-        {" "}
-        <ReactApexChart
-          options={options}
-          series={[{ data: chartData }]}
-          type="candlestick"
-          height={526}
-          width={730}
-          className="mt-4"
-        />
-      </div>
-    </>
+    <div>
+      <ReactApexChart
+        options={options}
+        series={[{ data: chartData }]}
+        type="candlestick"
+        height={420}
+        width={750}
+        className="mt-4"
+      />
+    </div>
   );
 };
 
