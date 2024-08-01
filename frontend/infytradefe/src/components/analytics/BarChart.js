@@ -82,11 +82,6 @@ const BarChart = ({ data, onAddToDashboard }) => {
           <p className="text-green-600">Highest: USD {highest.toFixed(2)}</p>
           <p className="text-red-600">Lowest: USD {lowest.toFixed(2)}</p>
         </div>
-        <div className="relative">
-          <Button value="add-to-dashboard" className="p-2">
-            Add to Dashboard
-          </Button>
-        </div>
       </div>
       <Bar data={chartData} options={options} />
     </div>
