@@ -39,16 +39,10 @@ function Portfolio() {
       try {
         let portfolio = user.portfolios || [];
         let holdings = user.holdings || [];
-
-        if (portfolio.length === 0) {
-          const portfolioResponse = await fetchPortfolioData(user.id);
-          portfolio = portfolioResponse || [];
-        }
-        if (holdings.length === 0) {
-          const holdingsResponse = await fetchUserHoldings(user.id);
-          holdings = holdingsResponse || [];
-        }
-
+        const portfolioResponse = await fetchPortfolioData(user.id);
+        portfolio = portfolioResponse || [];
+        const holdingsResponse = await fetchUserHoldings(user.id);
+        holdings = holdingsResponse || [];
         setHoldingsData(holdings);
         setPortfolioData(portfolio);
       } catch (error) {
